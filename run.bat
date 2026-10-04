@@ -1,15 +1,45 @@
 @echo off
 setlocal EnableDelayedExpansion
+
+REM LESS Launcher - Windows CMD wrapper
+REM This wrapper calls the cross-platform Python launcher (launch.py)
+REM Falls back to legacy batch logic if Python is not available.
+
 cd /d "%~dp0"
 
 set "PORT=8080"
 if not "%~1"=="" set "PORT=%~1"
 
+REM Try to find Python
+where python >nul 2>nul
+if not errorlevel 1 (
+    echo ============================================
+    echo  LESS - Cross-Platform Launcher (via Python)
+    echo ============================================
+    echo.
+    python launch.py %PORT%
+    exit /b %errorlevel%
+)
+
+where python3 >nul 2>nul
+if not errorlevel 1 (
+    echo ============================================
+    echo  LESS - Cross-Platform Launcher (via Python)
+    echo ============================================
+    echo.
+    python3 launch.py %PORT%
+    exit /b %errorlevel%
+)
+
+REM Python not found - fall back to legacy batch implementation
 echo ============================================
-echo  LESS - run.bat (PHP + SQLite)
+echo  LESS - run.bat (PHP + SQLite) [Legacy Mode]
 echo ============================================
 echo.
+echo [INFO] Python not found. Using legacy batch implementation.
+echo.
 
+REM --- Legacy implementation (original run.bat logic) ---
 REM --- 0. wp-config.php auto-generation ---
 if not exist "wp-config.php" (
     echo wp-config.php nao encontrado. Criando configuracao inicial do LESS...
@@ -40,8 +70,7 @@ if errorlevel 1 (
 for /f "tokens=*" %%i in ('php -r "echo PHP_VERSION;"') do set "PHPVER=%%i"
 echo [OK] PHP %PHPVER% encontrado.
 
-REM --- 2. Descobre o php.ini carregado (caminho limpo, sem espacos fantasmas) ---
-REM Nota: via arquivo temporario, pois parenteses em 'for /f' quebram o parser do cmd.
+REM --- 2. Descobre o php.ini carregado ---
 set "PHPINI="
 php -r "echo php_ini_loaded_file();" > "%TEMP%\less_phpini.tmp" 2>nul
 set /p PHPINI=<"%TEMP%\less_phpini.tmp"
@@ -52,7 +81,7 @@ if "%PHPINI%"=="" (
     echo [INFO] php.ini: %PHPINI%
 )
 
-REM --- 3. Verifica extensoes sqlite3 + pdo_sqlite (via extension_loaded, sem parse de texto) ---
+REM --- 3. Verifica extensoes sqlite3 + pdo_sqlite ---
 php -r "exit(extension_loaded('sqlite3')?0:1);" >nul 2>nul
 if errorlevel 1 (
     echo [AVISO] Extensao "sqlite3" DESATIVADA. Tentando ativar...

@@ -1,0 +1,158 @@
+/*--------------------------------
+
+Nucleo icon font
+Generated using nucleoapp.com
+
+-------------------------------- */
+@font-face {
+  font-family: "Nucleo";
+  src: url("../fonts/Nucleo.eot");
+  src: url("../fonts/Nucleo.eot") format("embedded-opentype"), url("../fonts/Nucleo.woff2") format("woff2"), url("../fonts/Nucleo.woff") format("woff"), url("../fonts/Nucleo.ttf") format("truetype"), url("../fonts/Nucleo.svg") format("svg");
+}
+/* base class */
+.icon {
+  display: inline-block;
+  font: normal normal normal 1em/1 "Nucleo";
+  color: inherit;
+  flex-shrink: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* size examples - relative units */
+.icon-sm {
+  font-size: 0.8em;
+}
+
+.icon-lg {
+  font-size: 1.2em;
+}
+
+/* size examples - absolute units */
+.icon-16 {
+  font-size: 16px;
+}
+
+.icon-32 {
+  font-size: 32px;
+}
+
+/* rotate the icon infinitely */
+.icon-is-spinning {
+  animation: icon-spin 1s infinite linear;
+}
+
+@keyframes icon-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* transform */
+.icon-rotate-90 {
+  transform: rotate(90deg);
+}
+
+.icon-rotate-180 {
+  transform: rotate(180deg);
+}
+
+.icon-rotate-270 {
+  transform: rotate(270deg);
+}
+
+.icon-flip-y {
+  transform: scaleY(-1);
+}
+
+.icon-flip-x {
+  transform: scaleX(-1);
+}
+
+/* icons */
+.icon-content::before {
+  content: "\ea02";
+}
+
+.icon-login::before {
+  content: "\ea03";
+}
+
+.icon-admin::before {
+  content: "\ea04";
+}
+
+.icon-media::before {
+  content: "\ea05";
+}
+
+.icon-core::before {
+  content: "\ea06";
+}
+
+.icon-comments::before {
+  content: "\ea07";
+}
+
+.icon-optimization::before {
+  content: "\ea08";
+}
+
+.icon-copy::before {
+  content: "\ea09";
+}
+
+.icon-template::before {
+  content: "\ea0a";
+}
+
+.icon-crosshair::before {
+  content: "\ea0c";
+}
+
+.icon-meeting::before {
+  content: "\ea0d";
+}
+
+.icon-calendar::before {
+  content: "\ea0e";
+}
+
+.icon-lock-portrait::before {
+  content: "\ea10";
+}
+
+.icon-pc::before {
+  content: "\ea11";
+}
+
+.icon-translation::before {
+  content: "\ea12";
+}
+
+.icon-clear::before {
+  content: "\ea13";
+}
+
+.icon-construction::before {
+  content: "\ea14";
+}
+
+.icon-finger-snap::before {
+  content: "\ea15";
+}
+
+.icon-document::before {
+  content: "\ea16";
+}
+
+.icon-list::before {
+  content: "\ea17";
+}
+
+.icon-browser-chrome::before {
+  content: "\ea18";
+}
+

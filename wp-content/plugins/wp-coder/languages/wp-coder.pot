@@ -1,0 +1,1466 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Coder\n"
+"POT-Creation-Date: 2025-08-15 13:37+0300\n"
+"PO-Revision-Date: 2025-03-28 11:39+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 3.4.4\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: wp-coder.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#: classes/Admin/AdminInitializer.php:27
+msgid "Settings"
+msgstr ""
+
+#. translators: 1. link to the plugin page 2. plugin name
+#: classes/Admin/AdminInitializer.php:40
+#, php-format
+msgid ""
+"Thank you for using <b>%2$s</b>! Please <a href=\"%1$s\" "
+"target=\"_blank\">rate us</a>"
+msgstr ""
+
+#: classes/Admin/AdminNotices.php:36
+msgid "Item saved successfully."
+msgstr ""
+
+#: classes/Admin/AdminNotices.php:41
+msgid "Item has been deleted"
+msgstr ""
+
+#: classes/Dashboard/DashboardInitializer.php:75
+msgid "Update"
+msgstr ""
+
+#: classes/Dashboard/DebugLog.php:43
+msgid "Enable Debug Log"
+msgstr ""
+
+#: classes/Dashboard/DebugLog.php:52 classes/Dashboard/SaveGlobal.php:37
+#: classes/Dashboard/Settings.php:93 classes/Snippets/SnippetManager.php:46
+#: classes/Tools/ToolsManager.php:26 includes/pages/sidebar.php:29
+msgid "Save"
+msgstr ""
+
+#: classes/Dashboard/DebugLog.php:53
+msgid "Clear Log "
+msgstr ""
+
+#: classes/Dashboard/Field.php:141
+msgid "Field must have name"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:136
+msgid "Afrikaans"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:137
+msgid "Albanian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:138
+msgid "Amharic"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:139
+msgid "Arabic"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:140
+msgid "Armenian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:141
+msgid "Azerbaijani"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:142
+msgid "Basque"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:143
+msgid "Belarusian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:144
+msgid "Bengali"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:145
+msgid "Bosnian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:146
+msgid "Bulgarian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:147
+msgid "Catalan"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:148
+msgid "Cebuano"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:149
+msgid "Chichewa"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:150
+msgid "Corsican"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:151
+msgid "Croatian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:152
+msgid "Czech"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:153
+msgid "Danish"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:154
+msgid "Dutch"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:155
+msgid "English"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:156
+msgid "Esperanto"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:157
+msgid "Estonian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:158
+msgid "Filipino"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:159
+msgid "Finnish"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:160
+msgid "French"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:161
+msgid "Frisian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:162
+msgid "Galician"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:163
+msgid "Georgian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:164
+msgid "German"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:165
+msgid "Greek"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:166
+msgid "Gujarati"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:167
+msgid "Haitian Creole"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:168
+msgid "Hausa"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:169
+msgid "Hawaiian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:170
+msgid "Hebrew"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:171
+msgid "Hindi"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:172
+msgid "Hmong"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:173
+msgid "Hungarian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:174
+msgid "Icelandic"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:175
+msgid "Igbo"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:176
+msgid "Indonesian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:177
+msgid "Irish"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:178
+msgid "Italian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:179
+msgid "Japanese"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:180
+msgid "Javanese"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:181
+msgid "Kannada"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:182
+msgid "Kazakh"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:183
+msgid "Khmer"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:184
+msgid "Korean"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:185
+msgid "Kurdish (Kurmanji)"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:186
+msgid "Kyrgyz"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:187
+msgid "Lao"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:188
+msgid "Latin"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:189
+msgid "Latvian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:190
+msgid "Luxembourgish"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:191
+msgid "Macedonian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:192
+msgid "Malagasy"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:193
+msgid "Malay"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:194
+msgid "Malayalam"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:195
+msgid "Maltese"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:196
+msgid "Maori"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:197
+msgid "Marathi"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:198
+msgid "Mongolian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:199
+msgid "Myanmar (Burmese)"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:200
+msgid "Nepali"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:201
+msgid "Norwegian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:202
+msgid "Pashto"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:203
+msgid "Persian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:204
+msgid "Polish"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:205
+msgid "Portuguese"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:206
+msgid "Punjabi"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:207
+msgid "Romanian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:208
+msgid "Russian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:209
+msgid "Samoan"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:210
+msgid "Scottish Gaelic"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:211
+msgid "Serbian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:212
+msgid "Sesotho"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:213
+msgid "Shona"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:214
+msgid "Sindhi"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:215
+msgid "Sinhala"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:216
+msgid "Slovak"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:217
+msgid "Slovenian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:218
+msgid "Somali"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:219
+msgid "Spanish"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:220
+msgid "Sudanese"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:221
+msgid "Swahili"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:222
+msgid "Swedish"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:223
+msgid "Tajik"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:224
+msgid "Tamil"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:225
+msgid "Telugu"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:226
+msgid "Thai"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:227
+msgid "Turkish"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:228
+msgid "Ukrainian"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:229
+msgid "Urdu"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:230
+msgid "Uzbek"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:231
+msgid "Vietnamese"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:232
+msgid "Welsh"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:233
+msgid "Xhosa"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:234
+msgid "Yiddish"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:235
+msgid "Yoruba"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:236
+msgid "Zulu"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:242
+msgid "Facebook"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:243
+msgid "VK"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:244
+msgid "Twitter"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:245
+msgid "Linkedin"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:246
+msgid "Odnoklassniki"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:247
+msgid "Google"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:248
+msgid "Pinterest"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:249
+msgid "XING"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:250
+msgid "Myspace"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:251
+msgid "Weibo"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:252
+msgid "Buffer"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:253
+msgid "StumbleUpon"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:254
+msgid "Reddit"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:255
+msgid "Tumblr"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:256
+msgid "Blogger"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:257
+msgid "LiveJournal"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:258
+msgid "Pocket"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:259
+msgid "Telegram"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:260
+msgid "Skype"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:261
+msgid "Email"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:262
+msgid "Draugiem"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:263
+msgid "Whatsapp"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:264
+msgid "Diaspora"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:265
+msgid "Digg"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:266
+msgid "Douban"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:267
+msgid "Evernote"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:268
+msgid "Flipboard"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:269
+msgid "Google Bookmarks"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:270
+msgid "Hacker News"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:271
+msgid "Instapaper"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:272
+msgid "Line"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:273
+msgid "Qzone"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:274
+msgid "Renren"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2313
+msgid "Default"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2314
+msgid "Image"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2315
+msgid "Emoji"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2316
+msgid "Icon Class"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2322
+msgid "bottom-right"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2323
+msgid "bottom-left"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2324
+msgid "bottom-center"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2325
+msgid "top-right"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2326
+msgid "top-left"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2327
+msgid "top-center"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2328
+msgid "left"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2329
+msgid "right"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2335
+msgid "Circle"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2336
+msgid "Ellipse"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2337
+msgid "Square"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2338
+msgid "Rounded square"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2344
+msgid "Small"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2345
+msgid "Medium"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2346
+msgid "Large"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2347
+msgid "Custom"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2353
+msgid "None"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2354
+msgid "Bounce"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2355
+msgid "Flash"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2356
+msgid "pulse"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2357
+msgid "rubberBand"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2358
+msgid "shake"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2359
+msgid "headShake"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2360
+msgid "swing"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2361
+msgid "tada"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2362
+msgid "wobble"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2363
+msgid "jello"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2364
+msgid "heartBeat"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2370
+msgid "Fade"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2371
+msgid "Rotate"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2372
+msgid "Scale"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2373
+msgid "Rotate and Scale"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2374
+msgid "Translate"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2375
+msgid "Translate Rotate"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2376
+msgid "Rotate Translate Scale"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2377
+msgid "Translate Scale"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2383
+msgid "Yes"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2384
+msgid "No"
+msgstr ""
+
+#: classes/Dashboard/FieldHelper.php:2389
+msgid "All Users"
+msgstr ""
+
+#: classes/Dashboard/ImporterExporter.php:24
+#: classes/Dashboard/ListTable.php:309
+msgid "Filter by tag"
+msgstr ""
+
+#: classes/Dashboard/ImporterExporter.php:27
+#: classes/Dashboard/ListTable.php:312
+msgid "All"
+msgstr ""
+
+#: classes/Dashboard/ImporterExporter.php:40
+msgid "Export Data"
+msgstr ""
+
+#: classes/Dashboard/ImporterExporter.php:62
+msgid "Update item if item already exists."
+msgstr ""
+
+#: classes/Dashboard/ImporterExporter.php:68
+#: includes/pages/6.import-export.php:42
+msgid "Import Settings"
+msgstr ""
+
+#: classes/Dashboard/ImporterExporter.php:79
+msgid "Please upload a valid .json file"
+msgstr ""
+
+#: classes/Dashboard/ImporterExporter.php:79
+msgid "Error"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:50 classes/Dashboard/ListTable.php:143
+msgid "Untitled"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:54
+msgid "Edit"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:56 includes/pages/2.settings.php:58
+msgid "Duplicate"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:58
+msgid "Delete"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:60 classes/Dashboard/ListTable.php:261
+msgid "Export"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:92
+msgid "Title"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:93
+msgid "Shortcode"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:94
+msgid "Alternative Shortcode"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:95
+msgid "Tag"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:96 includes/pages/sidebar.php:48
+msgid "Test mode"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:97 classes/Dashboard/ListTable.php:100
+msgid "The item will only be displayed for administrators."
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:99
+msgid "Status"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:144
+msgid "Click for Deactivate."
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:145
+msgid "Click for Activate."
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:146 classes/Dashboard/ListTable.php:155
+msgid "OFF"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:148 classes/Dashboard/ListTable.php:157
+msgid "ON"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:152
+msgid "Click for OFF."
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:153
+msgid "Click for ON."
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:256
+msgid "Delate"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:257
+msgid "Activate"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:258 includes/pages/sidebar.php:37
+msgid "Deactivate"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:259
+msgid "Test mode ON"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:260
+msgid "Test mode OFF"
+msgstr ""
+
+#: classes/Dashboard/ListTable.php:325
+msgid "Filter"
+msgstr ""
+
+#: classes/Dashboard/SaveGlobal.php:28
+msgid "Enable PHP code"
+msgstr ""
+
+#: classes/Dashboard/SaveGlobal.php:40 includes/settings/1.html-code.php:32
+#: includes/settings/2.css-code.php:30 includes/settings/3.js-code.php:32
+#: includes/settings/4.php-code.php:31
+msgid "Add NAV Comment"
+msgstr ""
+
+#: classes/Dashboard/Settings.php:34
+msgid "HTML"
+msgstr ""
+
+#: classes/Dashboard/Settings.php:43
+msgid "CSS"
+msgstr ""
+
+#: classes/Dashboard/Settings.php:52
+msgid "JS"
+msgstr ""
+
+#: classes/Dashboard/Settings.php:61
+msgid "PHP"
+msgstr ""
+
+#: classes/Dashboard/Settings.php:71
+msgid "Scripts & Styles"
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:24
+msgid "Your Name"
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:34
+msgid "Contact email"
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:43
+msgid "Link to the issue"
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:52
+msgid "Message type"
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:54
+msgid "Bug"
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:55
+msgid "Question"
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:56
+msgid "Idea"
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:57
+msgid "Other"
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:65
+msgid "Plugin"
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:74
+msgid "License Key"
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:83
+msgid "Briefly describe your issue, idea, or question..."
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:92
+msgid "Submit Request"
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:149
+msgid "Your message has been sent successfully! We will respond soon."
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:152
+msgid "Sorry, but message did not send. Please, contact us "
+msgstr ""
+
+#: classes/Dashboard/SupportForm.php:167
+msgid "Please complete all required fields before submitting."
+msgstr ""
+
+#. translators: 1. link to the page 2. error name.
+#: classes/Publisher/PHPIncludes.php:72
+#, php-format
+msgid ""
+"An error occurred while loading the PHP script from <a href=\"%1$s\">Global "
+"PHP</a>. Error: %2$s"
+msgstr ""
+
+#. translators: 1. link to the code 2. code ID. 3. error message
+#: classes/Publisher/PHPIncludes.php:84
+#, php-format
+msgid ""
+"An error occurred while loading the PHP script from <a href=\"%1$s\">WP Code "
+"ID %2$d</a>. Error: %3$s"
+msgstr ""
+
+#: classes/Snippets/SnippetManager.php:17
+msgid "Editor & Content"
+msgstr ""
+
+#: classes/Snippets/SnippetManager.php:18
+msgid "Admin Interface Tweaks"
+msgstr ""
+
+#: classes/Snippets/SnippetManager.php:19
+msgid "Login & User Access"
+msgstr ""
+
+#: classes/Snippets/SnippetManager.php:20
+msgid "Media & Embeds"
+msgstr ""
+
+#: classes/Snippets/SnippetManager.php:21
+msgid "Core Functionality"
+msgstr ""
+
+#: classes/Snippets/SnippetManager.php:22
+msgid "Comments & Feedback"
+msgstr ""
+
+#: classes/Snippets/SnippetManager.php:23
+msgid " Cleanup & Optimization"
+msgstr ""
+
+#: includes/class-wow-company.php:51
+msgid "Welcome"
+msgstr ""
+
+#: includes/class-wow-company.php:95
+msgid ""
+"Thank you for using <b>Our plugins</b>! Our website <a href=\"https://wow-"
+"estore.com/\" target=\"_blank\">Wow-Estore.com</a>"
+msgstr ""
+
+#: includes/pages/1.list.php:24
+msgid "All Codes"
+msgstr ""
+
+#: includes/pages/1.list.php:27 includes/pages/2.settings.php:53
+#: includes/settings/7.include.php:24
+msgid "Add New"
+msgstr ""
+
+#: includes/pages/1.list.php:34
+msgid "Search"
+msgstr ""
+
+#: includes/pages/10.debug-log.php:9 includes/pages/3.snippets.php:9
+#: includes/pages/4.tools.php:9 includes/pages/5.global-php.php:9
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: includes/pages/10.debug-log.php:18
+msgid "Debug"
+msgstr ""
+
+#: includes/pages/2.settings.php:19
+msgid "Add new code"
+msgstr ""
+
+#: includes/pages/2.settings.php:21
+msgid "Update code"
+msgstr ""
+
+#: includes/pages/2.settings.php:23
+msgid "Duplicate the code from"
+msgstr ""
+
+#: includes/pages/2.settings.php:49
+msgid "Back to Codes"
+msgstr ""
+
+#: includes/pages/3.snippets.php:20
+msgid "Snippets Manager"
+msgstr ""
+
+#: includes/pages/4.tools.php:19
+msgid "Tools"
+msgstr ""
+
+#: includes/pages/5.global-php.php:20
+msgid "Global PHP"
+msgstr ""
+
+#: includes/pages/6.import-export.php:19
+msgid "Import / Export"
+msgstr ""
+
+#: includes/pages/6.import-export.php:29
+msgid "Export Settings"
+msgstr ""
+
+#. translators:  %s. plugin name
+#: includes/pages/6.import-export.php:33
+#, php-format
+msgid ""
+"Export the  settings for %s as a .json file. This allows you to easily "
+"import the configuration into another site."
+msgstr ""
+
+#. translators:  %s. plugin name
+#: includes/pages/6.import-export.php:45
+#, php-format
+msgid ""
+"Import the %s settings from a .json file. This file can be obtained by "
+"exporting the settings on another site using the form above."
+msgstr ""
+
+#: includes/pages/7.support.php:21
+msgid "Support"
+msgstr ""
+
+#: includes/pages/7.support.php:30
+msgid "Send a Message to Support"
+msgstr ""
+
+#. translators: 1. support email
+#: includes/pages/7.support.php:34
+#, php-format
+msgid ""
+"For a faster response, please describe your issue below or email us at %1$s."
+msgstr ""
+
+#: includes/pages/sidebar.php:25
+msgid "Enter title here"
+msgstr ""
+
+#: includes/safe-mode.php:72
+msgid ""
+"WPCoder is in Safe Mode which means no codes are getting executed. Please "
+"disable any snippets that have caused errors and when done click the button "
+"below to exit safe mode."
+msgstr ""
+
+#: includes/safe-mode.php:73
+msgid ""
+"The link will open in a new window so if you are still encountering issues "
+"you safely can return to this tab and make further adjustments"
+msgstr ""
+
+#: includes/safe-mode.php:75
+msgid "Exit safe mode"
+msgstr ""
+
+#: includes/settings/1.html-code.php:25
+msgid "Add Image"
+msgstr ""
+
+#: includes/settings/2.css-code.php:46
+msgid "CSS File URL"
+msgstr ""
+
+#: includes/settings/3.js-code.php:45
+msgid "JS File URL"
+msgstr ""
+
+#: includes/settings/4.php-code.php:11
+msgid "Run where inserted"
+msgstr ""
+
+#: includes/settings/4.php-code.php:12
+msgid "Run only in admin area"
+msgstr ""
+
+#: includes/settings/4.php-code.php:13
+msgid "Run only on front-end"
+msgstr ""
+
+#: includes/settings/4.php-code.php:14
+msgid "Run everywhere"
+msgstr ""
+
+#: includes/settings/4.php-code.php:24
+msgid "Include PHP"
+msgstr ""
+
+#: includes/settings/7.include.php:19
+msgid "Add External Scripts & Styles"
+msgstr ""
+
+#: includes/settings/9.pro.php:11
+msgid "Create Custom Templates"
+msgstr ""
+
+#: includes/settings/9.pro.php:12
+msgid ""
+"Design unique templates for pages, posts, categories, and other content "
+"types. Infuse your custom HTML, CSS, or PHP to build layouts that perfectly "
+"match your brand and functionality goals."
+msgstr ""
+
+#: includes/settings/9.pro.php:16
+msgid "Create Page Templates"
+msgstr ""
+
+#: includes/settings/9.pro.php:17
+msgid ""
+"Create custom page templates by name. Use them when editing pages to apply "
+"specific layouts or functionality."
+msgstr ""
+
+#: includes/settings/9.pro.php:21
+msgid "Enable QuickCode"
+msgstr ""
+
+#: includes/settings/9.pro.php:22
+msgid ""
+"Use QuickCodes in your content or templates to dynamically insert values "
+"like object ID or site options."
+msgstr ""
+
+#: includes/settings/9.pro.php:26
+msgid "Shortcode Attributes"
+msgstr ""
+
+#: includes/settings/9.pro.php:27
+msgid ""
+"Add dynamic attributes to your shortcodes and use them directly in your HTML "
+"or PHP code. Perfect for creating flexible, reusable components that adapt "
+"to different content inputs."
+msgstr ""
+
+#: includes/settings/9.pro.php:31
+msgid "Display Rules"
+msgstr ""
+
+#: includes/settings/9.pro.php:32
+msgid ""
+"Choose where your code appears — target specific pages, posts, categories, "
+"or custom post types. Perfect for displaying code snippets only in the right "
+"context."
+msgstr ""
+
+#: includes/settings/9.pro.php:37
+msgid "User Roles"
+msgstr ""
+
+#: includes/settings/9.pro.php:38
+msgid ""
+"Control visibility by user role. Display content only to subscribers, "
+"contributors, authors, editors, or administrators — or hide it from them."
+msgstr ""
+
+#: includes/settings/9.pro.php:43
+msgid "Schedule"
+msgstr ""
+
+#: includes/settings/9.pro.php:44
+msgid ""
+"Set start and end times, weekdays, or exact date ranges. This makes it easy "
+"to show limited-time offers, seasonal content, or schedule maintenance "
+"notices."
+msgstr ""
+
+#: includes/settings/9.pro.php:49
+msgid "Hide on Mobile"
+msgstr ""
+
+#: includes/settings/9.pro.php:50
+msgid ""
+"Disable code on mobile devices. Useful for content or layouts that should "
+"appear only on desktop for optimal experience."
+msgstr ""
+
+#: includes/settings/9.pro.php:55
+msgid "Hide on Desktop"
+msgstr ""
+
+#: includes/settings/9.pro.php:56
+msgid ""
+"Hide your code on desktop and show only on mobile. Great for mobile-specific "
+"banners or simplified layouts."
+msgstr ""
+
+#: includes/settings/9.pro.php:61
+msgid "By Language"
+msgstr ""
+
+#: includes/settings/9.pro.php:62
+msgid ""
+"Display code based on the visitor’s browser language. Personalize your "
+"content for multilingual audiences without switching sites."
+msgstr ""
+
+#: includes/settings/9.pro.php:67
+msgid "Hide in Browsers"
+msgstr ""
+
+#: includes/settings/9.pro.php:68
+msgid ""
+"Exclude specific browsers from rendering your code. Useful for avoiding "
+"compatibility issues or browser-specific bugs."
+msgstr ""
+
+#: includes/settings/9.pro.php:73
+msgid "Enable Style and Script on Login Page"
+msgstr ""
+
+#: includes/settings/9.pro.php:74
+msgid ""
+"Add custom CSS and JS to the WordPress login page to match your branding or "
+"add extra functionality."
+msgstr ""
+
+#: includes/settings/9.pro.php:79
+msgid "Enable Maintenance Mode"
+msgstr ""
+
+#: includes/settings/9.pro.php:80
+msgid ""
+"Display a clean maintenance page for visitors while logged-in admins "
+"continue working normally on the site."
+msgstr ""
+
+#: includes/settings/9.pro.php:85
+msgid "Remove Enqueued Scripts & Styles"
+msgstr ""
+
+#: includes/settings/9.pro.php:86
+msgid ""
+"Clean up your front end by removing unnecessary styles or scripts. Just "
+"enter the handle (ID) used in WordPress enqueue functions to stop them from "
+"loading. Perfect for performance tuning and avoiding conflicts."
+msgstr ""
+
+#: includes/settings/9.pro.php:90
+msgid "Register Menu"
+msgstr ""
+
+#: includes/settings/9.pro.php:91
+msgid ""
+"Automatically register a WordPress menu if one isn’t already created. Great "
+"for fresh installations."
+msgstr ""
+
+#: includes/settings/options/css-code.php:10
+#: includes/settings/options/js-code.php:19
+msgid "Inline"
+msgstr ""
+
+#: includes/settings/options/css-code.php:11
+#: includes/settings/options/css-code.php:20
+#: includes/settings/options/html-code.php:11
+#: includes/settings/options/html-code.php:20
+#: includes/settings/options/includes.php:25
+#: includes/settings/options/js-code.php:20
+msgid "Enable"
+msgstr ""
+
+#: includes/settings/options/css-code.php:13
+msgid "Load CSS inline instead of from an external file."
+msgstr ""
+
+#: includes/settings/options/css-code.php:19
+#: includes/settings/options/html-code.php:19
+#: includes/settings/options/js-code.php:29
+msgid "Minified"
+msgstr ""
+
+#: includes/settings/options/css-code.php:22
+msgid "Compress CSS by removing spaces and line breaks."
+msgstr ""
+
+#: includes/settings/options/html-code.php:10
+msgid "Live Preview"
+msgstr ""
+
+#: includes/settings/options/html-code.php:13
+msgid "Enable to preview your HTML and CSS in real time."
+msgstr ""
+
+#: includes/settings/options/html-code.php:22
+msgid "Minify the HTML output for better performance."
+msgstr ""
+
+#: includes/settings/options/includes.php:10
+#: includes/settings/options/includes.php:45
+msgid "Type"
+msgstr ""
+
+#: includes/settings/options/includes.php:18
+msgid "URL"
+msgstr ""
+
+#: includes/settings/options/includes.php:24
+msgid "Preview Only"
+msgstr ""
+
+#: includes/settings/options/includes.php:27
+msgid ""
+"This CSS file will be used only in the Live Preview. It won’t be included on "
+"the actual website."
+msgstr ""
+
+#: includes/settings/options/includes.php:33
+#: includes/settings/options/js-code.php:42
+msgid "Attribute"
+msgstr ""
+
+#: includes/settings/options/includes.php:53
+msgid "ID"
+msgstr ""
+
+#: includes/settings/options/js-code.php:10
+msgid "Disable jQuery"
+msgstr ""
+
+#: includes/settings/options/js-code.php:11
+msgid "Disable"
+msgstr ""
+
+#: includes/settings/options/js-code.php:13
+msgid "Don’t include jQuery as a dependency for this script."
+msgstr ""
+
+#: includes/settings/options/js-code.php:22
+msgid "Insert JavaScript directly into the page."
+msgstr ""
+
+#: includes/settings/options/js-code.php:36
+msgid "Choose how to minimize or obfuscate the JavaScript code."
+msgstr ""
+
+#: includes/settings/options/js-code.php:48
+msgid "Specify how the script should be loaded."
+msgstr ""
+
+#: includes/snippets/class-snippet-disabled.php:255
+#, php-format
+msgid "No feed available, please visit our %1$shomepage%2$s!"
+msgstr ""
+
+#: wp-coder.php:131 wp-coder.php:142
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WP Coder"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/wp-coder/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Adding custom HTML, CSS, JavaScript and PHP code to your WordPress site."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WPCoder"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://wpcoder.pro"
+msgstr ""

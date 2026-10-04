@@ -1,0 +1,78 @@
+@charset "UTF-8";
+@font-face {
+  font-family: "wowpicon";
+  src: url("../font/wowpicon.eot");
+  src: url("../font/wowpicon.eot?lrxh5a#iefix") format("embedded-opentype"), url("../font/wowpicon.woff2?lrxh5a") format("woff2"), url("../font/wowpicon.woff?lrxh5a") format("woff"), url("../font/wowpicon.ttf?lrxh5a") format("truetype"), url("../font/wowpicon.svg?lrxh5a#wowpicon") format("svg");
+  font-style: normal;
+  font-weight: 400;
+}
+.wowp-icon {
+  display: inline-block;
+  font-family: "wowpicon" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  vertical-align: -0.125em;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wowp-icon-brackets::before {
+  content: "";
+}
+
+.wowp-icon-browser::before {
+  content: "";
+}
+
+.wowp-icon-cogs::before {
+  content: "";
+}
+
+.wowp-icon-conditions::before {
+  content: "";
+}
+
+.wowp-icon-css3::before {
+  content: "";
+}
+
+.wowp-icon-devices::before {
+  content: "";
+}
+
+.wowp-icon-html5::before {
+  content: "";
+}
+
+.wowp-icon-js::before {
+  content: "";
+}
+
+.wowp-icon-language::before {
+  content: "";
+}
+
+.wowp-icon-page::before {
+  content: "";
+}
+
+.wowp-icon-play::before {
+  content: "";
+}
+
+.wowp-icon-plus::before {
+  content: "";
+}
+
+.wowp-icon-schedule::before {
+  content: "";
+}
+
+.wowp-icon-users-cog::before {
+  content: "";
+}

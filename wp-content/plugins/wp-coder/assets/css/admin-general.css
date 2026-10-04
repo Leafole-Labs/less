@@ -1,0 +1,43 @@
+.toplevel_page_wow-company > ul li:not(.wp-first-item) a {
+    display: flex !important;
+    align-items: center;
+    gap: 5px;
+}
+
+.toplevel_page_wow-company > ul li:not(.wp-first-item) a img{
+    max-height: 15px;
+}
+
+.wowp-menu-logo {
+    margin-right: 4px;
+}
+
+#toplevel_page_wpcoderpro a[href*="wpcoder.pro"] {
+    background-color: #E86E2C !important;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+@media screen and (max-width: 1216px) {
+    .column-code-alt {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .wowp-list .column-tag {
+        display: none;
+    }
+}
+
+.wowp-list .column-tag{
+    width: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.wowp-list .column-mode,
+.wowp-list .column-status {
+    width: 80px;
+}

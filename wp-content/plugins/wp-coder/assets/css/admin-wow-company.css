@@ -1,0 +1,96 @@
+/* ========= INFORMATION ============================
+	- document:  Main page style!
+	- author:    Dmytro Lobov
+	- copyright: 2019 Wow-Company
+	- version:   1.0
+	- email:     helper@wow-support.com
+==================================================== */
+
+.wow-page {
+	margin-top: 15px;
+}
+
+.about-wrap {
+	margin: 0 auto;
+}
+
+.about-wrap .wow-badge {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: block !important;
+}
+
+.about-wrap .wow-badge img{
+	width: 80px;
+}
+
+.wow-page .about-wrap h1 {
+	background: -webkit-linear-gradient(#1B094F, #E86E2C);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+
+#toplevel_page_wow-company li.wp-first-item {
+	margin-bottom: 21px;
+}
+#toplevel_page_wow-company li.wp-first-item a:after {
+	border-bottom: 1px solid hsla(0,0%,100%,.2);
+	display: block;
+	float: left;
+	margin: 13px -15px 8px;
+	content: "";
+	width: calc(100% + 26px);
+}
+
+.wow-page-content {
+	margin-top: 3rem;
+}
+
+.wow-page .height_screen {
+	height: 290px;
+	background: #fff;
+}
+.wow-page .height_screen a{
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.wow-page .height_screen img {
+	max-width: 100%;
+}
+
+.wow-page .height_screen span {
+	padding: 10px;
+	font-size: 16px;
+	font-weight: 500;
+	display: block;
+	margin-top: auto;
+}
+
+.wow-page .height_screen a {
+	color: #000;
+	text-decoration: none;
+}
+
+.wow-page .themes {
+	overflow: hidden;
+}
+
+.wow-page .theme-actions {
+	background: rgba(244, 244, 244, 1) !important;
+}
+
+.wow-page .theme-name {
+	text-align: left !important;
+}
+
+.wow-page .install {
+	float: right;
+}
+
+.wow-thank-you {
+	font-style: italic;
+}

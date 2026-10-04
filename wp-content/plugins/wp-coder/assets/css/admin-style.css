@@ -1,0 +1,430 @@
+:root {
+	--wowp-blue:  #005BBF;
+	--wowp-yellow: #FFD500;
+}
+
+.wowp-header-border {
+	height: 5px;
+	background: linear-gradient(to right, var(--wowp-blue),  var(--wowp-yellow));
+	margin-left: -20px;
+
+}
+.wowp-header {
+	position: relative;
+	padding: 32px 20px;
+	margin-left: -20px;
+	background: #ffffff;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+
+
+.wowp-logo {
+	display: flex;
+	align-items: center;
+}
+
+.wowp-logo img {
+	width: 40px;
+}
+
+.wowp-header h1 {
+	position: relative;
+	margin: 0 35px 0 0 ;
+}
+
+.wowp-version {
+	position: absolute;
+	transform: translateY(-50%) translateX(50%);
+	font-size: 12px;
+	font-weight: normal;
+}
+
+.wowp-links {
+	position: absolute;
+	top: 0;
+	right: 20px;
+	display: flex;
+	border-radius: 0 0 4px 4px;
+	border: 2px solid;
+	border-top: none;
+	background-color: #DFE2FC;
+	border-image: linear-gradient(to right, #14102C, #E86E2C);
+	border-image-slice: 1;
+}
+
+.wowp-links a {
+	text-decoration: none;
+	color: #14102C;
+	display: flex;
+	flex-direction: column;
+	font-size: 12px;
+	align-items: center;
+	padding: 5px;
+	transition: all 0.15s linear;
+}
+
+.wowp-links a:hover {
+	background-color: #F6C8AF;
+}
+
+.wowp-links .codericon,
+.wowp-links .dashicons {
+	width: 15px;
+	height: 15px;
+	font-size: 15px;
+	color: #596FF9;
+}
+
+
+td.column-mode span {
+	margin-left: 28px;
+}
+
+@media screen and (max-width: 782px) {
+	td.column-mode span:first-child {
+		margin-left: 0;
+	}
+}
+
+.wowp-status-on,
+.wowp-status-off {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+}
+
+.wowp-status-on {
+	background-color: green;
+}
+.wowp-status-off {
+	background-color: red;
+}
+
+.wowp-support {
+	padding: 1.5rem 1.25rem;
+	margin-top: 50px;
+	position: relative;
+	box-sizing: border-box;
+	background: #ffffff;
+	background-clip: padding-box;
+	border: solid 2px transparent;
+	border-radius: 4px;
+
+}
+.wowp-support::before {
+	content: '';
+	position: absolute;
+	top: 0; right: 0; bottom: 0; left: 0;
+	z-index: -1;
+	margin: -2px;
+	border-radius: inherit;
+	background: linear-gradient(to bottom,  var(--wowp-blue),  var(--wowp-yellow));
+}
+
+.wowp-form-support {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.5rem;
+	margin-top: 1rem;
+	padding: 1.25rem;
+}
+
+.wowp-form-support .wowp-field {
+	width: calc(50% - 0.75rem);
+}
+
+.wowp-form-support .wowp-field:nth-last-of-type(2) {
+	width: 100%;
+}
+
+.wowp-form-support .wowp-field:nth-last-of-type(1) {
+	width: 100%;
+	text-align: center;
+}
+
+.wowp-form-support .wowp-field label {
+	font-weight: 600;
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+
+}
+
+.wowp-form-support input:not(.button),
+.wowp-form-support select {
+	width: 100%;
+	max-width: 100%;
+	height: 2.5rem;
+	font-weight: normal;
+}
+
+.wowp-form-support #submit {
+	font-size: 16px;
+	height: 2.5rem;
+}
+
+.wowp-notice {
+	padding: 0.75rem 1.25rem;
+}
+
+.wowp-error {
+	background: #FAD0D0;
+	color: #14102C;
+	border-left: 6px solid #E82C2C;
+}
+
+.wowp-success {
+	padding: 1.25rem;
+	background: #D0FAD0;
+	color: #14102C;
+	border-left: 6px solid #109610;
+}
+
+.row-actions .duplicate a{
+	color: green;
+}
+.row-actions .export a {
+	color: orange;
+}
+
+.wowp-file input::file-selector-button {
+	color: #14102C;
+	padding: 0.5em;
+	border: thin solid #F7CC5F;
+	border-radius: 4px;
+}
+
+.wowp-file input[type="file"]:valid {
+	color: #E86E2C;
+}
+
+/* Settings tabs */
+
+.nav-tab-wrapper.wowp-tab {
+	cursor: pointer;
+}
+
+.wowp-tab-content .tab-content {
+	display: none;
+}
+.wowp-tab-content .tab-content.tab-content-active {
+	display: block;
+}
+
+/*Settins postbox conteiner*/
+
+.wowp-settings-wrapper {
+	/*display: flex;*/
+	/*flex-direction: column*/
+}
+
+.wowp-nav-tab-wrapper .nav-tab-active{
+	color: var(--wowp-blue);
+}
+
+.wowp-tab .nav-tab-active {
+	background-color: #ffffff;
+	border-bottom: 1px solid #ffffff;
+
+}
+
+.wowp-tab-content {
+	padding: 1.5rem 1.25rem;
+	background-color: #ffffff;
+	/*border: 1px solid #c3c4c7;*/
+	/*border-top: none;*/
+	border-width: 1px;
+	border-style: solid;
+	border-image: linear-gradient( to bottom,  var(--wowp-blue),  var(--wowp-yellow) ) 1 100%;
+}
+
+.wowp-tab-content h4 {
+	display: flex;
+	width: max-content;
+	gap: 8px;
+	align-items: center;
+	margin: 0 0 1.5rem 0;
+	font-weight: 800;
+	box-sizing: border-box;
+	color:  var(--wowp-blue);
+	font-family: "Marlin Soft Extra Black", sans-serif;
+	font-size: 18px;
+	letter-spacing: -1.08px;
+	line-height: 18px;
+	text-align: left;
+	-webkit-font-smoothing: antialiased;
+	background-color: #EEF3EB;
+	padding: 4px 8px;
+	border-radius: 25px;
+}
+
+
+.wowp-settings .submitbox {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+
+.wowp-settings .major-publishing-actions {
+	margin: 0 -12px -12px -12px;
+	padding: 12px 24px;
+	background-color: #f7f7f7;
+
+}
+.wowp-settings .misc-pub-section:not(:last-child) {
+	margin-bottom: 5px;
+}
+
+.wowp-settings h4 .wowp-icon {
+	width: 14px;
+	height: 14px;
+	color: #E86E2C;
+}
+
+.wowp-settings fieldset:not(:first-child) {
+	margin-top: 1.5rem;
+}
+
+.wowp-tab-content .wowp-fieldset {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 1.25rem;
+	border: 1px solid #cccccc;
+	font-size: 13px;
+
+
+}
+
+.wowp-fieldset .wowp-fieldset {
+	padding: 0;
+	border: none;
+}
+
+.wowp-settings legend {
+	color: #14102C;
+	font-weight: bold;
+	padding-inline: 14px;
+}
+
+
+/*Fields*/
+
+
+.wowp-settings .button.delete{
+	background-color: #f14668;
+	border-color: transparent;
+	color: #fff;
+}
+.wowp-settings .button.delete:hover {
+	background-color: #f03a5f;
+}
+
+
+.wowp-fields {
+	display: grid;
+	gap: 12px;
+	grid-template-columns: repeat(auto-fill, 250px);
+}
+
+.wowp-field {
+	display: flex;
+	flex-direction: column;
+	gap: 8px
+}
+
+.wowp-field.is-inline {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-direction: row;
+}
+
+
+.wowp-field label {
+	font-weight: 600;
+}
+
+.wowp-field.has-addon {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+
+}
+.wowp-field.has-addon select,
+.wowp-field.has-addon input{
+	border-radius: 0 4px 4px 0;
+	border-left: none;
+}
+
+
+.wowp-field.has-addon label {
+	min-height: 30px;
+	border-radius: 4px 0 0 4px;
+	border: 1px solid #8c8f94;
+	border-right: none;
+	display: flex;
+	align-items: center;
+	padding: 0 8px;
+	margin-right: -9px;
+	box-sizing: border-box;
+	background-color: #EEF3EB;
+}
+
+.wowp-field.has-label{
+	position: relative;
+}
+
+.wowp-field.has-label input:not([type="checkbox"], [type="radio"]),
+.wowp-field.has-label select {
+	height: 40px;
+	border-color: var(--wowp-blue);
+}
+
+.wowp-field.has-label label {
+	position: absolute;
+	top: 0;
+	left: 10px;
+	transform: translateY(-50%);
+	/*font-weight: normal;*/
+	font-size: 10px;
+	background-color: #ffffff;
+	padding: 0 5px;
+	color: var(--wowp-blue);
+}
+
+
+
+.wowp-field input[type="checkbox"]{
+	margin: 0;
+}
+
+.wowp-field textarea {
+	width: 100%;
+	height: 250px;
+}
+
+.wowp-field select,
+.wowp-field input[type="text"],
+.wowp-field input[type="number"],
+.wowp-field input[type="url"] {
+	min-width: 200px;
+}
+
+.CodeMirror {
+	border: 1px solid #cccccc;
+	font-size: 13px;
+}
+
+/*Icons*/
+.wowp-icon {
+	width: 32px;
+	height: 32px;
+	display: inline-block;
+	fill: currentColor;
+}

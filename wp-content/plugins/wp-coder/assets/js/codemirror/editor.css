@@ -1,0 +1,18 @@
+.CodeMirror {
+    padding: 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.CodeMirror-activeline-background {
+    background: rgba(200, 200, 255, 0.2); /* або під тему */
+}
+
+#wp-content-editor-container,
+#wp-content-editor-tools,
+#wp-content-wrap { overflow:visible; }
+
+
+#wp-content-editor-container .CodeMirror { margin-top:32px; }
+
+#wp-content-editor-container .CodeMirror { resize: vertical; min-height:820px; }

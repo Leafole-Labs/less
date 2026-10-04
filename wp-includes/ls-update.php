@@ -391,7 +391,9 @@ function ls_filter_update_core( $value ) {
 	$needs_refresh = true;
 
 	if ( is_object( $value ) && isset( $value->updates, $value->last_checked ) && is_array( $value->updates ) ) {
-		$version_ok = ! isset( $value->ls_version_checked ) || (string) $value->ls_version_checked === $installed;
+		// Only trust payloads built by LESS (foreign api.wordpress.org
+		// payloads carry no ls_version_checked and must be rebuilt).
+		$version_ok = isset( $value->ls_version_checked ) && (string) $value->ls_version_checked === $installed;
 		$fresh      = isset( $value->last_checked ) && ( ls_github_check_ttl() > ( time() - (int) $value->last_checked ) );
 		if ( $version_ok && $fresh && ! $force ) {
 			$needs_refresh = false;
@@ -421,17 +423,20 @@ function ls_filter_update_core( $value ) {
 /**
  * Refreshes the `update_core` transient from GitHub.
  *
- * Hooked late on the `wp_version_check` cron so it overwrites any payload
- * left by the legacy WordPress.org check.
+ * Runs on the `wp_version_check` cron event (replacing the legacy
+ * WordPress.org check, unhooked below) and on demand from the Updates
+ * screen.
  *
  * @since 0.2
+ *
+ * @param bool $force Whether to bypass the release cache.
  */
-function ls_github_version_check() {
+function ls_github_version_check( $force = false ) {
 	if ( function_exists( 'wp_installing' ) && wp_installing() ) {
 		return;
 	}
 
-	$transient = ls_get_update_core_transient( false );
+	$transient = ls_get_update_core_transient( $force );
 
 	if ( function_exists( 'set_site_transient' ) ) {
 		set_site_transient( 'update_core', $transient );
@@ -439,43 +444,64 @@ function ls_github_version_check() {
 }
 
 /**
- * Blocks the legacy WordPress.org core phone-home.
+ * Totally replaces the legacy WordPress.org core check.
  *
- * LESS is independent: core version-checks and checksum lookups go to the
- * GitHub repository instead. Plugin/theme checks are left untouched.
+ * `wp_version_check()` must never run in LESS: besides phoning
+ * api.wordpress.org, its payload (e.g. a 7.1.x offer for the kernel
+ * compatibility version) would pollute the `update_core` transient, and
+ * blocking its HTTP via `pre_http_request` triggers PHP warnings
+ * (`wp_trigger_error`) inside core. So the legacy callbacks are unhooked
+ * here and a LESS equivalent takes over.
+ *
+ * Runs on `init` because wp-includes/update.php (which registers the
+ * legacy hooks) loads after this file.
  *
  * @since 0.2
- *
- * @param false|array|WP_Error $pre  Short-circuit value.
- * @param array                $args HTTP request args.
- * @param string               $url  Request URL.
- * @return false|array|WP_Error
  */
-function ls_block_wporg_core_requests( $pre, $args, $url ) {
-	if ( ! is_string( $url ) || '' === $url ) {
-		return $pre;
-	}
-
-	if ( false !== strpos( $url, 'api.wordpress.org/core/version-check' )
-		|| false !== strpos( $url, 'api.wordpress.org/core/checksums' )
-	) {
-		if ( class_exists( 'WP_Error' ) ) {
-			return new WP_Error(
-				'ls_core_updates_via_github',
-				__( 'LESS core updates are served from the GitHub repository.' )
-			);
-		}
-	}
-
-	return $pre;
+function ls_replace_wporg_core_check() {
+	remove_action( 'admin_init', '_maybe_update_core' );
+	remove_action( 'wp_version_check', 'wp_version_check' );
 }
+add_action( 'init', 'ls_replace_wporg_core_check', 20 );
+
+/**
+ * Checks GitHub for LESS updates on admin pages (at most twice daily).
+ *
+ * Counterpart of the unhooked `_maybe_update_core()`, but tracking
+ * LS_VERSION instead of the kernel compatibility version. The read-time
+ * filter (`ls_filter_update_core`) already refreshes stale payloads
+ * lazily; this pre-warms the check on `admin_init` like core did.
+ *
+ * @since 0.2
+ */
+function _maybe_ls_update() {
+	if ( ! function_exists( 'get_site_transient' ) || ! function_exists( 'set_site_transient' ) ) {
+		return;
+	}
+
+	// Read through the filter without triggering its own refresh: inspect
+	// the raw stored value instead.
+	remove_filter( 'site_transient_update_core', 'ls_filter_update_core', 20 );
+	$raw = get_site_transient( 'update_core' );
+	add_filter( 'site_transient_update_core', 'ls_filter_update_core', 20 );
+
+	$installed = (string) ( defined( 'LS_VERSION' ) ? LS_VERSION : '0.1' );
+
+	if ( is_object( $raw )
+		&& isset( $raw->last_checked, $raw->ls_version_checked )
+		&& 12 * HOUR_IN_SECONDS > ( time() - (int) $raw->last_checked )
+		&& (string) $raw->ls_version_checked === $installed
+	) {
+		return;
+	}
+
+	ls_github_version_check();
+}
+add_action( 'admin_init', '_maybe_ls_update' );
 
 // Read-time override: always serve the GitHub offer.
 add_filter( 'site_transient_update_core', 'ls_filter_update_core', 20 );
 add_filter( 'transient_update_core', 'ls_filter_update_core', 20 );
 
-// Cron-time persistence: overwrite legacy payload after it runs.
+// Cron-time check: the `wp_version_check` event now runs only this.
 add_action( 'wp_version_check', 'ls_github_version_check', 20 );
-
-// Stop phoning api.wordpress.org for core version/checksums.
-add_filter( 'pre_http_request', 'ls_block_wporg_core_requests', 10, 3 );

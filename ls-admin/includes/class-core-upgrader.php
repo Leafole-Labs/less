@@ -136,13 +136,7 @@ class Core_Upgrader extends WP_Upgrader {
 			/** This filter is documented in ls-admin/includes/update-core.php */
 			apply_filters( 'update_feedback', $download->get_error_message() );
 
-			// Report this failure back to WordPress.org for debugging purposes.
-			wp_version_check(
-				array(
-					'signature_failure_code' => $download->get_error_code(),
-					'signature_failure_data' => $download->get_error_data(),
-				)
-			);
+			// LESS: no reporting back to WordPress.org; packages come from GitHub.
 
 			// Pretend this error didn't happen.
 			$download = $download->get_error_data( 'softfail-filename' );
@@ -240,36 +234,14 @@ class Core_Upgrader extends WP_Upgrader {
 		delete_site_transient( 'update_core' );
 
 		if ( ! $parsed_args['do_rollback'] ) {
-			$stats = array(
-				'update_type'      => $current->response,
-				'success'          => true,
-				'fs_method'        => $wp_filesystem->method,
-				'fs_method_forced' => defined( 'FS_METHOD' ) || has_filter( 'filesystem_method' ),
-				'fs_method_direct' => ! empty( $GLOBALS['_wp_filesystem_direct_method'] ) ? $GLOBALS['_wp_filesystem_direct_method'] : '',
-				'time_taken'       => time() - $start_time,
-				'reported'         => $wp_version,
-				'attempted'        => $current->version,
-			);
-
-			if ( is_wp_error( $result ) ) {
-				$stats['success'] = false;
-				// Did a rollback occur?
-				if ( ! empty( $try_rollback ) ) {
-					$stats['error_code'] = $original_result->get_error_code();
-					$stats['error_data'] = $original_result->get_error_data();
-					// Was the rollback successful? If not, collect its error too.
-					$stats['rollback'] = ! is_wp_error( $rollback_result );
-					if ( is_wp_error( $rollback_result ) ) {
-						$stats['rollback_code'] = $rollback_result->get_error_code();
-						$stats['rollback_data'] = $rollback_result->get_error_data();
-					}
-				} else {
-					$stats['error_code'] = $result->get_error_code();
-					$stats['error_data'] = $result->get_error_data();
-				}
+			/*
+			 * LESS: no update statistics are reported to WordPress.org.
+			 * Refresh the GitHub-based update transient instead so the
+			 * Updates screen reflects the installed version.
+			 */
+			if ( function_exists( 'ls_github_version_check' ) ) {
+				ls_github_version_check( true );
 			}
-
-			wp_version_check( $stats );
 		}
 
 		WP_Upgrader::release_lock( 'core_updater' );
@@ -487,32 +459,15 @@ class Core_Upgrader extends WP_Upgrader {
 	/**
 	 * Compares the disk file checksums against the expected checksums.
 	 *
+	 * LESS: always returns false. There is no checksum service for LESS
+	 * releases (checksums live on api.wordpress.org for WordPress core),
+	 * so upgrades always perform a full file copy instead of phoning home.
+	 *
 	 * @since 3.7.0
 	 *
-	 * @global string $wp_version       The WordPress version string.
-	 * @global string $wp_local_package Locale code of the package.
-	 *
-	 * @return bool True if the checksums match, otherwise false.
+	 * @return bool Always false in LESS.
 	 */
 	public function check_files() {
-		global $wp_version, $wp_local_package;
-
-		$checksums = get_core_checksums( $wp_version, $wp_local_package ?? 'en_US' );
-
-		if ( ! is_array( $checksums ) ) {
-			return false;
-		}
-
-		foreach ( $checksums as $file => $checksum ) {
-			// Skip files which get updated.
-			if ( str_starts_with( $file, 'wp-content' ) ) {
-				continue;
-			}
-			if ( ! file_exists( ABSPATH . $file ) || md5_file( ABSPATH . $file ) !== $checksum ) {
-				return false;
-			}
-		}
-
-		return true;
+		return false;
 	}
 }

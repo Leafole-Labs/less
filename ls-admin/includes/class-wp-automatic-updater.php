@@ -707,8 +707,12 @@ class WP_Automatic_Updater {
 			error_log( 'Automatic updates complete.' );
 		}
 
-		// Next, process any core update.
-		wp_version_check(); // Check for core updates.
+		// Next, process any core update. LESS checks GitHub, never api.wordpress.org.
+		if ( function_exists( 'ls_github_version_check' ) ) {
+			ls_github_version_check(); // Check for LESS updates.
+		} else {
+			wp_version_check(); // Check for core updates.
+		}
 		$core_update = find_core_auto_update();
 
 		if ( $core_update ) {
@@ -745,7 +749,11 @@ class WP_Automatic_Updater {
 			// Clear existing caches.
 			wp_clean_update_cache();
 
-			wp_version_check();  // Check for core updates.
+			if ( function_exists( 'ls_github_version_check' ) ) {
+				ls_github_version_check();  // Check for LESS updates.
+			} else {
+				wp_version_check();  // Check for core updates.
+			}
 			wp_update_themes();  // Check for theme updates.
 			wp_update_plugins(); // Check for plugin updates.
 		}

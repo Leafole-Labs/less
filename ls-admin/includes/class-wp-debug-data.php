@@ -15,7 +15,11 @@ class WP_Debug_Data {
 	 * @since 5.2.0
 	 */
 	public static function check_for_updates() {
-		wp_version_check();
+		if ( function_exists( 'ls_github_version_check' ) ) {
+			ls_github_version_check();
+		} else {
+			wp_version_check();
+		}
 		wp_update_plugins();
 		wp_update_themes();
 	}

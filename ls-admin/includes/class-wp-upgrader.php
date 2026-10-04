@@ -859,13 +859,10 @@ class WP_Upgrader {
 				// Output the failure error as a normal feedback, and not as an error.
 				$this->skin->feedback( $download->get_error_message() );
 
-				// Report this failure back to WordPress.org for debugging purposes.
-				wp_version_check(
-					array(
-						'signature_failure_code' => $download->get_error_code(),
-						'signature_failure_data' => $download->get_error_data(),
-					)
-				);
+				/*
+				 * LESS: no reporting back to WordPress.org. Core packages
+				 * come from the GitHub repository and carry no WP signatures.
+				 */
 			}
 
 			// Pretend this error didn't happen.

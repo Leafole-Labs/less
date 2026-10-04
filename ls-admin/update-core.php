@@ -37,7 +37,10 @@ function list_core_update( $update ) {
 	global $wp_local_package, $wpdb;
 	static $first_pass = true;
 
-	$wp_version     = wp_get_wp_version();
+	// LESS: the product version is LS_VERSION. wp_get_wp_version() returns
+	// the kernel compatibility version (e.g. 7.1) and must not be used for
+	// core update comparisons or messages here.
+	$wp_version     = defined( 'LS_VERSION' ) ? LS_VERSION : wp_get_wp_version();
 	$version_string = sprintf( '%s&ndash;%s', $update->current, get_locale() );
 
 	if ( 'en_US' === $update->locale && 'en_US' === get_locale() ) {
@@ -239,12 +242,13 @@ function dismissed_updates() {
 function core_upgrade_preamble() {
 	$updates = get_core_updates();
 
-	// Include an unmodified $wp_version.
-	require ABSPATH . WPINC . '/version.php';
+	// LESS: compare offers against the product version. $wp_version (from
+	// version.php) is the kernel compatibility version, not the LESS release.
+	$ls_version = defined( 'LS_VERSION' ) ? LS_VERSION : wp_get_wp_version();
 
-	$is_development_version = preg_match( '/alpha|beta|RC/', $wp_version );
+	$is_development_version = preg_match( '/alpha|beta|RC/', $ls_version );
 
-	if ( isset( $updates[0]->version ) && version_compare( $updates[0]->version, $wp_version, '>' ) ) {
+	if ( isset( $updates[0]->version ) && version_compare( $updates[0]->version, $ls_version, '>' ) ) {
 		echo '<h2 class="response">';
 		_e( 'An updated version of LESS is available.' );
 		echo '</h2>';
@@ -280,7 +284,7 @@ function core_upgrade_preamble() {
 	if ( $updates && ( count( $updates ) > 1 || 'latest' !== $updates[0]->response ) ) {
 		echo '<p>' . __( 'While your site is being updated, it will be in maintenance mode. As soon as your updates are complete, this mode will be deactivated.' ) . '</p>';
 	} elseif ( ! $updates ) {
-		list( $normalized_version ) = explode( '-', $wp_version );
+		list( $normalized_version ) = explode( '-', $ls_version );
 		echo '<p>' . sprintf(
 			/* translators: 1: URL to About screen. */
 			__( '<a href="%1$s">Learn more about LESS</a>.' ),
@@ -386,10 +390,10 @@ function core_auto_updates_settings() {
 	);
 
 	if ( $upgrade_major ) {
-		$wp_version = wp_get_wp_version();
+		$ls_version = defined( 'LS_VERSION' ) ? LS_VERSION : wp_get_wp_version();
 		$updates    = get_core_updates();
 
-		if ( isset( $updates[0]->version ) && version_compare( $updates[0]->version, $wp_version, '>' ) ) {
+		if ( isset( $updates[0]->version ) && version_compare( $updates[0]->version, $ls_version, '>' ) ) {
 			echo '<p>' . wp_get_auto_update_message() . '</p>';
 		}
 	}
@@ -1046,9 +1050,14 @@ get_current_screen()->set_help_sidebar(
 );
 
 if ( 'upgrade-core' === $action ) {
-	// Force an update check when requested.
+	// Force an update check when requested. LESS checks the GitHub
+	// repository, never api.wordpress.org (see wp-includes/ls-update.php).
 	$force_check = ! empty( $_GET['force-check'] );
-	wp_version_check( array(), $force_check );
+	if ( function_exists( 'ls_github_version_check' ) ) {
+		ls_github_version_check( $force_check );
+	} else {
+		wp_version_check( array(), $force_check );
+	}
 
 	require_once ABSPATH . 'ls-admin/admin-header.php';
 	?>

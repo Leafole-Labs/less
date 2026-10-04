@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([["2893"],{45356(e){e.exports=JSON.parse('{"alertError":{"defaultTitle":"Something went wrong!","defaultMessage":"Please refresh this page.","refreshBtn":"Refresh","okBtn":"Ok"},"errorBoundary":{"default":{"title":"Something went wrong!","message":"Please refresh this page.","btn":"Refresh"}}}')}}]);

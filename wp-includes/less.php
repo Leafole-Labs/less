@@ -1151,8 +1151,13 @@ function ls_db_wipe_get_installation_tables() {
 /**
  * Remove (DROP) as tabelas informadas, já validadas.
  *
- * Usa o PDO SQLite existente com identificadores citados ("tabela") e chaves
- * estrangeiras temporariamente desligadas. Nunca executa SQL vindo do cliente.
+ * Executa os DROPs através do $wpdb (camada MySQL-on-SQLite), nunca via PDO
+ * bruto: o driver registra cada DROP no espelho de information schema
+ * (_wp_sqlite_*) e o mantém sincronizado. Sem isso, o espelho fica com
+ * linhas fantasmas das tabelas removidas e o is_blog_installed() conclui
+ * que "tabelas existem" — resultando em dead_db() ("Error establishing a
+ * database connection") em vez do redirecionamento para install.php.
+ * Nunca executa SQL vindo do cliente. Falha fechada em qualquer erro.
  *
  * @since 0.1
  *
@@ -1166,6 +1171,10 @@ function ls_db_wipe_drop_tables( $tables ) {
 		return new WP_Error( 'ls_wipe_empty', 'Nenhuma tabela para remover.' );
 	}
 
+	if ( ! $wpdb instanceof wpdb ) {
+		return new WP_Error( 'ls_wipe_no_db', 'Banco de dados indisponível.' );
+	}
+
 	$prefix = isset( $wpdb->prefix ) ? $wpdb->prefix : '';
 	foreach ( $tables as $table ) {
 		if ( ! ls_db_wipe_is_allowed_table( $table, $prefix ) ) {
@@ -1173,34 +1182,7 @@ function ls_db_wipe_drop_tables( $tables ) {
 		}
 	}
 
-	$pdo = null;
-	if ( method_exists( $wpdb, 'get_driver' ) ) {
-		try {
-			$driver = $wpdb->get_driver();
-			if ( method_exists( $driver, 'get_sqlite_pdo' ) ) {
-				$maybe = $driver->get_sqlite_pdo();
-				if ( $maybe instanceof PDO ) {
-					$pdo = $maybe;
-				}
-			}
-		} catch ( Throwable $e ) {
-			$pdo = null;
-		}
-	}
-
 	try {
-		if ( $pdo instanceof PDO ) {
-			$pdo->exec( 'PRAGMA foreign_keys = OFF' );
-			$dropped = 0;
-			foreach ( $tables as $table ) {
-				$quoted = '"' . str_replace( '"', '""', $table ) . '"';
-				$pdo->exec( 'DROP TABLE IF EXISTS ' . $quoted );
-				++$dropped;
-			}
-			$pdo->exec( 'PRAGMA foreign_keys = ON' );
-			return $dropped;
-		}
-
 		$dropped = 0;
 		foreach ( $tables as $table ) {
 			$result = $wpdb->query( 'DROP TABLE IF EXISTS `' . $table . '`' );

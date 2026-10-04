@@ -1,0 +1,35 @@
+{
+  "name": "elementor/elementor-mcp-composer",
+  "description": "Reusable Composer package for Elementor MCP integrations.",
+  "type": "library",
+  "version": "1.0.18",
+  "license": "proprietary",
+  "require": {
+    "php": ">=7.4",
+    "automattic/jetpack-autoloader": "^5",
+    "wordpress/mcp-adapter": "^0.6.1"
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "phpunit/phpunit": "^9.6",
+    "squizlabs/php_codesniffer": "^3.10",
+    "wp-coding-standards/wpcs": "^3.1"
+  },
+  "config": {
+    "allow-plugins": {
+      "automattic/jetpack-autoloader": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "sort-packages": true
+  },
+  "scripts": {
+    "lint": "vendor/bin/phpcs --standard=./phpcs.xml ./src/ ./runner.php",
+    "lint:fix": "vendor/bin/phpcbf --standard=./phpcs.xml ./src/ ./runner.php",
+    "test": "vendor/bin/phpunit"
+  },
+  "autoload": {
+    "files": [
+      "./runner.php"
+    ]
+  }
+}

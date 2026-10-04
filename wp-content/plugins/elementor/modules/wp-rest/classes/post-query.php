@@ -1,0 +1,266 @@
+<?php
+
+namespace Elementor\Modules\WpRest\Classes;
+
+use Elementor\Core\Utils\Collection;
+use Elementor\Modules\WpRest\Base\Query as Base;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+class Post_Query extends Base {
+	const ENDPOINT = 'post';
+	const SEARCH_FILTER_ACCEPTED_ARGS = 2;
+	const DEFAULT_FORBIDDEN_POST_TYPES = [ 'e-floating-buttons', 'e-landing-page', 'elementor_library', 'attachment', 'revision', 'nav_menu_item', 'custom_css', 'customize_changeset' ];
+	const SEARCH_IN_CONTENT_KEY = 'search_in_content';
+	const ALLOWED_KEYS_CONVERSION_MAP = [
+		'ID' => 'id',
+		'post_title' => 'label',
+		'post_type' => 'groupLabel',
+	];
+
+	/**
+	 * @param string    $search_term The original search query.
+	 * @param \WP_Query $wp_query The WP_Query instance.
+	 * @return string Modified search query.
+	 */
+	public function customize_post_query( string $search_term, \WP_Query $wp_query ) {
+		$term = $wp_query->get( 'search_term' ) ?? '';
+		$is_custom_search = $wp_query->get( 'custom_search' ) ?? false;
+
+		if ( $is_custom_search && ! empty( $term ) ) {
+			$escaped = esc_sql( $term );
+			$search_in_content = $wp_query->get( self::SEARCH_IN_CONTENT_KEY ) ?? false;
+			$search_term .= ' AND (';
+			$search_term .= "post_title LIKE '%{$escaped}%'";
+			if ( $search_in_content ) {
+				$search_term .= " OR post_content LIKE '%{$escaped}%'";
+				$search_term .= " OR post_excerpt LIKE '%{$escaped}%'";
+			}
+			if ( ctype_digit( $term ) ) {
+				$search_term .= ' OR ID = ' . intval( $term );
+			} else {
+				$search_term .= " OR ID LIKE '%{$escaped}%'";
+			}
+			$search_term .= ')';
+		}
+
+		return $search_term;
+	}
+
+	/**
+	 * @param \WP_REST_Request $request
+	 * @return \WP_REST_Response
+	 */
+	protected function get( \WP_REST_Request $request ) {
+		$params = $request->get_params();
+		$term = trim( $params[ self::SEARCH_TERM_KEY ] ?? '' );
+
+		$keys_format_map = $this->filter_keys_conversion_map(
+			$params[ self::KEYS_CONVERSION_MAP_KEY ] ?? self::ALLOWED_KEYS_CONVERSION_MAP,
+			self::ALLOWED_KEYS_CONVERSION_MAP
+		);
+		$requested_count = $params[ self::ITEMS_COUNT_KEY ] ?? 0;
+		$validated_count = max( $requested_count, 1 );
+		$post_count = min( $validated_count, self::MAX_RESPONSE_COUNT );
+		$is_public_only = $params[ self::IS_PUBLIC_KEY ] ?? true;
+		$post_types = $this->get_post_types_from_params( $request );
+
+		$query_args = [
+			'post_type'       => array_keys( $post_types ),
+			'numberposts'     => $post_count,
+			'suppress_filters' => false,
+			'custom_search'   => true,
+			'post_status'     => $is_public_only ? 'publish' : 'any',
+			'orderby'         => 'modified',
+			'order'           => 'DESC',
+		];
+
+		// for non-admins (contributors), filter by author for private posts
+		if ( ! $is_public_only && ! current_user_can( 'read_private_posts' ) ) {
+			$query_args['author'] = get_current_user_id();
+		}
+
+		if ( ! empty( $term ) ) {
+			$query_args['search_term'] = $term;
+			$query_args[ self::SEARCH_IN_CONTENT_KEY ] = $params[ self::SEARCH_IN_CONTENT_KEY ] ?? false;
+		}
+
+		if ( ! empty( $params[ self::META_QUERY_KEY ] ) && is_array( $params[ self::META_QUERY_KEY ] ) ) {
+			$query_args['meta_query'] = $params[ self::META_QUERY_KEY ];
+		}
+
+		if ( ! empty( $params[ self::TAX_QUERY_KEY ] ) && is_array( $params[ self::TAX_QUERY_KEY ] ) ) {
+			$query_args['tax_query'] = $params[ self::TAX_QUERY_KEY ];
+		}
+
+		$this->add_filter_to_customize_query();
+		$posts = new Collection( get_posts( $query_args ) );
+		$this->remove_filter_to_customize_query();
+
+		$post_type_labels = ( new Collection( $post_types ) )
+			->map( function ( $pt ) {
+				return $pt->label;
+			} )
+			->all();
+
+		return new \WP_REST_Response( [
+			'success' => true,
+			'data' => [
+				'value' => $posts
+					->filter( function ( $post ) {
+						return current_user_can( 'read_post', $post->ID );
+					} )
+					->map( function ( $post ) use ( $keys_format_map, $post_type_labels ) {
+						$post_type_label = $post->post_type;
+
+						if ( isset( $post_type_labels[ $post->post_type ] ) ) {
+							$post_type_label = $post_type_labels[ $post->post_type ];
+						}
+
+						$post_object = [
+							'ID' => $post->ID,
+							'post_title' => $post->post_title,
+							'post_type' => $post_type_label,
+						];
+
+						return $this->translate_keys( $post_object, $keys_format_map );
+					} )
+					->all(),
+			],
+		], 200 );
+	}
+
+	/**
+	 * @return void
+	 */
+	private function add_filter_to_customize_query() {
+		$priority = self::SEARCH_FILTER_PRIORITY;
+		$accepted_args = self::SEARCH_FILTER_ACCEPTED_ARGS;
+
+		add_filter( 'posts_search', [ $this, 'customize_post_query' ], $priority, $accepted_args );
+	}
+
+	/**
+	 * @return void
+	 */
+	private function remove_filter_to_customize_query() {
+		$priority = self::SEARCH_FILTER_PRIORITY;
+		$accepted_args = self::SEARCH_FILTER_ACCEPTED_ARGS;
+
+		remove_filter( 'posts_search', [ $this, 'customize_post_query' ], $priority, $accepted_args );
+	}
+
+	protected function permission_check( \WP_REST_Request $request ): bool {
+		return current_user_can( 'edit_posts' );
+	}
+
+	protected function get_endpoint_registration_args(): array {
+		return [
+			self::INCLUDED_TYPE_KEY => [
+				'description' => 'Included post types',
+				'type' => 'array',
+				'required' => false,
+				'default' => null,
+				'sanitize_callback' => fn ( ...$args ) => self::sanitize_string_array( ...$args ),
+			],
+			self::EXCLUDED_TYPE_KEY => [
+				'description' => 'Post type to exclude',
+				'type' => 'array',
+				'required' => false,
+				'default' => self::DEFAULT_FORBIDDEN_POST_TYPES,
+				'sanitize_callback' => fn ( ...$args ) => self::sanitize_string_array( ...$args ),
+			],
+			self::SEARCH_TERM_KEY => [
+				'description' => 'Posts to search',
+				'type' => 'string',
+				'required' => false,
+				'default' => '',
+				'sanitize_callback' => 'sanitize_text_field',
+			],
+			self::KEYS_CONVERSION_MAP_KEY => [
+				'description' => 'Specify keys to extract and convert, i.e. ["key_1" => "new_key_1"].',
+				'type' => 'array',
+				'required' => false,
+				'default' => [
+					'ID' => 'id',
+					'post_title' => 'label',
+					'post_type' => 'groupLabel',
+				],
+				'sanitize_callback' => fn ( ...$args ) => self::sanitize_string_array( ...$args ),
+			],
+			self::ITEMS_COUNT_KEY => [
+				'description' => 'Posts per page',
+				'type' => 'integer',
+				'required' => false,
+				'default' => self::MAX_RESPONSE_COUNT,
+			],
+			self::IS_PUBLIC_KEY => [
+				'description' => 'Whether to include only public post types',
+				'type' => 'boolean',
+				'required' => false,
+				'default' => true,
+			],
+			self::META_QUERY_KEY => [
+				'description' => 'WP_Query meta_query array',
+				'type' => 'array',
+				'required' => false,
+				'default' => null,
+				'sanitize_callback' => fn ( ...$args ) => self::sanitize_string_array( ...$args ),
+			],
+			self::TAX_QUERY_KEY => [
+				'description' => 'WP_Query tax_query array',
+				'type' => 'array',
+				'required' => false,
+				'default' => null,
+				'sanitize_callback' => fn ( ...$args ) => self::sanitize_string_array( ...$args ),
+			],
+			self::SEARCH_IN_CONTENT_KEY => [
+				'description' => 'Whether to search within post content and excerpt in addition to title',
+				'type' => 'boolean',
+				'required' => false,
+				'default' => false,
+			],
+		];
+	}
+
+	protected static function get_allowed_param_keys(): array {
+		return [
+			self::EXCLUDED_TYPE_KEY,
+			self::INCLUDED_TYPE_KEY,
+			self::KEYS_CONVERSION_MAP_KEY,
+			self::META_QUERY_KEY,
+			self::TAX_QUERY_KEY,
+			self::IS_PUBLIC_KEY,
+			self::ITEMS_COUNT_KEY,
+			self::SEARCH_IN_CONTENT_KEY,
+		];
+	}
+
+	protected static function get_keys_to_encode(): array {
+		return [
+			self::EXCLUDED_TYPE_KEY,
+			self::INCLUDED_TYPE_KEY,
+			self::KEYS_CONVERSION_MAP_KEY,
+			self::META_QUERY_KEY,
+			self::TAX_QUERY_KEY,
+		];
+	}
+
+	private function get_post_types_from_params( \WP_REST_Request $request ) {
+		$included_types = $request->get_param( self::INCLUDED_TYPE_KEY );
+		$excluded_types = $request->get_param( self::EXCLUDED_TYPE_KEY );
+		$post_type_query_args = [
+			'public' => true,
+		];
+
+		$post_types = get_post_types( $post_type_query_args, 'objects' );
+
+		return Collection::make( $post_types )
+				->filter( function ( $slug, $post_type ) use ( $included_types, $excluded_types ) {
+					return ( empty( $included_types ) || in_array( $post_type, $included_types ) ) &&
+						( empty( $excluded_types ) || ! in_array( $post_type, $excluded_types ) );
+				} )->all();
+	}
+}

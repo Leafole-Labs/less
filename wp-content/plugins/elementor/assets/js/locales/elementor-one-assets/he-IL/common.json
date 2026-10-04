@@ -1,0 +1,21 @@
+{
+    "example": {
+        "component": "רכיב לדוגמה"
+    },
+    "header": {
+        "title": "בונה אתרים",
+        "userInfo": "החשבון שלי",
+        "userProfileMenu": {
+            "connectPreText": "יש לך תוכנית של Elementor One?",
+            "connect": "לְחַבֵּר",
+            "goToMyAccount": "עבור אל החשבון שלי",
+            "disconnect": "לְנַתֵק",
+            "elementorOneActive": "אלמנטור אחת",
+            "active": "פָּעִיל",
+            "urlMismatch": "זוהתה אי התאמה של כתובת האתר",
+            "fixUrlMismatch": "תקן עכשיו"
+        },
+        "whatsNew": "מה חדש",
+        "whatsNewError": "משהו השתבש בעת שליפת ההתראות. אנא נסה שוב מאוחר יותר."
+    }
+}

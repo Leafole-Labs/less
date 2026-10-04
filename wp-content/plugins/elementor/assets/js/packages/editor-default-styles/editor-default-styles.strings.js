@@ -1,0 +1,12 @@
+__( 'Default Style', 'elementor' );
+__( 'Tag', 'elementor' );
+__( 'Type tag name', 'elementor' );
+__( 'Save changes', 'elementor' );
+__( 'You have unsaved changes', 'elementor' );
+__( 'You have unsaved changes in Default Styles.', 'elementor' );
+__( 'To avoid losing your updates, save your changes before leaving.', 'elementor' );
+__( 'Discard', 'elementor' );
+__( 'Save & Continue', 'elementor' );
+__( 'Open tag state menu', 'elementor' );
+__( 'tag', 'elementor' );
+__( 'tags', 'elementor' );

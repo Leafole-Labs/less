@@ -189,7 +189,9 @@ $filtered = ls_db_wipe_filter_installation_tables(
 t_ok( array( 'wp_posts', 'wp_options' ) === $filtered, 'filtro mantém só prefixo + deduplica' );
 t_ok( array() === ls_db_wipe_filter_installation_tables( 'nao-array', 'wp_' ), 'entrada não-array retorna vazio' );
 t_ok( false !== strpos( $less_source, 'DROP TABLE IF EXISTS' ), 'remoção usa DROP TABLE (exclusão real, não só cache)' );
-t_ok( false !== strpos( $less_source, 'PRAGMA foreign_keys' ), 'desliga FK durante o DROP no SQLite' );
+t_ok( false !== strpos( $less_source, '$wpdb->query( \'DROP TABLE IF EXISTS' ), 'DROP executado via $wpdb (driver), mantendo o espelho de information schema sincronizado' );
+t_ok( false === strpos( $less_source, '->exec( \'DROP TABLE' ) && false === strpos( $less_source, '->exec( "DROP TABLE' ), 'sem DROP via PDO bruto (evita espelho _wp_sqlite_* desatualizado e dead_db)' );
+t_ok( false !== strpos( $less_source, 'information_schema_builder->record_drop_table' ) || false !== strpos( $less_source, 'espelho de information schema' ), 'código documenta a sincronia com o espelho do driver SQLite' );
 
 // 5. Falhas / segurança -------------------------------------------------------
 t_ok( false !== strpos( $less_source, "WP_Error( 'ls_wipe_" ), 'falhas retornam WP_Error com códigos próprios' );

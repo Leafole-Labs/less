@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([["6791"],{72730(e){e.exports=JSON.parse('{"example":{"component":"Przyk\u0142adowy komponent"}}')}}]);

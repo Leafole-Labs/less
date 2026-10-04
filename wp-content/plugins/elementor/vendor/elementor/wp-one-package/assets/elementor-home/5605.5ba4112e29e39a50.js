@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk=self.webpackChunk||[]).push([["5605"],{72900(e){e.exports=JSON.parse('{"alertError":{"defaultTitle":"Ocorreu um erro!","defaultMessage":"Atualize esta p\xe1gina.","refreshBtn":"Atualizar","okBtn":"Ok"},"errorBoundary":{"default":{"title":"Ocorreu um erro!","message":"Atualize esta p\xe1gina.","btn":"Atualizar"}}}')}}]);

@@ -1,0 +1,10 @@
+__( 'Global Colors', 'elementor' );
+__( 'System Colors', 'elementor' );
+__( 'Custom Colors', 'elementor' );
+__( 'Global Fonts', 'elementor' );
+__( 'System Fonts', 'elementor' );
+__( 'Custom Fonts', 'elementor' );
+__( 'Show global settings', 'elementor' );
+__( 'Colors', 'elementor' );
+__( 'Fonts', 'elementor' );
+__( 'The five boxing wizards jump quickly.', 'elementor' );

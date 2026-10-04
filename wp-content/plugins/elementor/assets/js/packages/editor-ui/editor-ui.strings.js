@@ -1,0 +1,16 @@
+__( 'Show less', 'elementor' );
+__( 'Show more', 'elementor' );
+__( "Don't show this again", 'elementor' );
+__( 'Not now', 'elementor' );
+__( 'Delete', 'elementor' );
+__( 'Upgrade Now', 'elementor' );
+__( 'File dropzone', 'elementor' );
+__( 'Upload file', 'elementor' );
+__( 'or drag and drop', 'elementor' );
+__( 'Complete', 'elementor' );
+__( 'Remove file', 'elementor' );
+__( "Don't show this again", 'elementor' );
+__( 'Got it introduction', 'elementor' );
+__( 'Got it', 'elementor' );
+__( 'Upgrade now', 'elementor' );
+__( 'Clear', 'elementor' );

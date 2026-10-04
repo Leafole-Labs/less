@@ -4,7 +4,7 @@
 - Sem pingback
 - Sem trackback
 - Sem XML-RCP
-- Serviços remotos \*\*opcionais\*\*
+- Serviços remotos **opcionais**
 - Com DB baseada em SQLite
 - Atualização do núcleo via GitHub Releases (`Painel → Atualizações`)
 

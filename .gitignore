@@ -1,0 +1,40 @@
+# LESS — arquivos locais e gerados (não versionar)
+
+# Config local (contém senhas e salts)
+wp-config.php
+wp-config-local.php
+.env
+.env.local
+
+# Banco SQLite local e logs
+*.sqlite
+*.sqlite3
+*.db
+wp-content/database/
+wp-content/debug.log
+debug.log
+*.log
+
+# Uploads e arquivos gerados do site
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/blogs.dir/
+wp-content/cache/
+wp-content/backup*/
+
+# Dependências e build
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="robots" content="noindex,nofollow" />
+	<title>LESS &#8250; ReadMe</title>
+	<link rel="stylesheet" href="ls-admin/css/install.css?ver=20260301" />
+</head>
+<body>
+<h1 id="logo">
+	<a href="https://leafole.dev/"><img alt="LESS" src="LESS-logo-gray.svg" style="width: 240px; height: 240px;" /></a>
+</h1>
+<p style="text-align: center">A platform for the open web.</p>
+
+<h2>First Things First</h2>
+<p>Welcome to LESS. LESS is an independent platform for publishing, content, and experimentation on the web. It is built and maintained by Leafole Labs. LESS keeps the mature editing and publishing infrastructure you rely on while making its own independent decisions about identity, components, and architecture.</p>
+<p style="text-align: right">Independent by design.</p>
+
+<h2>Installation: Famous 5-minute install</h2>
+<ol>
+	<li>Unzip the package in an empty directory and upload everything.</li>
+	<li>Open <span class="file"><a href="ls-admin/install.php">ls-admin/install.php</a></span> in your browser. It will take you through the process to set up a <code>wp-config.php</code> file with your database connection details.
+		<ol>
+			<li>If for some reason this does not work, do not worry. It may not work on all web hosts. Open up <code>wp-config-sample.php</code> with a text editor like WordPad or similar and fill in your database connection details.</li>
+			<li>Save the file as <code>wp-config.php</code> and upload it.</li>
+			<li>Open <span class="file"><a href="ls-admin/install.php">ls-admin/install.php</a></span> in your browser.</li>
+		</ol>
+	</li>
+	<li>Once the configuration file is set up, the installer will set up the tables needed for your site. If there is an error, double check your <code>wp-config.php</code> file, and try again.</li>
+	<li><strong>If you did not enter a password, note the password given to you.</strong> If you did not provide a username, it will be <code>admin</code>.</li>
+	<li>The installer should then send you to the <a href="wp-login.php">login page</a>. Sign in with the username and password you chose during the installation. If a password was generated for you, you can then click on &#8220;Profile&#8221; to change the password.</li>
+</ol>
+
+<h2>Database</h2>
+<p>LESS works with SQLite out of the box, and with MySQL or MariaDB when supported by the base infrastructure. When using SQLite, no separate database server is required.</p>
+
+<h2>Updating</h2>
+<p>LESS is an independent platform. Core updates are managed as part of the LESS release process and are not served from third-party update services. Plugin and theme ecosystems remain available through their own distribution channels.</p>
+
+<h2>Migrating from other systems</h2>
+<p>LESS can <a href="https://developer.wordpress.org/advanced-administration/wordpress/import/">import from a number of systems</a>. First you need to get LESS installed and working as described above, before using <a href="ls-admin/import.php">our import tools</a>.</p>
+
+<h2>System Requirements</h2>
+<ul>
+	<li><a href="https://www.php.net/">PHP</a> version <strong>7.4</strong> or greater.</li>
+	<li><a href="https://www.mysql.com/">MySQL</a> version <strong>5.5.5</strong> or greater, or <a href="https://www.sqlite.org/">SQLite</a> with the PDO driver.</li>
+</ul>
+
+<h3>Recommendations</h3>
+<ul>
+	<li>MySQL 8.0+ or MariaDB.</li>
+	<li>PHP 8.x.</li>
+	<li>The <code>https</code> protocol on your server.</li>
+</ul>
+
+<h2>Final notes</h2>
+<ul>
+	<li>LESS is a fork of the WordPress base with an independent identity and architecture. It is not a WordPress.org product and is not affiliated with Automattic. Technical components derived from WordPress remain under their respective licenses.</li>
+	<li>Learn more about LESS at <a href="https://leafole.dev/">https://leafole.dev</a> and the LESS repository at <a href="https://github.com/Leafole-Labs/less">https://github.com/Leafole-Labs/less</a>.</li>
+</ul>
+
+<h2>Share the Ideas</h2>
+<p>LESS is built for the open web. Experimentation, publishing, and content creation are at its core. Built by <a href="https://leafole.dev/">Leafole Labs</a>.</p>
+</body>
+</html>

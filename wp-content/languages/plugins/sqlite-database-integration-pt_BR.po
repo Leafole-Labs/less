@@ -1,0 +1,140 @@
+# Translation of Plugins - SQLite Database Integration - Stable (latest release) in Portuguese (Brazil)
+# This file is distributed under the same license as the Plugins - SQLite Database Integration - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2025-01-27 14:31:43+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/4.0.3\n"
+"Language: pt_BR\n"
+"Project-Id-Version: Plugins - SQLite Database Integration - Stable (latest release)\n"
+
+#: wp-includes/sqlite/install-functions.php:135
+msgid "<strong><em>Note that password</em></strong> carefully! It is a <em>random</em> password that was generated just for you."
+msgstr "<strong><em>Anote esta senha</em></strong> com atenção! É uma senha <em>aleatória</em> que foi gerada apenas para você."
+
+#: admin-page.php:99
+msgid "All checks completed successfully, your site can use an SQLite database. You can proceed with the installation."
+msgstr "Todas as verificações foram concluídas, seu site pode usar um banco de dados SQLite. Você pode prosseguir com a instalação."
+
+#: admin-page.php:119
+msgid "By clicking the button below, you will be redirected to the WordPress installation screen to setup your new database"
+msgstr "Ao clicar no botão abaixo, você será redirecionado para a tela de instalação do WordPress para configurar seu novo banco de dados"
+
+#: health-check.php:35
+msgid "Database file"
+msgstr "Arquivo do banco de dados"
+
+#: health-check.php:41
+msgid "Database size"
+msgstr "Tamanho do banco de dados"
+
+#: health-check.php:24
+msgid "Database type"
+msgstr "Tipo do banco de dados"
+
+#: admin-page.php:144
+msgid "Database: MariaDB"
+msgstr "Banco de dados: MariaDB"
+
+#: admin-page.php:146
+msgid "Database: MySQL"
+msgstr "Banco de dados: MySQL"
+
+#: admin-page.php:142
+msgid "Database: SQLite"
+msgstr "Banco de dados: SQLite"
+
+#: admin-page.php:101
+msgid "Important note"
+msgstr "Aviso importante"
+
+#: admin-page.php:121
+msgid "Install SQLite database"
+msgstr "Instalar banco de dados SQLite"
+
+#. Description of the plugin
+#: load.php
+msgid "SQLite database driver drop-in."
+msgstr "Plugin avançado do controlador do banco de dados SQLite"
+
+#. Plugin Name of the plugin
+#: load.php
+msgid "SQLite Database Integration"
+msgstr "Integração com banco de dados SQLite"
+
+#: admin-page.php:14 admin-page.php:15
+msgid "SQLite integration"
+msgstr "Integração com SQLite"
+
+#: admin-page.php:51
+msgid "SQLite integration."
+msgstr "Integração com SQLite."
+
+#: admin-page.php:57
+msgid "SQLite is enabled."
+msgstr "SQLite está ativado."
+
+#: health-check.php:30
+msgid "SQLite version"
+msgstr "Versão do SQLite"
+
+#: wp-includes/sqlite/install-functions.php:163
+msgid "The password you chose during installation."
+msgstr "A senha escolhida durante a instalação."
+
+#. translators: 1: Admin URL to deactivate the module, 2: db.php drop-in path,
+#: admin-page.php:63
+msgid "The SQLite drop-in is enabled. To disable it and get back to your previous, MySQL database, you can <a href=\"%1$s\">deactivate the plugin</a>. Alternatively, you can manually delete the %2$s file from your server."
+msgstr "O plugin avançado do SQLite está ativado. Para restaurar a seu banco de dados MySQL anterior, você pode <a href=\"%1$s\">desativar o plugin</a>. Como alternativa, você pode excluir manualmente o arquivo %2$s do seu servidor."
+
+#. translators: 1: SQLITE_DB_DROPIN_VERSION constant, 2: db.php drop-in path
+#: admin-notices.php:42
+msgid "The SQLite Integration module is active, but the %1$s constant is missing. It appears you already have another %2$s file present on your site. "
+msgstr "O módulo Integração com SQLite está ativo, mas a constante %1$s está faltando. Parece que você já tem outro arquivo %2$s presente no seu site. "
+
+#. translators: 1: db.php drop-in path, 2: Admin URL to deactivate the module
+#: admin-notices.php:67
+msgid "The SQLite Integration plugin is active, but the %1$s file is missing. Please <a href=\"%2$s\">deactivate the plugin</a> and re-activate it to try again."
+msgstr "O plugin de integração com SQLite está ativo, mas o arquivo %1$s está faltando. Por favor, <a href=\"%2$s\">desative o plugin</a> e reative-o para tentar novamente."
+
+#: admin-notices.php:58
+msgid "The SQLite Integration plugin is active, but the wp-content/db.php file is missing and the wp-content directory is not writable. Please ensure the wp-content folder is writable, then deactivate the plugin and try again."
+msgstr "O plugin de integração com SQLite está ativo, mas o arquivo wp-content/db.php está faltando e o diretório wp-content não é gravável. Certifique-se de que a pasta wp-content seja gravável, desative o plugin e tente novamente."
+
+#. translators: %s: db.php drop-in path
+#: admin-page.php:79
+msgid "The SQLite plugin cannot be activated because a different %s drop-in already exists."
+msgstr "O plugin SQLite não pode ser ativado porque já existe um plugin avançado diferente: %s."
+
+#. translators: %s: db.php drop-in path
+#: admin-page.php:91
+msgid "The SQLite plugin cannot be activated because the %s directory is not writable."
+msgstr "O plugin SQLite não pode ser ativado porque o diretório %s não é gravável."
+
+#. Author of the plugin
+#: load.php
+msgid "The WordPress Team"
+msgstr "A Equipe do WordPress"
+
+#: admin-page.php:102
+msgid "This plugin will switch to a separate database and install WordPress in it. You will need to reconfigure your site, and start with a fresh site. Disabling the plugin you will get back to your previous MySQL database, with all your previous data intact."
+msgstr "Ao se ativar este plugin, vai se alternar para um banco de dados separado e se instalará o WordPress nele. Você precisará reconfigurar seu site como se fosse um site novo. Desabilitando o plugin, você retornará ao seu banco de dados MySQL anterior, com todos os seus dados anteriores intactos."
+
+#: health-check.php:19
+msgid "Undefined"
+msgstr "Indefinido"
+
+#: wp-includes/sqlite/install-functions.php:146
+msgid "User already exists. Password inherited."
+msgstr "Usuário já existe. Foi herdada a senha anterior."
+
+#: admin-page.php:71
+msgid "We detected that the PDO SQLite driver is missing from your server (the pdo_sqlite extension is not loaded). Please make sure that SQLite is enabled in your PHP installation before proceeding."
+msgstr "Detectamos que o controlador PDO SQLite está faltando no seu servidor (a extensão pdo_sqlite não está carregada). Certifique-se de que o SQLite esteja habilitado na sua instalação do PHP antes de prosseguir."
+
+#: wp-includes/sqlite/install-functions.php:142
+msgid "Your chosen password."
+msgstr "A senha que foi escolhida."

@@ -2937,6 +2937,17 @@ function wp_update_comment( $commentarr, $wp_error = false ) {
 	$comment_id      = $data['comment_ID'];
 	$comment_post_id = $data['comment_post_ID'];
 
+	// Check if comment is being reparented and user has permission.
+	if ( isset( $data['comment_parent'] ) && $data['comment_parent'] !== $comment['comment_parent'] ) {
+		if ( ! current_user_can( 'edit_comment', $comment_id ) ) {
+			if ( $wp_error ) {
+				return new WP_Error( 'edit_comment', __( 'Sorry, you are not allowed to reparent this comment.' ) );
+			} else {
+				return false;
+			}
+		}
+	}
+
 	/**
 	 * Filters the comment data immediately before it is updated in the database.
 	 *

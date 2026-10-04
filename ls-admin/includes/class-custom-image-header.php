@@ -566,13 +566,13 @@ class Custom_Image_Header {
 				}
 
 				if ( $custom_header->width ) {
-					$header_image_style .= 'max-width:' . $custom_header->width . 'px;';
+					$header_image_style .= 'max-width:' . (int) $custom_header->width . 'px;';
 				}
 				if ( $custom_header->height ) {
-					$header_image_style .= 'height:' . $custom_header->height . 'px;';
+					$header_image_style .= 'height:' . (int) $custom_header->height . 'px;';
 				}
 				?>
-	<div id="headimg" style="<?php echo $header_image_style; ?>">
+	<div id="headimg" style="<?php echo esc_attr( $header_image_style ); ?>">
 				<?php
 				if ( display_header_text() ) {
 					$style = ' style="color:#' . get_header_textcolor() . ';"';
@@ -1184,8 +1184,8 @@ endif;
 				'attachment_id' => $choice['attachment_id'],
 				'url'           => $choice['url'],
 				'thumbnail_url' => $choice['url'],
-				'height'        => $choice['height'],
-				'width'         => $choice['width'],
+				'height'        => absint( $choice['height'] ),
+				'width'         => absint( $choice['width'] ),
 			);
 
 			update_post_meta( $choice['attachment_id'], '_wp_attachment_is_custom_header', get_stylesheet() );

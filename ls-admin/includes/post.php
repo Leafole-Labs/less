@@ -26,6 +26,9 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 
 	if ( $update ) {
 		$post_data['ID'] = (int) $post_data['post_ID'];
+	} else {
+		// Prevent ID from being used to overwrite existing posts during creation.
+		unset( $post_data['ID'] );
 	}
 
 	$ptype = get_post_type_object( $post_data['post_type'] );

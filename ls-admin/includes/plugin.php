@@ -642,6 +642,13 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 	$plugin = plugin_basename( trim( $plugin ) );
 
 	if ( is_multisite() && ( $network_wide || is_network_only_plugin( $plugin ) ) ) {
+		// Only Super Admins (users with manage_network_plugins capability) can network-activate plugins.
+		if ( ! current_user_can( 'manage_network_plugins' ) ) {
+			return new WP_Error(
+				'network_admin_only',
+				__( 'Only a super admin can network activate plugins.' )
+			);
+		}
 		$network_wide        = true;
 		$current             = get_site_option( 'active_sitewide_plugins', array() );
 		$_GET['networkwide'] = 1; // Back compat for plugins looking for this value.

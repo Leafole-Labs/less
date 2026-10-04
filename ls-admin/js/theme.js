@@ -1305,7 +1305,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 		this.overlay.render();
 
 		if ( this.model.get( 'hasUpdate' ) ) {
-			$card  = $( '[data-slug="' + this.model.id + '"]' );
+			$card  = $( '[data-slug="' + $.escapeSelector( this.model.id ) + '"]' );
 			$modal = $( this.overlay.el );
 
 			if ( $card.find( '.updating-message' ).length ) {
@@ -2082,9 +2082,9 @@ themes.RunInstaller = {
 				self.view.collection.query( request );
 				self.view.collection.trigger( 'update' );
 
-				// Open the theme preview.
+				// Open the theme preview. The slug comes from the URL, so escape it.
 				self.view.collection.once( 'query:success', function() {
-					$( 'div[data-slug="' + slug + '"]' ).trigger( 'click' );
+					$( 'div.theme[data-slug="' + $.escapeSelector( slug ) + '"]' ).trigger( 'click' );
 				});
 
 			}

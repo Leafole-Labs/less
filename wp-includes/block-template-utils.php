@@ -343,7 +343,16 @@ function _get_block_template_file( $template_type, $slug ) {
 	);
 	foreach ( $themes as $theme_slug => $theme_dir ) {
 		$template_base_paths = get_block_theme_folders( $theme_slug );
-		$file_path           = $theme_dir . '/' . $template_base_paths[ $template_type ] . '/' . $slug . '.html';
+		$template_dir        = $theme_dir . '/' . $template_base_paths[ $template_type ];
+		$file_path           = $template_dir . '/' . $slug . '.html';
+
+		// Prevent directory traversal by validating the resolved path stays within the template directory.
+		$template_dir_real = realpath( $template_dir );
+		$file_path_real    = realpath( $file_path );
+		if ( false === $template_dir_real || false === $file_path_real || 0 !== strpos( $file_path_real, $template_dir_real ) ) {
+			continue;
+		}
+
 		if ( file_exists( $file_path ) ) {
 			$new_template_item = array(
 				'slug'  => $slug,

@@ -3987,8 +3987,8 @@ class WP_HTML_Tag_Processor {
 			self::STATE_COMMENT === $this->parser_state &&
 			self::COMMENT_AS_HTML_COMMENT === $this->comment_type
 		) {
-			// Check if the text could close the comment.
-			if ( 1 === preg_match( '/--!?>/', $plaintext_content ) ) {
+			// Check if the text could close the comment, or contains an abrupt closing sequence.
+			if ( 1 === preg_match( '/^->|--!?>/', $plaintext_content ) ) {
 				_doing_it_wrong(
 					__METHOD__,
 					__( 'Comment text cannot contain a comment closer.' ),

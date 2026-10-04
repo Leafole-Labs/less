@@ -6,6 +6,8 @@
  * @subpackage Template
  */
 
+define('LESS_TEMPLATE_VERSION', '7.1.2-security-fix-1');
+
 /**
  * Retrieves path to a template.
  *
@@ -728,20 +730,103 @@ function locate_template( $template_names, $load = false, $load_once = true, $ar
 
 	$is_child_theme = is_child_theme();
 
+	// Prepare allowed theme directories for path validation.
+	$allowed_dirs = array();
+	$stylesheet_real = realpath( $wp_stylesheet_path );
+	$template_real   = realpath( $wp_template_path );
+	if ( $stylesheet_real ) {
+		$allowed_dirs[] = $stylesheet_real;
+	}
+	// Always include parent theme directory (matching WordPress 7.1.2)
+	if ( $template_real ) {
+		$allowed_dirs[] = $template_real;
+	}
+	// If theme is in a subdirectory, accept templates from its direct parent directory.
+	if ( str_contains( get_stylesheet(), '/' ) ) {
+		$allowed_dirs[] = dirname( $wp_stylesheet_path );
+	}
+	// If parent theme is in a subdirectory, accept templates from its direct parent directory.
+	if ( str_contains( get_template(), '/' ) ) {
+		$allowed_dirs[] = dirname( $wp_template_path );
+	}
+	$theme_compat_real = realpath( ABSPATH . WPINC . '/theme-compat/' );
+	if ( $theme_compat_real ) {
+		$allowed_dirs[] = $theme_compat_real;
+	}
+
 	$located = '';
 	foreach ( (array) $template_names as $template_name ) {
 		if ( ! $template_name ) {
 			continue;
 		}
-		if ( file_exists( $wp_stylesheet_path . '/' . $template_name ) ) {
-			$located = $wp_stylesheet_path . '/' . $template_name;
+		$check_path = $wp_stylesheet_path . '/' . $template_name;
+		if (isset($GLOBALS['debug_template_path'])) {
+			echo "DEBUG: Checking stylesheet path=$check_path, file_exists=" . (file_exists($check_path) ? 'YES' : 'NO') . "\n";
+		}
+		$fe = file_exists($check_path);
+		if (isset($GLOBALS['debug_template_path'])) {
+			echo "DEBUG: file_exists returned " . ($fe ? 'TRUE' : 'FALSE') . "\n";
+		}
+		if ( $fe ) {
+			$located = $check_path;
 			break;
-		} elseif ( $is_child_theme && file_exists( $wp_template_path . '/' . $template_name ) ) {
-			$located = $wp_template_path . '/' . $template_name;
+		} elseif ( $is_child_theme ) {
+			$check_path = $wp_template_path . '/' . $template_name;
+			if (isset($GLOBALS['debug_template_path'])) {
+				echo "DEBUG: Checking template path=$check_path, file_exists=" . (file_exists($check_path) ? 'YES' : 'NO') . "\n";
+			}
+			$fe = file_exists($check_path);
+			if (isset($GLOBALS['debug_template_path'])) {
+				echo "DEBUG: file_exists returned " . ($fe ? 'TRUE' : 'FALSE') . "\n";
+			}
+			if ( $fe ) {
+				$located = $check_path;
+				break;
+			}
+		}
+		$check_path = ABSPATH . WPINC . '/theme-compat/' . $template_name;
+		if (isset($GLOBALS['debug_template_path'])) {
+			echo "DEBUG: Checking compat path=$check_path, file_exists=" . (file_exists($check_path) ? 'YES' : 'NO') . "\n";
+		}
+		$fe = file_exists($check_path);
+		if (isset($GLOBALS['debug_template_path'])) {
+			echo "DEBUG: file_exists returned " . ($fe ? 'TRUE' : 'FALSE') . "\n";
+		}
+		if ( $fe ) {
+			$located = $check_path;
 			break;
-		} elseif ( file_exists( ABSPATH . WPINC . '/theme-compat/' . $template_name ) ) {
-			$located = ABSPATH . WPINC . '/theme-compat/' . $template_name;
-			break;
+		}
+	}
+
+	// Validate that the located template is within allowed directories to prevent path traversal.
+	if ( '' !== $located ) {
+		$located_real = realpath( $located );
+
+		// If realpath fails (non-existent file or symlink to nowhere), reject.
+		if ( false === $located_real ) {
+			$allowed = false;
+		}
+		// Fast path: if the path doesn't contain '..', it's allowed (matching WordPress 7.1.2).
+		elseif ( 0 === preg_match( '#(?:^|/)\.\.[. ]*(?:/|$)#', wp_normalize_path( $located_real ) ) ) {
+			$allowed = true;
+		} else {
+			$allowed = false;
+			$located_real = trailingslashit( wp_normalize_path( $located_real ) );
+			foreach ( $allowed_dirs as $allowed_dir ) {
+				$real_directory = realpath( $allowed_dir );
+				if ( false === $real_directory ) {
+					continue;
+				}
+				// The true location of the requested file must be inside one of the allowed directories.
+				if ( str_starts_with( $located_real, trailingslashit( wp_normalize_path( $real_directory ) ) ) ) {
+					$allowed = true;
+					break;
+				}
+			}
+		}
+
+		if ( ! $allowed ) {
+			$located = '';
 		}
 	}
 

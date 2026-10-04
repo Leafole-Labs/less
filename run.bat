@@ -10,6 +10,24 @@ echo  LESS - run.bat (PHP + SQLite)
 echo ============================================
 echo.
 
+REM --- 0. wp-config.php auto-generation ---
+if not exist "wp-config.php" (
+    echo wp-config.php nao encontrado. Criando configuracao inicial do LESS...
+    if not exist "gen_wpconfig.php" (
+        echo [ERRO] Script de geracao gen_wpconfig.php nao encontrado.
+        pause
+        exit /b 1
+    )
+    php gen_wpconfig.php
+    if errorlevel 1 (
+        echo [ERRO] Falha ao criar wp-config.php.
+        pause
+        exit /b 1
+    )
+    echo wp-config.php criado com sucesso.
+    echo.
+)
+
 REM --- 1. PHP instalado? ---
 where php >nul 2>nul
 if errorlevel 1 (

@@ -15,7 +15,14 @@
 function sqlite_make_db_sqlite() {
 	global $wpdb;
 
-	include_once ABSPATH . 'wp-admin/includes/schema.php';
+	if ( file_exists( ABSPATH . 'wp-admin/includes/schema.php' ) ) {
+		include_once ABSPATH . 'wp-admin/includes/schema.php';
+	} elseif ( file_exists( ABSPATH . 'ls-admin/includes/schema.php' ) ) {
+		// LESS fork: wp-admin was renamed to ls-admin.
+		include_once ABSPATH . 'ls-admin/includes/schema.php';
+	} else {
+		include_once ABSPATH . 'wp-admin/includes/schema.php';
+	}
 
 	$table_schemas = wp_get_db_schema();
 	$queries       = explode( ';', $table_schemas );

@@ -47,7 +47,7 @@ add_action(
 			return;
 		}
 		if ( ! function_exists( 'activate_plugin' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+			require_once file_exists( ABSPATH . 'wp-admin/includes/plugin.php' ) ? ABSPATH . 'wp-admin/includes/plugin.php' : ABSPATH . 'ls-admin/includes/plugin.php';
 		}
 
 		$plugin_path = WP_PLUGIN_DIR . '/' . '{SQLITE_PLUGIN}';

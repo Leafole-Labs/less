@@ -3,7 +3,7 @@
 define( 'SQLITE_DB_DROPIN_VERSION', '1.8.0' );
 
 $sqlite_plugin_implementation_folder_path =
-	__DIR__ . '/plugins/plugin-sqlite-database-integration';
+	__DIR__ . '/plugins/sqlite-database-integration';
 
 if (
 	! file_exists(

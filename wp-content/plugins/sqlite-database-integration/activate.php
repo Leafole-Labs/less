@@ -91,7 +91,7 @@ function sqlite_plugin_copy_db_file() {
 		}
 
 		if ( $override_db_dropin ) {
-			require_once ABSPATH . '/wp-admin/includes/file.php';
+			require_once file_exists( ABSPATH . 'wp-admin/includes/file.php' ) ? ABSPATH . 'wp-admin/includes/file.php' : ABSPATH . 'ls-admin/includes/file.php';
 			global $wp_filesystem;
 			if ( ! $wp_filesystem ) {
 				WP_Filesystem();
@@ -106,7 +106,7 @@ function sqlite_plugin_copy_db_file() {
 		// Init the filesystem to allow copying the file.
 		global $wp_filesystem;
 
-		require_once ABSPATH . '/wp-admin/includes/file.php';
+		require_once file_exists( ABSPATH . 'wp-admin/includes/file.php' ) ? ABSPATH . 'wp-admin/includes/file.php' : ABSPATH . 'ls-admin/includes/file.php';
 
 		// Init the filesystem if needed, then copy the file, replacing contents as needed.
 		if ( ( $wp_filesystem || WP_Filesystem() ) && $wp_filesystem->touch( $destination ) ) {

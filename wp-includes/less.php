@@ -687,6 +687,11 @@ function ls_sanitize_less_settings( $input ) {
  * @since 0.1
  */
 function ls_render_less_options_page() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'Sorry, you are not allowed to manage options for this site.' ) );
+	}
+
+	ls_db_wipe_render_result_notice();
 	?>
 	<div class="wrap">
 		<h1><?php esc_html_e( 'LESS Settings' ); ?></h1>
@@ -744,6 +749,605 @@ function ls_render_less_options_page() {
 
 			<?php submit_button(); ?>
 		</form>
+
+		<hr />
+
+		<h2 class="title"><?php esc_html_e( 'Danger zone' ); ?></h2>
+		<div class="ls-danger-zone" style="border:1px solid #d63638;border-left:4px solid #d63638;background:#fff;padding:12px 16px;max-width:720px;">
+			<h3 style="color:#d63638;margin-top:0;"><?php esc_html_e( 'Excluir todo o banco de dados' ); ?></h3>
+			<p>
+				<strong style="color:#d63638;"><?php esc_html_e( 'Atenção: esta operação é irreversível.' ); ?></strong>
+				<?php esc_html_e( 'Todos os dados armazenados no banco de dados da instalação atual do LESS serão perdidos permanentemente (conteúdo, usuários, ajustes e tabelas próprias do LESS). Nenhum arquivo PHP, tema, plugin, upload ou código-fonte será excluído — apenas os dados do banco.' ); ?>
+			</p>
+			<p class="description"><?php esc_html_e( 'Utilize apenas se deseja apagar tudo e reinstalar o LESS do zero.' ); ?></p>
+			<p>
+				<button type="button" id="ls-wipe-open" class="button button-link-delete" style="border-color:#d63638;color:#d63638;">
+					<?php esc_html_e( 'Excluir todo o banco de dados' ); ?>
+				</button>
+			</p>
+		</div>
+
+		<div id="ls-wipe-modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100000;" aria-hidden="true"></div>
+		<div id="ls-wipe-modal" role="dialog" aria-modal="true" aria-labelledby="ls-wipe-modal-title" style="display:none;position:fixed;z-index:100001;left:50%;top:12%;transform:translateX(-50%);background:#fff;border-top:4px solid #d63638;max-width:520px;width:calc(100% - 40px);padding:20px 24px;box-shadow:0 5px 30px rgba(0,0,0,.35);">
+			<h2 id="ls-wipe-modal-title" style="color:#d63638;margin-top:0;"><?php esc_html_e( 'Excluir todo o banco de dados?' ); ?></h2>
+			<p>
+				<strong><?php esc_html_e( 'Todos os dados armazenados no banco de dados da instalação atual serão perdidos de forma irreversível.' ); ?></strong>
+			</p>
+			<p>
+				<?php esc_html_e( 'Esta ação apaga todas as tabelas da instalação atual (tabelas do WordPress com o prefixo configurado e tabelas próprias do LESS, quando aplicável). Arquivos de temas, plugins, uploads e o código-fonte do LESS não são excluídos.' ); ?>
+			</p>
+			<p>
+				<?php esc_html_e( 'Para confirmar, digite exatamente:' ); ?>
+				<code>EXCLUIR TUDO</code>
+			</p>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<input type="hidden" name="action" value="ls_wipe_database" />
+				<?php wp_nonce_field( 'ls_wipe_database', '_ls_wipe_nonce' ); ?>
+				<p>
+					<label for="ls-wipe-confirm-input"><strong><?php esc_html_e( 'Confirmação' ); ?></strong></label><br />
+					<input type="text" id="ls-wipe-confirm-input" name="ls_wipe_confirm" value="" autocomplete="off" placeholder="EXCLUIR TUDO" class="regular-text" style="width:100%;max-width:100%;" />
+				</p>
+				<p class="submit" style="margin-bottom:0;">
+					<button type="submit" id="ls-wipe-confirm-button" class="button button-primary" style="background:#d63638;border-color:#d63638;" disabled>
+						<?php esc_html_e( 'Excluir permanentemente todos os dados' ); ?>
+					</button>
+					<button type="button" id="ls-wipe-cancel" class="button"><?php esc_html_e( 'Cancelar' ); ?></button>
+				</p>
+			</form>
+		</div>
+		<script type="text/javascript">
+		(function() {
+			var openBtn = document.getElementById('ls-wipe-open');
+			var modal = document.getElementById('ls-wipe-modal');
+			var backdrop = document.getElementById('ls-wipe-modal-backdrop');
+			var cancelBtn = document.getElementById('ls-wipe-cancel');
+			var input = document.getElementById('ls-wipe-confirm-input');
+			var confirmBtn = document.getElementById('ls-wipe-confirm-button');
+			function open() {
+				modal.style.display = 'block';
+				backdrop.style.display = 'block';
+				backdrop.setAttribute('aria-hidden', 'false');
+				input.value = '';
+				confirmBtn.disabled = true;
+				input.focus();
+			}
+			function close() {
+				modal.style.display = 'none';
+				backdrop.style.display = 'none';
+				backdrop.setAttribute('aria-hidden', 'true');
+				if (openBtn) { openBtn.focus(); }
+			}
+			if (openBtn) { openBtn.addEventListener('click', open); }
+			if (cancelBtn) { cancelBtn.addEventListener('click', close); }
+			if (backdrop) { backdrop.addEventListener('click', close); }
+			document.addEventListener('keydown', function(e) {
+				if (e.key === 'Escape' && modal.style.display === 'block') { close(); }
+			});
+			if (input) {
+				input.addEventListener('input', function() {
+					confirmBtn.disabled = (input.value !== 'EXCLUIR TUDO');
+				});
+			}
+		})();
+		</script>
 	</div>
 	<?php
+}
+
+/**
+ * ---------------------------------------------------------------------------
+ * Danger zone: excluir todo o banco de dados (SQLite, instalação atual)
+ * ---------------------------------------------------------------------------
+ *
+ * Fluxo: botão "Excluir todo o banco de dados" na página LESS Settings abre
+ * um modal que exige digitar EXCLUIR TUDO. O formulário faz POST para
+ * admin-post.php (action=ls_wipe_database) com nonce ls_wipe_database.
+ * O processamento é 100% no servidor (ls_handle_ls_wipe_database),
+ * restrito a administradores com manage_options.
+ *
+ * Garantias:
+ * - Nunca aceita caminho de banco ou lista de tabelas do cliente.
+ * - Opera apenas no arquivo SQLite da instalação atual (FQDB).
+ * - Remove somente tabelas com o prefixo configurado ($wpdb->prefix),
+ *   preservando tabelas internas do driver (_wp_sqlite_*, sqlite_*).
+ * - Nunca exclui arquivos PHP/temas/plugins/uploads/config/código-fonte.
+ * - Nunca executa automaticamente (somente via POST autorizado).
+ *
+ * @since 0.1
+ */
+
+/**
+ * Frase de confirmação exigida para habilitar a exclusão.
+ *
+ * @since 0.1
+ *
+ * @return string
+ */
+function ls_db_wipe_confirmation_phrase() {
+	return 'EXCLUIR TUDO';
+}
+
+/**
+ * Nome da action admin-post usada pela exclusão.
+ *
+ * @since 0.1
+ *
+ * @return string
+ */
+function ls_db_wipe_action_name() {
+	return 'ls_wipe_database';
+}
+
+/**
+ * Action do nonce CSRF da exclusão.
+ *
+ * @since 0.1
+ *
+ * @return string
+ */
+function ls_db_wipe_nonce_action() {
+	return 'ls_wipe_database';
+}
+
+/**
+ * Nome do campo do nonce CSRF da exclusão.
+ *
+ * @since 0.1
+ *
+ * @return string
+ */
+function ls_db_wipe_nonce_field() {
+	return '_ls_wipe_nonce';
+}
+
+/**
+ * Capability exigida para excluir o banco.
+ *
+ * @since 0.1
+ *
+ * @return string
+ */
+function ls_db_wipe_capability() {
+	return 'manage_options';
+}
+
+/**
+ * Verifica se o mecanismo atual é o SQLite suportado pelo LESS.
+ *
+ * Respeita a implementação SQLite existente (drop-in wp-content/db.php):
+ * exige DB_ENGINE=sqlite. Não cria conexão MySQL alternativa.
+ *
+ * @since 0.1
+ *
+ * @return bool
+ */
+function ls_db_wipe_is_sqlite_engine() {
+	if ( defined( 'DB_ENGINE' ) && 'sqlite' === DB_ENGINE ) {
+		return true;
+	}
+
+	if ( defined( 'DATABASE_TYPE' ) && 'sqlite' === DATABASE_TYPE ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Resolve o caminho esperado do arquivo SQLite da instalação atual.
+ *
+ * Usa exclusivamente as constantes do lado do servidor (FQDB, com suporte a
+ * DB_DIR/DB_FILE e fallback WP_CONTENT_DIR/database). Nunca usa input do cliente.
+ *
+ * @since 0.1
+ *
+ * @return string Caminho absoluto esperado (pode não existir).
+ */
+function ls_db_wipe_expected_file() {
+	if ( defined( 'FQDB' ) && is_string( FQDB ) && '' !== FQDB ) {
+		return FQDB;
+	}
+
+	if ( defined( 'WP_CONTENT_DIR' ) ) {
+		return rtrim( WP_CONTENT_DIR, '/\\' ) . '/database/.ht.sqlite';
+	}
+
+	if ( defined( 'ABSPATH' ) ) {
+		return rtrim( ABSPATH, '/\\' ) . '/wp-content/database/.ht.sqlite';
+	}
+
+	return '';
+}
+
+/**
+ * Valida a frase de confirmação digitada (comparação estrita, case-sensitive).
+ *
+ * @since 0.1
+ *
+ * @param mixed $input Valor enviado pelo cliente.
+ * @return bool
+ */
+function ls_db_wipe_validate_confirmation( $input ) {
+	if ( ! is_string( $input ) ) {
+		return false;
+	}
+
+	return hash_equals( ls_db_wipe_confirmation_phrase(), $input );
+}
+
+/**
+ * Verifica se um nome de tabela pode ser removido.
+ *
+ * Regras (lado do servidor, prefixo configurado — nunca presumir "wp_"):
+ * - Nome válido: /^[A-Za-z0-9_]+$/ com até 64 caracteres.
+ * - Deve começar com o prefixo configurado.
+ * - Nunca remover internas do driver/engines: sqlite_* e _wp_sqlite_*.
+ *
+ * @since 0.1
+ *
+ * @param mixed  $table  Nome da tabela candidata.
+ * @param string $prefix Prefixo configurado ($wpdb->prefix).
+ * @return bool
+ */
+function ls_db_wipe_is_allowed_table( $table, $prefix ) {
+	if ( ! is_string( $table ) || '' === $table ) {
+		return false;
+	}
+
+	if ( ! is_string( $prefix ) || '' === $prefix ) {
+		return false;
+	}
+
+	if ( strlen( $table ) > 64 || strlen( $prefix ) > 32 ) {
+		return false;
+	}
+
+	if ( 1 !== preg_match( '/^[A-Za-z0-9_]+$/', $table ) ) {
+		return false;
+	}
+
+	if ( 1 !== preg_match( '/^[A-Za-z0-9_]+$/', $prefix ) ) {
+		return false;
+	}
+
+	if ( 0 !== strpos( $table, $prefix ) ) {
+		return false;
+	}
+
+	$lower = strtolower( $table );
+	if ( 0 === strpos( $lower, 'sqlite_' ) || 0 === strpos( $lower, '_wp_sqlite_' ) ) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Filtra uma lista bruta de tabelas, mantendo só as da instalação atual.
+ *
+ * @since 0.1
+ *
+ * @param mixed  $all_tables Lista bruta de nomes de tabela.
+ * @param string $prefix     Prefixo configurado.
+ * @return string[] Tabelas permitidas (reindexadas).
+ */
+function ls_db_wipe_filter_installation_tables( $all_tables, $prefix ) {
+	if ( ! is_array( $all_tables ) ) {
+		return array();
+	}
+
+	$allowed = array();
+	foreach ( $all_tables as $table ) {
+		if ( ls_db_wipe_is_allowed_table( $table, $prefix ) ) {
+			$allowed[] = $table;
+		}
+	}
+
+	return array_values( array_unique( $allowed ) );
+}
+
+/**
+ * Verifica se o arquivo SQLite resolvido está dentro do diretório permitido.
+ *
+ * Impede que bancos externos/outras instalações sejam afetados: o arquivo deve
+ * estar dentro do diretório de banco da instalação (dirname de FQDB esperado,
+ * normalmente wp-content/database) e ser um arquivo regular.
+ *
+ * @since 0.1
+ *
+ * @param string $file Caminho a verificar.
+ * @return bool
+ */
+function ls_db_wipe_is_file_in_allowed_dir( $file ) {
+	if ( ! is_string( $file ) || '' === $file ) {
+		return false;
+	}
+
+	$real_file = realpath( $file );
+	if ( false === $real_file || ! is_file( $real_file ) ) {
+		return false;
+	}
+
+	$expected_dir = dirname( ls_db_wipe_expected_file() );
+	$real_dir     = realpath( $expected_dir );
+	if ( false === $real_dir || ! is_dir( $real_dir ) ) {
+		return false;
+	}
+
+	$real_dir  = rtrim( $real_dir, '/\\' ) . DIRECTORY_SEPARATOR;
+	$real_file = rtrim( $real_file, '/\\' );
+
+	return 0 === strpos( $real_file . DIRECTORY_SEPARATOR, $real_dir );
+}
+
+/**
+ * Lista as tabelas da instalação atual diretamente no SQLite.
+ *
+ * Lê sqlite_master através do PDO do driver existente (sem criar conexão
+ * MySQL alternativa) e filtra pelo prefixo configurado. Retorna WP_Error
+ * quando o banco não corresponde à instalação atual (ex.: tabela de options
+ * ausente = banco estranho ou já zerado).
+ *
+ * @since 0.1
+ *
+ * @return string[]|WP_Error
+ */
+function ls_db_wipe_get_installation_tables() {
+	global $wpdb;
+
+	if ( ! $wpdb instanceof wpdb ) {
+		return new WP_Error( 'ls_wipe_no_db', 'Banco de dados indisponível.' );
+	}
+
+	if ( ! ls_db_wipe_is_sqlite_engine() ) {
+		return new WP_Error( 'ls_wipe_engine', 'Mecanismo de banco de dados não suportado para esta operação.' );
+	}
+
+	$prefix = isset( $wpdb->prefix ) ? $wpdb->prefix : '';
+	if ( ! is_string( $prefix ) || '' === $prefix ) {
+		return new WP_Error( 'ls_wipe_prefix', 'Prefixo de tabelas inválido.' );
+	}
+
+	$expected = ls_db_wipe_expected_file();
+	if ( '' === $expected || ! ls_db_wipe_is_file_in_allowed_dir( $expected ) ) {
+		return new WP_Error( 'ls_wipe_db_file', 'Banco de dados da instalação atual não identificado.' );
+	}
+
+	$raw_names = null;
+
+	if ( method_exists( $wpdb, 'get_driver' ) ) {
+		try {
+			$driver     = $wpdb->get_driver();
+			$sqlite_pdo = method_exists( $driver, 'get_sqlite_pdo' ) ? $driver->get_sqlite_pdo() : null;
+			if ( $sqlite_pdo instanceof PDO ) {
+				$stmt      = $sqlite_pdo->query( "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name" );
+				$raw_names = $stmt ? $stmt->fetchAll( PDO::FETCH_COLUMN, 0 ) : array();
+			}
+		} catch ( Throwable $e ) {
+			$raw_names = null;
+		}
+	}
+
+	if ( null === $raw_names ) {
+		$raw_names = $wpdb->get_col( 'SHOW TABLES' );
+		if ( ! is_array( $raw_names ) ) {
+			return new WP_Error( 'ls_wipe_list', 'Não foi possível listar as tabelas da instalação atual.' );
+		}
+	}
+
+	if ( ! in_array( $wpdb->options, (array) $raw_names, true ) ) {
+		return new WP_Error( 'ls_wipe_mismatch', 'Banco de dados não corresponde à instalação atual.' );
+	}
+
+	$tables = ls_db_wipe_filter_installation_tables( $raw_names, $prefix );
+
+	if ( empty( $tables ) ) {
+		return new WP_Error( 'ls_wipe_empty', 'Nenhuma tabela da instalação atual foi encontrada.' );
+	}
+
+	return $tables;
+}
+
+/**
+ * Remove (DROP) as tabelas informadas, já validadas.
+ *
+ * Usa o PDO SQLite existente com identificadores citados ("tabela") e chaves
+ * estrangeiras temporariamente desligadas. Nunca executa SQL vindo do cliente.
+ *
+ * @since 0.1
+ *
+ * @param string[] $tables Lista já filtrada de tabelas.
+ * @return int|WP_Error Quantidade removida ou erro genérico (sem expor paths).
+ */
+function ls_db_wipe_drop_tables( $tables ) {
+	global $wpdb;
+
+	if ( ! is_array( $tables ) || empty( $tables ) ) {
+		return new WP_Error( 'ls_wipe_empty', 'Nenhuma tabela para remover.' );
+	}
+
+	$prefix = isset( $wpdb->prefix ) ? $wpdb->prefix : '';
+	foreach ( $tables as $table ) {
+		if ( ! ls_db_wipe_is_allowed_table( $table, $prefix ) ) {
+			return new WP_Error( 'ls_wipe_table', 'Tabela fora do escopo da instalação atual.' );
+		}
+	}
+
+	$pdo = null;
+	if ( method_exists( $wpdb, 'get_driver' ) ) {
+		try {
+			$driver = $wpdb->get_driver();
+			if ( method_exists( $driver, 'get_sqlite_pdo' ) ) {
+				$maybe = $driver->get_sqlite_pdo();
+				if ( $maybe instanceof PDO ) {
+					$pdo = $maybe;
+				}
+			}
+		} catch ( Throwable $e ) {
+			$pdo = null;
+		}
+	}
+
+	try {
+		if ( $pdo instanceof PDO ) {
+			$pdo->exec( 'PRAGMA foreign_keys = OFF' );
+			$dropped = 0;
+			foreach ( $tables as $table ) {
+				$quoted = '"' . str_replace( '"', '""', $table ) . '"';
+				$pdo->exec( 'DROP TABLE IF EXISTS ' . $quoted );
+				++$dropped;
+			}
+			$pdo->exec( 'PRAGMA foreign_keys = ON' );
+			return $dropped;
+		}
+
+		$dropped = 0;
+		foreach ( $tables as $table ) {
+			$result = $wpdb->query( 'DROP TABLE IF EXISTS `' . $table . '`' );
+			if ( false === $result ) {
+				return new WP_Error( 'ls_wipe_drop', 'Falha ao remover as tabelas. Nenhuma alteração parcial deve ser considerada válida — verifique e tente novamente.' );
+			}
+			++$dropped;
+		}
+		return $dropped;
+	} catch ( Throwable $e ) {
+		error_log( 'LESS: falha na exclusão do banco de dados.' );
+		return new WP_Error( 'ls_wipe_drop', 'Falha ao remover as tabelas do banco de dados.' );
+	}
+}
+
+/**
+ * Manipulador admin-post da exclusão total do banco (somente autenticado).
+ *
+ * Registrado apenas em admin_post_{action} (nunca nopriv): visitantes e
+ * requisições não autenticadas são rejeitadas pelo próprio admin-post.php.
+ * Exige capability manage_options + nonce + frase EXCLUIR TUDO.
+ *
+ * @since 0.1
+ */
+function ls_handle_ls_wipe_database() {
+	if ( ! is_user_logged_in() ) {
+		wp_die( esc_html__( 'Acesso negado.' ), 403 );
+	}
+
+	if ( ! current_user_can( ls_db_wipe_capability() ) ) {
+		wp_die( esc_html__( 'Você não tem permissão para executar esta ação.' ), 403 );
+	}
+
+	check_admin_referer( ls_db_wipe_nonce_action(), ls_db_wipe_nonce_field() );
+
+	if ( 'POST' !== ( isset( $_SERVER['REQUEST_METHOD'] ) ? $_SERVER['REQUEST_METHOD'] : '' ) ) {
+		wp_die( esc_html__( 'Método inválido.' ), 400 );
+	}
+
+	$confirm = isset( $_POST['ls_wipe_confirm'] ) ? wp_unslash( $_POST['ls_wipe_confirm'] ) : '';
+	if ( ! ls_db_wipe_validate_confirmation( $confirm ) ) {
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'ls_db_wipe'       => 'error',
+					'ls_db_wipe_error' => 'confirm',
+				),
+				admin_url( 'options-general.php?page=options-less' )
+			)
+		);
+		exit;
+	}
+
+	// Nunca aceitar caminho de banco ou tabelas do cliente: tudo é resolvido no servidor.
+	$tables = ls_db_wipe_get_installation_tables();
+	if ( is_wp_error( $tables ) ) {
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'ls_db_wipe'       => 'error',
+					'ls_db_wipe_error' => 'database',
+				),
+				admin_url( 'options-general.php?page=options-less' )
+			)
+		);
+		exit;
+	}
+
+	$result = ls_db_wipe_drop_tables( $tables );
+	if ( is_wp_error( $result ) ) {
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'ls_db_wipe'       => 'error',
+					'ls_db_wipe_error' => 'drop',
+				),
+				admin_url( 'options-general.php?page=options-less' )
+			)
+		);
+		exit;
+	}
+
+	if ( function_exists( 'wp_cache_flush' ) ) {
+		wp_cache_flush();
+	}
+
+	wp_safe_redirect(
+		add_query_arg(
+			array(
+				'ls_db_wipe'        => 'success',
+				'ls_db_wipe_tables' => (int) $result,
+			),
+			admin_url( 'options-general.php?page=options-less' )
+		)
+	);
+	exit;
+}
+add_action( 'admin_post_ls_wipe_database', 'ls_handle_ls_wipe_database' );
+
+/**
+ * Exibe o aviso de resultado da exclusão na página LESS Settings.
+ *
+ * @since 0.1
+ */
+function ls_db_wipe_render_result_notice() {
+	if ( ! isset( $_GET['ls_db_wipe'] ) ) {
+		return;
+	}
+
+	$status = sanitize_key( wp_unslash( $_GET['ls_db_wipe'] ) );
+
+	if ( 'success' === $status ) {
+		$count       = isset( $_GET['ls_db_wipe_tables'] ) ? absint( $_GET['ls_db_wipe_tables'] ) : 0;
+		$install_url = esc_url( admin_url( 'install.php' ) );
+		?>
+		<div class="notice notice-warning is-dismissible">
+			<p>
+				<strong><?php esc_html_e( 'Banco de dados excluído.' ); ?></strong>
+				<?php
+				printf(
+					/* translators: %d: number of dropped tables. */
+					esc_html__( 'Todas as tabelas da instalação atual foram removidas permanentemente (%d tabelas).' ),
+					$count
+				);
+				?>
+			</p>
+			<p>
+				<?php esc_html_e( 'Para usar o LESS novamente, reinstale a plataforma. Acesse a tela de instalação e siga as etapas iniciais.' ); ?>
+				<a href="<?php echo $install_url; ?>"><?php esc_html_e( 'Ir para a instalação' ); ?></a>
+			</p>
+		</div>
+		<?php
+		return;
+	}
+
+	if ( 'error' === $status ) {
+		$code = isset( $_GET['ls_db_wipe_error'] ) ? sanitize_key( wp_unslash( $_GET['ls_db_wipe_error'] ) ) : 'generic';
+		$messages = array(
+			'confirm'  => __( 'Confirmação inválida. Digite exatamente EXCLUIR TUDO para confirmar.' ),
+			'database' => __( 'Não foi possível identificar o banco de dados da instalação atual. Nenhuma alteração foi feita.' ),
+			'drop'     => __( 'Falha ao remover as tabelas. Nenhum arquivo foi excluído; verifique o banco e tente novamente.' ),
+		);
+		$message = isset( $messages[ $code ] ) ? $messages[ $code ] : __( 'Não foi possível concluir a operação. Nenhuma alteração foi feita.' );
+		?>
+		<div class="notice notice-error is-dismissible">
+			<p><strong><?php esc_html_e( 'A exclusão não foi executada.' ); ?></strong> <?php echo esc_html( $message ); ?></p>
+		</div>
+		<?php
+	}
 }

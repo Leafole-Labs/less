@@ -38,3 +38,14 @@ desktop.ini
 *.swp
 *.swo
 *~
+
+# LESS — funcionalidade "Excluir todo o banco de dados"
+# O código da funcionalidade e seus testes DEVEM ser versionados.
+# As negações abaixo garantem que nenhuma regra ampla impeça o
+# `git add` desses caminhos (incluindo a implementação SQLite da qual
+# a funcionalidade depende). Segredos (wp-config.php, .env) e o banco
+# local (wp-content/database/) continuam ignorados acima.
+!wp-includes/less.php
+!ls-tests/
+!wp-content/db.php
+!wp-content/plugins/sqlite-database-integration/

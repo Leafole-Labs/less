@@ -192,6 +192,9 @@ class WP_SQLite_Information_Schema_Reconstructor {
 		// Ensure the "wp_get_db_schema()" function is defined.
 		if ( file_exists( ABSPATH . 'wp-admin/includes/schema.php' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/schema.php';
+		} elseif ( file_exists( ABSPATH . 'ls-admin/includes/schema.php' ) ) {
+			// LESS fork: wp-admin was renamed to ls-admin.
+			require_once ABSPATH . 'ls-admin/includes/schema.php';
 		}
 		if ( ! function_exists( 'wp_get_db_schema' ) ) {
 			throw new Exception( 'The "wp_get_db_schema()" function was not defined.' );
@@ -377,13 +380,13 @@ class WP_SQLite_Information_Schema_Reconstructor {
 		$definition[] = $mysql_type;
 
 		// NULL/NOT NULL.
-		if ( '1' === $column_info['notnull'] ) {
+		if ( 1 === (int) $column_info['notnull'] ) {
 			$definition[] = 'NOT NULL';
 		}
 
 		// Auto increment.
 		$is_auto_increment = false;
-		if ( '0' !== $column_info['pk'] ) {
+		if ( 0 !== (int) $column_info['pk'] ) {
 			$is_auto_increment = $this->driver->execute_sqlite_query(
 				'SELECT 1 FROM sqlite_master WHERE tbl_name = ? AND sql LIKE ?',
 				array( $table_name, '%AUTOINCREMENT%' )
@@ -421,7 +424,7 @@ class WP_SQLite_Information_Schema_Reconstructor {
 			$definition[] = 'FULLTEXT KEY';
 		} elseif ( 'SPATIAL' === $cached_type ) {
 			$definition[] = 'SPATIAL KEY';
-		} elseif ( 'UNIQUE' === $cached_type || '1' === $key_info['unique'] ) {
+		} elseif ( 'UNIQUE' === $cached_type || 1 === (int) $key_info['unique'] ) {
 			$definition[] = 'UNIQUE KEY';
 		} else {
 			$definition[] = 'KEY';

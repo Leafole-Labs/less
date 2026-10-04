@@ -23,7 +23,7 @@ function sqlite_plugin_remove_db_file( $network_deactivating = false ) {
 
 	global $wp_filesystem;
 
-	require_once ABSPATH . '/wp-admin/includes/file.php';
+	require_once file_exists( ABSPATH . 'wp-admin/includes/file.php' ) ? ABSPATH . 'wp-admin/includes/file.php' : ABSPATH . 'ls-admin/includes/file.php';
 
 	// Init the filesystem if needed, then delete custom drop-in.
 	if ( $wp_filesystem || WP_Filesystem() ) {

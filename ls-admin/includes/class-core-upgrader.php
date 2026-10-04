@@ -159,6 +159,15 @@ class Core_Upgrader extends WP_Upgrader {
 			return $working_dir;
 		}
 
+		// LESS: normalize GitHub source archives (top-level
+		// `<owner>-<repo>-<sha>/`) to the expected `wordpress/`
+		// directory so the stock install routine works.
+		$working_dir = $this->maybe_normalize_less_package( $working_dir );
+		if ( is_wp_error( $working_dir ) ) {
+			WP_Upgrader::release_lock( 'core_updater' );
+			return $working_dir;
+		}
+
 		// Copy update-core.php from the new version into place.
 		if ( ! $wp_filesystem->copy( $working_dir . '/wordpress/ls-admin/includes/update-core.php', $wp_dir . 'ls-admin/includes/update-core.php', true ) ) {
 			$wp_filesystem->delete( $working_dir, true );
@@ -388,6 +397,91 @@ class Core_Upgrader extends WP_Upgrader {
 
 		// If we're not sure, we don't want it.
 		return false;
+	}
+
+	/**
+	 * Normalizes a GitHub source archive for the core update routine.
+	 *
+	 * WordPress.org packages unzip to `$working_dir/wordpress/`. GitHub
+	 * source archives unzip to `$working_dir/<owner>-<repo>-<sha>/`
+	 * instead. When the stock layout is missing but a single top-level
+	 * directory looks like a LESS distribution (contains
+	 * `wp-includes/version.php` and `readme.html`), it is moved to
+	 * `$working_dir/wordpress/` so the rest of the upgrade works
+	 * unchanged.
+	 *
+	 * @since 0.2
+	 *
+	 * @global WP_Filesystem_Base $wp_filesystem WordPress filesystem subclass.
+	 *
+	 * @param string $working_dir Unpacked working directory.
+	 * @return string|WP_Error Normalized working directory or WP_Error.
+	 */
+	protected function maybe_normalize_less_package( $working_dir ) {
+		global $wp_filesystem;
+
+		if ( $wp_filesystem->exists( trailingslashit( $working_dir ) . 'wordpress/wp-includes/version.php' ) ) {
+			return $working_dir;
+		}
+
+		$dirlist = $wp_filesystem->dirlist( $working_dir );
+		if ( ! is_array( $dirlist ) || empty( $dirlist ) ) {
+			return $working_dir;
+		}
+
+		$candidates = array();
+		foreach ( $dirlist as $name => $info ) {
+			if ( '.' === $name || '..' === $name ) {
+				continue;
+			}
+			if ( empty( $info['type'] ) || 'd' !== $info['type'] ) {
+				continue;
+			}
+			$base = trailingslashit( $working_dir ) . trailingslashit( $name );
+			if ( $wp_filesystem->exists( $base . 'wp-includes/version.php' )
+				&& $wp_filesystem->exists( $base . 'readme.html' )
+			) {
+				$candidates[] = $name;
+			}
+		}
+
+		// Also accept a distribution rooted directly in $working_dir
+		// (no top-level folder at all).
+		if ( empty( $candidates ) ) {
+			if ( $wp_filesystem->exists( trailingslashit( $working_dir ) . 'wp-includes/version.php' )
+				&& $wp_filesystem->exists( trailingslashit( $working_dir ) . 'readme.html' )
+			) {
+				// Create wordpress/ and move everything into it.
+				$target = trailingslashit( $working_dir ) . 'wordpress';
+				if ( ! $wp_filesystem->mkdir( $target ) ) {
+					return new WP_Error( 'insane_distro', __( 'The update could not be unpacked' ) );
+				}
+				foreach ( array_keys( $dirlist ) as $name ) {
+					if ( '.' === $name || '..' === $name || 'wordpress' === $name ) {
+						continue;
+					}
+					$wp_filesystem->move( trailingslashit( $working_dir ) . $name, trailingslashit( $target ) . $name, true );
+				}
+			}
+			return $working_dir;
+		}
+
+		if ( 1 !== count( $candidates ) ) {
+			return $working_dir;
+		}
+
+		$from = trailingslashit( $working_dir ) . $candidates[0];
+		$to   = trailingslashit( $working_dir ) . 'wordpress';
+
+		if ( $wp_filesystem->exists( $to ) ) {
+			$wp_filesystem->delete( $to, true );
+		}
+
+		if ( ! $wp_filesystem->move( $from, $to, true ) ) {
+			return new WP_Error( 'insane_distro', __( 'The update could not be unpacked' ) );
+		}
+
+		return $working_dir;
 	}
 
 	/**

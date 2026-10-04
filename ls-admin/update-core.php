@@ -89,7 +89,8 @@ function list_core_update( $update ) {
 				$mysql_compat = version_compare( $mysql_version, $update->mysql_version, '>=' );
 			}
 
-			$version_url = LS_WEBSITE;
+			// LESS: link release notes to the GitHub release when available.
+			$version_url = ( isset( $update->url ) && '' !== $update->url ) ? $update->url : LS_REPOSITORY . '/releases';
 
 			$php_update_message = '</p><p>' . sprintf(
 				/* translators: %s: URL to Update PHP page. */

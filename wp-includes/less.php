@@ -327,10 +327,12 @@ function ls_identity_generator( $gen, $type = '' ) {
 add_filter( 'the_generator', 'ls_identity_generator', 10, 2 );
 
 /**
- * Prevents LESS from phoning home to external update services for core.
+ * LESS core updates are served from the GitHub repository.
  *
- * LESS is an independent platform; core update checks against external
- * services are disabled. Plugin and theme ecosystems remain functional.
+ * The update check itself lives in wp-includes/ls-update.php, which queries
+ * the GitHub Releases API (LS_REPOSITORY) and exposes the result through
+ * the standard `update_core` transient. Kept here for backward
+ * compatibility: always reports "no updates" when called directly.
  *
  * @since 0.1
  *
@@ -348,8 +350,17 @@ function ls_mark_core_updates_disabled( $value ) {
 		'updates'         => array(),
 	);
 }
-add_filter( 'pre_site_transient_update_core', 'ls_mark_core_updates_disabled' );
-add_filter( 'pre_transient_update_core', 'ls_mark_core_updates_disabled' );
+
+/**
+ * Loads the GitHub-based core updater.
+ *
+ * Replaces the former "disable all core checks" behavior: instead of
+ * short-circuiting the `update_core` transient with an empty payload,
+ * LESS now checks the GitHub repository for new releases.
+ *
+ * @since 0.2
+ */
+require_once ABSPATH . WPINC . '/ls-update.php';
 
 /**
  * Disables automatic core updates.

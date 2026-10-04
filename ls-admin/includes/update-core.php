@@ -1401,6 +1401,34 @@ function update_core( $from, $to ) {
 		}
 	}
 
+	// LESS: GitHub source archives unzip to a single top-level directory
+	// (`<owner>-<repo>-<sha>/`) instead of `wordpress/`. Accept it when it
+	// looks like a LESS distribution.
+	if ( ! $distro ) {
+		$dirlist = $wp_filesystem->dirlist( $from );
+		if ( is_array( $dirlist ) ) {
+			foreach ( $dirlist as $name => $info ) {
+				if ( '.' === $name || '..' === $name || empty( $info['type'] ) || 'd' !== $info['type'] ) {
+					continue;
+				}
+				$candidate = '/' . trim( $name, '/' ) . '/';
+				if ( $wp_filesystem->exists( $from . $candidate . 'readme.html' )
+					&& $wp_filesystem->exists( $from . $candidate . 'wp-includes/version.php' )
+				) {
+					$distro = $candidate;
+					break;
+				}
+			}
+		}
+		// Distribution rooted directly in $from (no top-level folder).
+		if ( ! $distro
+			&& $wp_filesystem->exists( $from . '/readme.html' )
+			&& $wp_filesystem->exists( $from . '/wp-includes/version.php' )
+		) {
+			$distro = '/';
+		}
+	}
+
 	if ( ! $distro ) {
 		$wp_filesystem->delete( $from, true );
 

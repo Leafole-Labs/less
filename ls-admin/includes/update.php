@@ -316,25 +316,21 @@ function update_nag() {
 		return false;
 	}
 
-	$version_url = sprintf(
-		/* translators: %s: WordPress version. */
-		esc_url( __( 'https://wordpress.org/documentation/wordpress-version/version-%s/' ) ),
-		sanitize_title( $cur->current )
-	);
+	$version_url = ( isset( $cur->url ) && '' !== $cur->url ) ? $cur->url : LS_REPOSITORY . '/releases';
 
 	if ( current_user_can( 'update_core' ) ) {
 		$msg = sprintf(
-			/* translators: 1: URL to WordPress release notes, 2: New WordPress version, 3: URL to network admin, 4: Accessibility text. */
-			__( '<a href="%1$s">WordPress %2$s</a> is available! <a href="%3$s" aria-label="%4$s">Please update now</a>.' ),
+			/* translators: 1: URL to LESS release notes, 2: New LESS version, 3: URL to network admin, 4: Accessibility text. */
+			__( '<a href="%1$s">LESS %2$s</a> is available! <a href="%3$s" aria-label="%4$s">Please update now</a>.' ),
 			$version_url,
 			$cur->current,
 			network_admin_url( 'update-core.php' ),
-			esc_attr__( 'Please update WordPress now' )
+			esc_attr__( 'Please update LESS now' )
 		);
 	} else {
 		$msg = sprintf(
-			/* translators: 1: URL to WordPress release notes, 2: New WordPress version. */
-			__( '<a href="%1$s">WordPress %2$s</a> is available! Please notify the site administrator.' ),
+			/* translators: 1: URL to LESS release notes, 2: New LESS version. */
+			__( '<a href="%1$s">LESS %2$s</a> is available! Please notify the site administrator.' ),
 			$version_url,
 			$cur->current
 		);

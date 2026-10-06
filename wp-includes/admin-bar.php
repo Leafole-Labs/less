@@ -126,12 +126,15 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 	if ( current_user_can( 'read' ) ) {
 		$about_url      = self_admin_url( 'about.php' );
 		$contribute_url = self_admin_url( 'contribute.php' );
+		$home_url       = self_admin_url( 'index.php' );
 	} elseif ( is_multisite() ) {
 		$about_url      = get_dashboard_url( get_current_user_id(), 'about.php' );
 		$contribute_url = get_dashboard_url( get_current_user_id(), 'contribute.php' );
+		$home_url       = get_dashboard_url( get_current_user_id(), 'index.php' );
 	} else {
 		$about_url      = false;
 		$contribute_url = false;
+		$home_url       = false;
 	}
 
 	$wp_logo_menu_args = array(
@@ -140,14 +143,14 @@ function wp_admin_bar_wp_menu( $wp_admin_bar ) {
 				/* translators: Hidden accessibility text. */
 				__( 'About LESS' ) .
 			'</span>',
-		'href'  => $about_url,
+		'href'  => $home_url,
 		'meta'  => array(
 			'menu_title' => __( 'About LESS' ),
 		),
 	);
 
 	// Set tabindex="0" to make sub menus accessible when no URL is available.
-	if ( ! $about_url ) {
+	if ( ! $home_url ) {
 		$wp_logo_menu_args['meta'] = array(
 			'tabindex' => 0,
 		);

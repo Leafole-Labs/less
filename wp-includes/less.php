@@ -625,19 +625,50 @@ add_action( 'login_head', 'ls_login_logo_markup' );
  * visible icon is swapped for the official LESS mark on both the
  * dashboard and the frontend toolbar.
  *
+ * The selectors below intentionally repeat the core toolbar ancestors
+ * (#wpadminbar > #wp-toolbar > #wp-admin-bar-root-default) so they beat
+ * the generic `background-image: none !important` rule in admin-bar.css
+ * without touching any other admin bar styling. Sizes follow the current
+ * admin bar metrics (20px icon on desktop, 28px on the responsive
+ * breakpoint) and the item keeps its historic first position at the left.
+ *
  * @since 0.1
  */
 function ls_admin_bar_logo_markup() {
 	?>
 	<style>
-		#wp-admin-bar-wp-logo > .ab-item .ab-icon {
+		#wpadminbar > #wp-toolbar > #wp-admin-bar-root-default #wp-admin-bar-wp-logo > .ab-item .ab-icon {
+			width: 20px !important;
+			height: 20px !important;
+			margin-right: 0 !important;
+			padding: 6px 0 5px !important;
 			background-image: url(<?php echo esc_url_raw( ls_logo_url() ); ?>) !important;
-			background-position: center center;
-			background-size: 20px 20px;
-			background-repeat: no-repeat;
+			background-position: center center !important;
+			background-size: 20px 20px !important;
+			background-repeat: no-repeat !important;
+			opacity: 0.9;
 		}
-		#wp-admin-bar-wp-logo > .ab-item .ab-icon:before {
+		#wpadminbar > #wp-toolbar > #wp-admin-bar-root-default #wp-admin-bar-wp-logo:hover > .ab-item .ab-icon,
+		#wpadminbar > #wp-toolbar > #wp-admin-bar-root-default #wp-admin-bar-wp-logo:focus-within > .ab-item .ab-icon {
+			opacity: 1;
+		}
+		#wpadminbar > #wp-toolbar > #wp-admin-bar-root-default #wp-admin-bar-wp-logo > .ab-item {
+			padding: 0 7px !important;
+		}
+		#wpadminbar > #wp-toolbar > #wp-admin-bar-root-default #wp-admin-bar-wp-logo > .ab-item .ab-icon:before {
 			content: '' !important;
+		}
+		@media screen and ( max-width: 782px ) {
+			#wpadminbar > #wp-toolbar > #wp-admin-bar-root-default #wp-admin-bar-wp-logo > .ab-item {
+				padding: 0 !important;
+			}
+			#wpadminbar > #wp-toolbar > #wp-admin-bar-root-default #wp-admin-bar-wp-logo > .ab-item .ab-icon {
+				width: 52px !important;
+				height: 46px !important;
+				padding: 0 !important;
+				background-size: 28px 28px !important;
+				background-position: center center !important;
+			}
 		}
 	</style>
 	<?php

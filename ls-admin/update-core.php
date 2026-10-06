@@ -838,6 +838,15 @@ function list_translation_updates() {
 function do_core_upgrade( $reinstall = false ) {
 	global $wp_filesystem;
 
+	/*
+	 * The upgrade downloads a full release zip (HTTP timeout up to 300s).
+	 * Extend script execution time up front so the download streaming in
+	 * Requests/Curl doesn't hit PHP's 30s default max_execution_time.
+	 */
+	if ( function_exists( 'set_time_limit' ) ) {
+		@set_time_limit( 300 );
+	}
+
 	require_once ABSPATH . 'ls-admin/includes/class-wp-upgrader.php';
 
 	if ( $reinstall ) {

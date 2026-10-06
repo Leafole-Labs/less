@@ -201,4 +201,6 @@ echo -e "${CYAN}============================================${RESET}"
 echo
 
 # Start PHP built-in server
-exec php -S "localhost:$PORT"
+# -d max_execution_time=300: core downloads allow up to 300s HTTP timeout;
+# PHP default is 30s and fatals mid-stream in Curl::stream_body.
+exec php -d max_execution_time=300 -S "localhost:$PORT"

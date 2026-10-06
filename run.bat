@@ -165,7 +165,9 @@ echo  Pressione Ctrl+C para parar.
 echo ============================================
 echo.
 
-php -S localhost:%PORT%
+REM -d max_execution_time=300: downloads permitem ate 300s de timeout HTTP;
+REM o padrao do PHP e 30s e causa fatal no meio do stream em Curl::stream_body.
+php -d max_execution_time=300 -S localhost:%PORT%
 
 echo.
 echo Servidor encerrado. Se ele nem chegou a abrir, a porta %PORT% pode estar em uso - tente: run.bat 8081

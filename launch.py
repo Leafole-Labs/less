@@ -346,10 +346,14 @@ class Launcher:
         print(f"{Colors.CYAN}{'=' * 42}{Colors.RESET}")
         print()
 
-        # Start PHP built-in server
+        # Start PHP built-in server.
+        # -d max_execution_time=300 so core/plugin downloads (HTTP timeout up
+        # to 300s) don't hit PHP's 30s default and fatal in Curl::stream_body.
+        # In-code set_time_limit(300) calls remain as the primary guard; this
+        # covers environments where set_time_limit is disabled.
         try:
             subprocess.run(
-                [self.php_exe, '-S', f'localhost:{self.port}'],
+                [self.php_exe, '-d', 'max_execution_time=300', '-S', f'localhost:{self.port}'],
                 cwd=self.project_root
             )
         except KeyboardInterrupt:

@@ -1163,6 +1163,16 @@ function download_url( $url, $timeout = 300, $signature_verification = false ) {
 		return new WP_Error( 'http_no_url', __( 'No URL Provided.' ) );
 	}
 
+	/*
+	 * Give the download enough script execution time. The HTTP timeout can be
+	 * up to $timeout seconds (default 300), but PHP's default max_execution_time
+	 * is only 30 seconds, which kills the cURL stream mid-download on slow
+	 * connections (fatal in Requests Transport Curl::stream_body).
+	 */
+	if ( function_exists( 'set_time_limit' ) ) {
+		@set_time_limit( max( 300, (int) $timeout ) );
+	}
+
 	$url_path     = parse_url( $url, PHP_URL_PATH );
 	$url_filename = '';
 	if ( is_string( $url_path ) && '' !== $url_path ) {

@@ -332,6 +332,15 @@ class WP_Upgrader {
 			return new WP_Error( 'no_package', $this->strings['no_package'] );
 		}
 
+		/*
+		 * Give the download enough script execution time. download_url()
+		 * allows up to 300s for the HTTP request, but PHP defaults to a
+		 * 30s max_execution_time, which would fatal mid-stream.
+		 */
+		if ( function_exists( 'set_time_limit' ) ) {
+			@set_time_limit( 300 );
+		}
+
 		$this->skin->feedback( 'downloading_package', $package );
 
 		$download_file = download_url( $package, 300, $check_signatures );
@@ -772,6 +781,15 @@ class WP_Upgrader {
 	 *                              or false if unable to connect to the filesystem.
 	 */
 	public function run( $options ) {
+
+		/*
+		 * Core/plugin/theme upgrades download (up to 300s) then unpack and
+		 * copy files. Extend execution time for the whole run so slow
+		 * connections or large packages don't hit the 30s PHP default.
+		 */
+		if ( function_exists( 'set_time_limit' ) ) {
+			@set_time_limit( 300 );
+		}
 
 		$defaults = array(
 			'package'                     => '', // Please always pass this.

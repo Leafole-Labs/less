@@ -264,7 +264,9 @@ Write-Host "============================================" -ForegroundColor Cyan
 Write-Host ""
 
 try {
-    Start-Process php -ArgumentList "-S", "localhost:$Port" -Wait -NoNewWindow
+    # -d max_execution_time=300: core downloads allow up to 300s HTTP timeout;
+    # PHP default is 30s and fatals mid-stream in Curl::stream_body.
+    Start-Process php -ArgumentList "-d", "max_execution_time=300", "-S", "localhost:$Port" -Wait -NoNewWindow
 } catch {
     Write-Err "Failed to start server: $_"
     Read-Host "Press Enter to exit"

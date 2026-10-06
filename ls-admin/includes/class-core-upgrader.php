@@ -66,6 +66,15 @@ class Core_Upgrader extends WP_Upgrader {
 	public function upgrade( $current, $args = array() ) {
 		global $wp_filesystem;
 
+		/*
+		 * Core upgrades download a full zip (up to 300s HTTP timeout) before
+		 * update_core() extends the limit. Extend here so the download itself
+		 * doesn't hit PHP's 30s default max_execution_time.
+		 */
+		if ( function_exists( 'set_time_limit' ) ) {
+			@set_time_limit( 300 );
+		}
+
 		require ABSPATH . WPINC . '/version.php'; // $wp_version;
 
 		$start_time = time();

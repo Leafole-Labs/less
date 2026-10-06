@@ -30,26 +30,26 @@ if ( file_exists( $autoload_files_path ) ) {
 
 $pattern = '#/([^/]+)/vendor/elementor/#';
 if ( preg_match( $pattern, __DIR__, $matches ) ) {
-	$elementor_mcp_composer_versions[ $matches[1] ] = '1.0.18';
+	$elementor_mcp_composer_versions[ $matches[1] ] = '1.0.19';
 }
 
-if ( ! function_exists( 'elementor_mcp_composer_register_1_dot_0_dot_18' ) && function_exists( 'add_action' ) ) {
+if ( ! function_exists( 'elementor_mcp_composer_register_1_dot_0_dot_19' ) && function_exists( 'add_action' ) ) {
 
 	if ( ! class_exists( '\Elementor\MCP\Composer\Versions', false ) ) {
 		require_once __DIR__ . '/src/Versions.php';
 		add_action( 'plugins_loaded', [ \Elementor\MCP\Composer\Versions::class, 'initialize_latest_version' ], -15, 0 );
 	}
 
-	add_action( 'plugins_loaded', 'elementor_mcp_composer_register_1_dot_0_dot_18', -20, 0 );
+	add_action( 'plugins_loaded', 'elementor_mcp_composer_register_1_dot_0_dot_19', -20, 0 );
 
 	/**
 	 * Register this package version with the version arbitrator.
 	 *
 	 * @return void
 	 */
-	function elementor_mcp_composer_register_1_dot_0_dot_18() {
+	function elementor_mcp_composer_register_1_dot_0_dot_19() {
 		$versions = \Elementor\MCP\Composer\Versions::instance();
-		$versions->register( '1.0.18', 'elementor_mcp_composer_initialize_1_dot_0_dot_18' );
+		$versions->register( '1.0.19', 'elementor_mcp_composer_initialize_1_dot_0_dot_19' );
 	}
 
 	/**
@@ -57,7 +57,7 @@ if ( ! function_exists( 'elementor_mcp_composer_register_1_dot_0_dot_18' ) && fu
 	 *
 	 * @return void
 	 */
-	function elementor_mcp_composer_initialize_1_dot_0_dot_18() {
+	function elementor_mcp_composer_initialize_1_dot_0_dot_19() {
 		\Elementor\MCP\Composer\Loader::init();
 	}
 }

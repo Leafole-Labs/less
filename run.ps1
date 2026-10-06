@@ -7,7 +7,7 @@
     Falls back to PowerShell-native implementation if Python is not available.
 
 .PARAMETER Port
-    Port number for the PHP built-in server (default: 8080)
+    Port number for the PHP built-in server (default: 18770)
 
 .EXAMPLE
     .\run.ps1
@@ -15,7 +15,7 @@
 #>
 
 param(
-    [int]$Port = 8080
+    [int]$Port = 18770
 )
 
 # Set strict mode for better error handling

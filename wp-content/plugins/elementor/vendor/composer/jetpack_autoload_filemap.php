@@ -7,7 +7,7 @@ $baseDir   = dirname($vendorDir);
 
 return array(
 	'a8fea8b4399cbd13660b53857806df1f' => array(
-		'version' => '1.0.18.0',
+		'version' => '1.0.19.0',
 		'path'    => $vendorDir . '/elementor/elementor-mcp-composer/runner.php'
 	),
 	'9db71c6726821ac61284818089584d23' => array(

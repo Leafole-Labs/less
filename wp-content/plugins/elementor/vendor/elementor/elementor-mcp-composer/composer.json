@@ -2,7 +2,7 @@
   "name": "elementor/elementor-mcp-composer",
   "description": "Reusable Composer package for Elementor MCP integrations.",
   "type": "library",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "license": "proprietary",
   "require": {
     "php": ">=7.4",

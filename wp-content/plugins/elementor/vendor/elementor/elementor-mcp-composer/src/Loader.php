@@ -34,7 +34,7 @@ class Loader {
 	 */
 	public static function define_constants(): void {
 		if ( ! defined( 'ELEMENTOR_MCP_COMPOSER_VERSION' ) ) {
-			define( 'ELEMENTOR_MCP_COMPOSER_VERSION', '1.0.18' );
+			define( 'ELEMENTOR_MCP_COMPOSER_VERSION', '1.0.19' );
 		}
 
 		if ( ! defined( 'ELEMENTOR_MCP_ONBOARDING_FASTLANE' ) ) {

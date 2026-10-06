@@ -124,7 +124,7 @@ class McpSettingsController extends RestController {
 	/**
 	 * Check whether MCP is enabled for the current site.
 	 *
-	 * When the option is missing, MCP is treated as disabled (returns false).
+	 * Missing or invalid values default to enabled so upgrades stay opt-in.
 	 *
 	 * @return bool
 	 */

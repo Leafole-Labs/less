@@ -4,7 +4,7 @@ Tags: ai, drag-and-drop, editor, landing page, mcp
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 4.3.3
+Stable tag: 4.3.4
 Beta tag: 4.3.0-beta3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -358,6 +358,17 @@ If you want to contribute, go to our [Elementor GitHub Repository](https://githu
 6. **Motion Effects** - Add entrance animations and transitions to any element in your website to captivate visitors.
 
 == Changelog ==
+
+= 4.3.4 - 2026-10-05 =
+
+* Tweak: Improved MCP connector setup instructions across macOS, Windows, and Linux
+* Fix: Dropdown menus do not open on the frontend due to missing feature dependencies (props [@faisalahammad](<https://github.com/faisalahammad))>
+* Fix: Widget styles can be missing when rendered inside saved Templates
+* Fix: Element settings may lost when updating pages through MCP
+* Fix: MCP connection setup does not show an error when WordPress Application Passwords are unavailable
+* Fix: MCP resources fail to load with older adapter versions
+* Fix: Elementor update can fail during version upgrade
+* Fix: Editor can freeze when editing settings or styles in large nested elements
 
 = 4.3.3 - 2026-09-30 =
 

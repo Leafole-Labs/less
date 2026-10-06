@@ -12,7 +12,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 # Default port
-PORT="${1:-8080}"
+PORT="${1:-18770}"
 
 # Colors
 RED='\033[91m'

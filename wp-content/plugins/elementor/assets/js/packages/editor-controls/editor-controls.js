@@ -10788,27 +10788,29 @@ react_dom = __toESM(react_dom);
 		const { allowCustomValues = true, queryOptions, placeholder, minInputLength = 2, context: { elementId }, label = (0, _wordpress_i18n.__)("Link", "elementor"), ariaLabel } = props || {};
 		const [linkInLinkRestriction, setLinkInLinkRestriction] = (0, react.useState)((0, _elementor_editor_elements.getLinkInLinkRestriction)(elementId, value ?? linkPlaceholder));
 		const shouldDisableAddingLink = !isActive && linkInLinkRestriction.shouldRestrict;
-		const debouncedCheckRestriction = (0, _elementor_utils.useDebouncedCallback)(() => {
+		const syncLinkRestriction = (clearActiveLinkWhen = "restricted") => {
 			const newRestriction = (0, _elementor_editor_elements.getLinkInLinkRestriction)(elementId, value ?? linkPlaceholder);
-			if (newRestriction.shouldRestrict && isActive && !linkPlaceholder) {
+			const becameRestricted = newRestriction.shouldRestrict && !linkInLinkRestriction.shouldRestrict;
+			if ((clearActiveLinkWhen === "newly-restricted" ? becameRestricted : newRestriction.shouldRestrict) && isActive && !linkPlaceholder) {
 				setIsActive(false);
 				if (value !== null) setValue(null);
 			}
 			setLinkInLinkRestriction((prev) => isSameRestriction(prev, newRestriction) ? prev : newRestriction);
-		}, 300);
+		};
+		const debouncedSyncLinkRestriction = (0, _elementor_utils.useDebouncedCallback)((clearActiveLinkWhen = "restricted") => syncLinkRestriction(clearActiveLinkWhen), 300);
 		(0, _elementor_editor_v1_adapters.__privateUseListenTo)((0, _elementor_editor_v1_adapters.commandEndEvent)("document/elements/set-settings"), () => {
-			debouncedCheckRestriction();
-		}, [debouncedCheckRestriction]);
+			debouncedSyncLinkRestriction("newly-restricted");
+		}, [debouncedSyncLinkRestriction]);
 		(0, react.useEffect)(() => {
-			debouncedCheckRestriction();
+			debouncedSyncLinkRestriction();
 			const handleInlineLinkChanged = () => {
-				debouncedCheckRestriction();
+				debouncedSyncLinkRestriction();
 			};
 			window.addEventListener("elementor:inline-link-changed", handleInlineLinkChanged);
 			return () => {
 				window.removeEventListener("elementor:inline-link-changed", handleInlineLinkChanged);
 			};
-		}, [elementId, debouncedCheckRestriction]);
+		}, [elementId, debouncedSyncLinkRestriction]);
 		const onEnabledChange = () => {
 			setLinkInLinkRestriction((0, _elementor_editor_elements.getLinkInLinkRestriction)(elementId, value ?? linkPlaceholder));
 			if (linkInLinkRestriction.shouldRestrict && !isActive) return;

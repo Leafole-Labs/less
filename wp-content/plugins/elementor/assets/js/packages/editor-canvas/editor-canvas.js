@@ -7488,6 +7488,7 @@ var import_jsx_runtime = require_jsx_runtime();
 
 //#endregion
 //#region packages/packages/core/editor-canvas/src/legacy/create-nested-templated-element-type.ts
+	var STYLES_REFERENCE_UNTRACKED = /* @__PURE__ */ Symbol("styles-reference-untracked");
 	function canBeNestedTemplated(element) {
 		return canBeTemplated(element) && "support_nesting" in element && !!element.support_nesting;
 	}
@@ -7542,6 +7543,7 @@ var import_jsx_runtime = require_jsx_runtime();
 		return AtomicElementBaseView.extend({
 			_abortController: null,
 			_lastResolvedSettingsHash: null,
+			_lastRenderedStyles: STYLES_REFERENCE_UNTRACKED,
 			_domUpdateWasSkipped: false,
 			template: false,
 			attributes() {
@@ -7576,6 +7578,12 @@ var import_jsx_runtime = require_jsx_runtime();
 					this._initAlpine();
 				});
 				this.model.trigger("render:complete");
+				this._notifyStylesChanged();
+			},
+			_notifyStylesChanged() {
+				const styles = this.model.get("styles");
+				if (this._lastRenderedStyles !== STYLES_REFERENCE_UNTRACKED && styles === this._lastRenderedStyles) return;
+				this._lastRenderedStyles = styles;
 				window.dispatchEvent(new CustomEvent(_elementor_editor_elements.ELEMENT_STYLE_CHANGE_EVENT));
 			},
 			async _renderTemplate() {

@@ -64,6 +64,81 @@ class CredentialsController extends RestController {
 	}
 
 	/**
+	 * Flags for the admin connect UI (application password availability).
+	 *
+	 * @return array<string, bool|string|null>
+	 */
+	public static function get_application_password_ui_flags(): array {
+		$blocker = self::get_application_password_blocker();
+
+		if ( null === $blocker ) {
+			return [
+				'canGenerateApplicationPassword' => true,
+			];
+		}
+
+		return [
+			'canGenerateApplicationPassword' => false,
+			'applicationPasswordWarning'     => $blocker->get_error_message(),
+		];
+	}
+
+	/**
+	 * Return a blocker error when application passwords cannot be created for the user.
+	 *
+	 * @param \WP_User|null $user User to inspect. Defaults to the current user.
+	 * @return \WP_Error|null
+	 */
+	public static function get_application_password_blocker( ?\WP_User $user = null ): ?\WP_Error {
+		if ( ! class_exists( '\WP_Application_Passwords' ) ) {
+			return new \WP_Error(
+				'application_passwords_unavailable',
+				__( 'Application passwords are not available on this site.', 'elementor' ),
+				[ 'status' => 403 ]
+			);
+		}
+
+		if ( \function_exists( 'wp_is_application_passwords_available' ) && ! \wp_is_application_passwords_available() ) {
+			return new \WP_Error(
+				'application_passwords_unavailable',
+				__(
+					'Application passwords are not available on this site. Your site may require HTTPS, or a plugin may have disabled them.',
+					'elementor'
+				),
+				[ 'status' => 403 ]
+			);
+		}
+
+		if ( null === $user ) {
+			$user = \wp_get_current_user();
+		}
+
+		if ( ! $user || ! $user->exists() ) {
+			return new \WP_Error(
+				'invalid_user',
+				__( 'Could not determine the current user.', 'elementor' ),
+				[ 'status' => 500 ]
+			);
+		}
+
+		if (
+			\function_exists( 'wp_is_application_password_available_for_user' ) &&
+			! \wp_is_application_password_available_for_user( $user )
+		) {
+			return new \WP_Error(
+				'application_passwords_disabled',
+				__(
+					'Application passwords are turned off for your user account. Enable them on your profile page before connecting an AI client.',
+					'elementor'
+				),
+				[ 'status' => 403 ]
+			);
+		}
+
+		return null;
+	}
+
+	/**
 	 * Create a WordPress application password for the selected client.
 	 *
 	 * @param \WP_REST_Request $request Request instance.
@@ -78,14 +153,6 @@ class CredentialsController extends RestController {
 			);
 		}
 
-		if ( ! class_exists( '\WP_Application_Passwords' ) ) {
-			return new \WP_Error(
-				'application_passwords_unavailable',
-				__( 'Application passwords are not available on this site.', 'elementor' ),
-				[ 'status' => 500 ]
-			);
-		}
-
 		$user = \wp_get_current_user();
 
 		if ( ! $user || ! $user->exists() ) {
@@ -94,6 +161,12 @@ class CredentialsController extends RestController {
 				__( 'Could not determine the current user.', 'elementor' ),
 				[ 'status' => 500 ]
 			);
+		}
+
+		$blocker = self::get_application_password_blocker( $user );
+
+		if ( $blocker instanceof \WP_Error ) {
+			return $blocker;
 		}
 
 		$client = (string) $request->get_param( 'client' );
@@ -110,10 +183,19 @@ class CredentialsController extends RestController {
 		);
 
 		if ( \is_wp_error( $created ) ) {
+			$error_data = $created->get_error_data();
+			$status     = 500;
+
+			if ( is_array( $error_data ) && isset( $error_data['status'] ) ) {
+				$status = (int) $error_data['status'];
+			}
+
 			return new \WP_Error(
-				'password_generation_failed',
-				__( 'Failed to generate application password.', 'elementor' ),
-				[ 'status' => 500 ]
+				$created->get_error_code(),
+				$created->get_error_message(),
+				[
+					'status' => $status,
+				]
 			);
 		}
 

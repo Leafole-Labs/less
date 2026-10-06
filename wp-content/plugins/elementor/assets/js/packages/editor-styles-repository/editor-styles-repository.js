@@ -156,7 +156,23 @@
 		},
 		priority: 50,
 		isPregeneratedLink: ({ id }) => PREGENERATED_LINK_PATTERN.test(id),
-		subscribe: (cb) => (0, _elementor_editor_v1_adapters.__privateListenTo)(_elementor_editor_elements.styleRerenderEvents, () => cb()),
+		subscribe: (cb) => {
+			let scheduledFrame = null;
+			const unsubscribe = (0, _elementor_editor_v1_adapters.__privateListenTo)(_elementor_editor_elements.styleRerenderEvents, () => {
+				if (scheduledFrame !== null) return;
+				scheduledFrame = requestAnimationFrame(() => {
+					scheduledFrame = null;
+					cb();
+				});
+			});
+			return () => {
+				if (scheduledFrame !== null) {
+					cancelAnimationFrame(scheduledFrame);
+					scheduledFrame = null;
+				}
+				unsubscribe();
+			};
+		},
 		actions: {
 			all: (meta = {}) => {
 				let elements = (0, _elementor_editor_elements.getElements)();

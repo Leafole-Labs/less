@@ -172,7 +172,10 @@ class Page {
 			'nonce' => wp_create_nonce( 'wp_rest' ),
 			'fastlaneMode' => $fastlane_mode,
 			'settings' => [
-				'mcp' => McpSettingsController::get_settings_data(),
+				'mcp' => array_merge(
+					McpSettingsController::get_settings_data(),
+					CredentialsController::get_application_password_ui_flags()
+				),
 				'consent' => ConsentController::get_consent(),
 				'test' => TestController::get_test_completed(),
 			],

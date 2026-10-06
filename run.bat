@@ -7,7 +7,7 @@ REM Falls back to legacy batch logic if Python is not available.
 
 cd /d "%~dp0"
 
-set "PORT=8080"
+set "PORT=18770"
 if not "%~1"=="" set "PORT=%~1"
 
 REM Try to find Python

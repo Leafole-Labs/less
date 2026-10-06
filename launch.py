@@ -34,7 +34,7 @@ class Colors:
 
 
 class Launcher:
-    def __init__(self, project_root: Path, port: int = 8080):
+    def __init__(self, project_root: Path, port: int = 18770):
         self.project_root = project_root.resolve()
         self.port = port
         self.php_exe = self._find_php()
@@ -367,7 +367,7 @@ class Launcher:
 
 def main():
     # Parse arguments
-    port = 8080
+    port = 18770
     if len(sys.argv) > 1:
         try:
             port = int(sys.argv[1])

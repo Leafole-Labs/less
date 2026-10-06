@@ -258,20 +258,19 @@ add_filter( 'the_title_rss', 'strip_tags' );
 add_filter( 'the_title_rss', 'ent2ncr', 8 );
 add_filter( 'the_title_rss', 'esc_html' );
 add_filter( 'the_content_rss', 'ent2ncr', 8 );
-add_filter( 'the_content_feed', 'wp_staticize_emoji' );
 add_filter( 'the_content_feed', '_oembed_filter_feed_content' );
 add_filter( 'the_excerpt_rss', 'convert_chars' );
 add_filter( 'the_excerpt_rss', 'ent2ncr', 8 );
 add_filter( 'comment_author_rss', 'ent2ncr', 8 );
 add_filter( 'comment_text_rss', 'ent2ncr', 8 );
 add_filter( 'comment_text_rss', 'esc_html' );
-add_filter( 'comment_text_rss', 'wp_staticize_emoji' );
 add_filter( 'bloginfo_rss', 'ent2ncr', 8 );
 add_filter( 'the_author', 'ent2ncr', 8 );
 add_filter( 'the_guid', 'esc_url' );
 
 // Email filters.
-add_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+// LESS: no emoji-to-image conversion in emails; emoji stay as native Unicode.
+
 
 // Robots filters.
 add_filter( 'wp_robots', 'wp_robots_noindex' );
@@ -356,7 +355,7 @@ add_action( 'wp_head', 'rsd_link' );
 add_action( 'wp_head', 'locale_stylesheet' );
 add_action( 'publish_future_post', 'check_and_publish_future_post', 10, 1 );
 add_action( 'wp_head', 'wp_robots', 1 );
-add_action( 'wp_head', 'print_emoji_detection_script', 7 );
+// LESS: no external emoji detection script; emoji render natively as Unicode.
 add_action( 'wp_head', 'wp_print_styles', 8 );
 add_action( 'wp_head', 'wp_print_head_scripts', 9 );
 add_action( 'wp_head', 'wp_generator' );
@@ -375,8 +374,7 @@ add_action( 'switch_theme', 'wp_clean_theme_json_cache' );
 add_action( 'start_previewing_theme', 'wp_clean_theme_json_cache' );
 add_action( 'after_switch_theme', '_wp_menus_changed' );
 add_action( 'after_switch_theme', '_wp_sidebars_changed' );
-add_action( 'wp_enqueue_scripts', 'wp_enqueue_emoji_styles' );
-add_action( 'wp_print_styles', 'print_emoji_styles' ); // Retained for backwards-compatibility. Unhooked by wp_enqueue_emoji_styles().
+// LESS: no emoji image styles; emoji render natively as Unicode.
 
 if (
 	// Comment reply link.
@@ -738,7 +736,7 @@ add_action( 'wp_head', 'wp_oembed_add_host_js' ); // Back-compat for sites disab
 add_filter( 'embed_oembed_html', 'wp_maybe_enqueue_oembed_host_js' );
 
 add_action( 'embed_head', 'enqueue_embed_scripts', 1 );
-add_action( 'embed_head', 'print_emoji_detection_script' );
+// LESS: no external emoji detection script in embeds; emoji render natively.
 add_action( 'embed_head', 'wp_enqueue_embed_styles', 9 );
 add_action( 'embed_head', 'print_embed_styles' ); // Retained for backwards-compatibility. Unhooked by wp_enqueue_embed_styles().
 add_action( 'embed_head', 'wp_print_head_scripts', 20 );
@@ -746,7 +744,7 @@ add_action( 'embed_head', 'wp_print_styles', 20 );
 add_action( 'embed_head', 'wp_robots' );
 add_action( 'embed_head', 'rel_canonical' );
 add_action( 'embed_head', 'locale_stylesheet', 30 );
-add_action( 'enqueue_embed_scripts', 'wp_enqueue_emoji_styles' );
+// LESS: no emoji image styles in embeds; emoji render natively.
 
 add_action( 'embed_content_meta', 'print_embed_comments_button' );
 add_action( 'embed_content_meta', 'print_embed_sharing_button' );

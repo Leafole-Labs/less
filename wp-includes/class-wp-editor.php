@@ -433,7 +433,7 @@ final class _WP_Editors {
 						'wordpress',
 						'wpautoresize',
 						'wpeditimage',
-						'wpemoji',
+						// LESS: 'wpemoji' omitted; emoji render natively as Unicode.
 						'wpgallery',
 						'wplink',
 						'wpdialogs',
@@ -965,7 +965,7 @@ final class _WP_Editors {
 					'wordpress',
 					'wpautoresize',
 					'wpeditimage',
-					'wpemoji',
+					// LESS: 'wpemoji' omitted; emoji render natively as Unicode.
 					'wpgallery',
 					'wplink',
 					'wptextpattern',

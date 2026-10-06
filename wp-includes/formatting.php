@@ -5956,141 +5956,43 @@ function wp_spaces_regexp() {
 /**
  * Enqueues the important emoji-related styles.
  *
+ * LESS: disabled. Emojis are rendered natively by the browser as Unicode
+ * characters, so no `img.emoji` replacement styles are needed and nothing
+ * is enqueued. Kept as a no-op for backwards-compatibility.
+ *
  * @since 6.4.0
  */
 function wp_enqueue_emoji_styles() {
-	// Back-compat for plugins that disable functionality by unhooking this action.
-	$action = is_admin() ? 'admin_print_styles' : 'wp_print_styles';
-	if ( ! has_action( $action, 'print_emoji_styles' ) ) {
-		return;
-	}
-	remove_action( $action, 'print_emoji_styles' );
-
-	$emoji_styles = '
-	img.wp-smiley, img.emoji {
-		display: inline !important;
-		border: none !important;
-		box-shadow: none !important;
-		height: 1em !important;
-		width: 1em !important;
-		margin: 0 0.07em !important;
-		vertical-align: -0.1em !important;
-		background: none !important;
-		padding: 0 !important;
-	}';
-	$handle       = 'wp-emoji-styles';
-	wp_register_style( $handle, false );
-	wp_add_inline_style( $handle, $emoji_styles );
-	wp_enqueue_style( $handle );
+	return;
 }
 
 /**
  * Prints the inline Emoji detection script if it is not already printed.
  *
+ * LESS: disabled. Browsers render emoji natively as Unicode characters, so
+ * no detection script, settings payload, or external image source is printed.
+ * Kept as a no-op for backwards-compatibility.
+ *
  * @since 4.2.0
  */
 function print_emoji_detection_script(): void {
-	static $printed = false;
-
-	if ( $printed ) {
-		return;
-	}
-
-	$printed = true;
-
-	if ( is_admin() ) {
-		if ( did_action( 'admin_print_footer_scripts' ) ) {
-			_print_emoji_detection_script();
-		} else {
-			add_action( 'admin_print_footer_scripts', '_print_emoji_detection_script' );
-		}
-	} else {
-		if ( did_action( 'wp_print_footer_scripts' ) ) {
-			_print_emoji_detection_script();
-		} else {
-			add_action( 'wp_print_footer_scripts', '_print_emoji_detection_script' );
-		}
-	}
+	return;
 }
 
 /**
  * Prints inline Emoji detection script.
+ *
+ * LESS: disabled. Previously printed a JSON settings payload (with remote
+ * image hosts) and a loader module that fetched replacement images. Now a
+ * no-op: emoji stay as native Unicode characters and no external request
+ * is made. Kept for backwards-compatibility.
  *
  * @ignore
  * @since 4.6.0
  * @access private
  */
 function _print_emoji_detection_script() {
-	$settings = array(
-		/**
-		 * Filters the URL where emoji png images are hosted.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @param string $url The emoji base URL for png images.
-		 */
-		'baseUrl' => apply_filters( 'emoji_url', 'https://s.w.org/images/core/emoji/17.0.2/72x72/' ),
-
-		/**
-		 * Filters the extension of the emoji png files.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @param string $extension The emoji extension for png files. Default .png.
-		 */
-		'ext'     => apply_filters( 'emoji_ext', '.png' ),
-
-		/**
-		 * Filters the URL where emoji SVG images are hosted.
-		 *
-		 * @since 4.6.0
-		 *
-		 * @param string $url The emoji base URL for svg images.
-		 */
-		'svgUrl'  => apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/17.0.2/svg/' ),
-
-		/**
-		 * Filters the extension of the emoji SVG files.
-		 *
-		 * @since 4.6.0
-		 *
-		 * @param string $extension The emoji extension for svg files. Default .svg.
-		 */
-		'svgExt'  => apply_filters( 'emoji_svg_ext', '.svg' ),
-	);
-
-	$version = 'ver=' . get_bloginfo( 'version' );
-
-	if ( SCRIPT_DEBUG ) {
-		$settings['source'] = array(
-			/** This filter is documented in wp-includes/class-wp-scripts.php */
-			'wpemoji' => apply_filters( 'script_loader_src', includes_url( "js/wp-emoji.js?$version" ), 'wpemoji' ),
-			/** This filter is documented in wp-includes/class-wp-scripts.php */
-			'twemoji' => apply_filters( 'script_loader_src', includes_url( "js/twemoji.js?$version" ), 'twemoji' ),
-		);
-	} else {
-		$settings['source'] = array(
-			/** This filter is documented in wp-includes/class-wp-scripts.php */
-			'concatemoji' => apply_filters( 'script_loader_src', includes_url( "js/wp-emoji-release.min.js?$version" ), 'concatemoji' ),
-		);
-	}
-
-	wp_print_inline_script_tag(
-		wp_json_encode( $settings, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES ),
-		array(
-			'id'   => 'wp-emoji-settings',
-			'type' => 'application/json',
-		)
-	);
-
-	$emoji_loader_script_path = '/js/wp-emoji-loader' . wp_scripts_get_suffix() . '.js';
-	wp_print_inline_script_tag(
-		rtrim( file_get_contents( ABSPATH . WPINC . $emoji_loader_script_path ) ) . "\n" .
-		'//# sourceURL=' . esc_url_raw( includes_url( $emoji_loader_script_path ) ),
-		array(
-			'type' => 'module',
-		)
-	);
+	return;
 }
 
 /**
@@ -6119,100 +6021,25 @@ function wp_encode_emoji( $content ) {
 /**
  * Converts emoji to a static img element.
  *
+ * LESS: disabled. Emojis are preserved as native Unicode characters rendered
+ * by the browser, so no `<img>` replacement is performed and no external
+ * image host is contacted. Kept as a pass-through for backwards-compatibility.
+ *
  * @since 4.2.0
  *
  * @param string $text The content to encode.
  * @return string The encoded content.
  */
 function wp_staticize_emoji( $text ) {
-	if ( ! str_contains( $text, '&#x' ) ) {
-		if ( ( function_exists( 'mb_check_encoding' ) && mb_check_encoding( $text, 'ASCII' ) ) || ! preg_match( '/[^\x00-\x7F]/', $text ) ) {
-			// The text doesn't contain anything that might be emoji, so we can return early.
-			return $text;
-		} else {
-			$encoded_text = wp_encode_emoji( $text );
-			if ( $encoded_text === $text ) {
-				return $encoded_text;
-			}
-
-			$text = $encoded_text;
-		}
-	}
-
-	$emoji = _wp_emoji_list( 'entities' );
-
-	// Quickly narrow down the list of emoji that might be in the text and need replacing.
-	$possible_emoji = array();
-	foreach ( $emoji as $emojum ) {
-		if ( str_contains( $text, $emojum ) ) {
-			$possible_emoji[ $emojum ] = html_entity_decode( $emojum );
-		}
-	}
-
-	if ( ! $possible_emoji ) {
-		return $text;
-	}
-
-	/** This filter is documented in wp-includes/formatting.php */
-	$cdn_url = apply_filters( 'emoji_url', 'https://s.w.org/images/core/emoji/17.0.2/72x72/' );
-
-	/** This filter is documented in wp-includes/formatting.php */
-	$ext = apply_filters( 'emoji_ext', '.png' );
-
-	$output = '';
-	/*
-	 * HTML loop taken from smiley function, which was taken from texturize function.
-	 * It'll never be consolidated.
-	 *
-	 * First, capture the tags as well as in between.
-	 */
-	$textarr = preg_split( '/(<.*>)/U', $text, -1, PREG_SPLIT_DELIM_CAPTURE );
-	$stop    = count( $textarr );
-
-	// Ignore processing of specific tags.
-	$tags_to_ignore       = 'code|pre|style|script|textarea';
-	$ignore_block_element = '';
-
-	for ( $i = 0; $i < $stop; $i++ ) {
-		$content = $textarr[ $i ];
-
-		// If we're in an ignore block, wait until we find its closing tag.
-		if ( '' === $ignore_block_element && preg_match( '/^<(' . $tags_to_ignore . ')>/', $content, $matches ) ) {
-			$ignore_block_element = $matches[1];
-		}
-
-		// If it's not a tag and not in ignore block.
-		if ( '' === $ignore_block_element && strlen( $content ) > 0 && '<' !== $content[0] && str_contains( $content, '&#x' ) ) {
-			foreach ( $possible_emoji as $emojum => $emoji_char ) {
-				if ( ! str_contains( $content, $emojum ) ) {
-					continue;
-				}
-
-				$file = str_replace( ';&#x', '-', $emojum );
-				$file = str_replace( array( '&#x', ';' ), '', $file );
-
-				$entity = sprintf( '<img src="%s" alt="%s" class="wp-smiley" style="height: 1em; max-height: 1em;" />', $cdn_url . $file . $ext, $emoji_char );
-
-				$content = str_replace( $emojum, $entity, $content );
-			}
-		}
-
-		// Did we exit ignore block?
-		if ( '' !== $ignore_block_element && '</' . $ignore_block_element . '>' === $content ) {
-			$ignore_block_element = '';
-		}
-
-		$output .= $content;
-	}
-
-	// Finally, remove any stray U+FE0F characters.
-	$output = str_replace( '&#xfe0f;', '', $output );
-
-	return $output;
+	return $text;
 }
 
 /**
  * Converts emoji in emails into static images.
+ *
+ * LESS: disabled. Email messages keep emoji as native Unicode characters,
+ * so no external image is injected. Kept as a pass-through for
+ * backwards-compatibility.
  *
  * @since 4.2.0
  *
@@ -6220,69 +6047,14 @@ function wp_staticize_emoji( $text ) {
  * @return array The email data array, with emoji in the message staticized.
  */
 function wp_staticize_emoji_for_email( $mail ) {
-	if ( ! isset( $mail['message'] ) ) {
-		return $mail;
-	}
-
-	/*
-	 * We can only transform the emoji into images if it's a `text/html` email.
-	 * To do that, here's a cut down version of the same process that happens
-	 * in wp_mail() - get the `Content-Type` from the headers, if there is one,
-	 * then pass it through the {@see 'wp_mail_content_type'} filter, in case
-	 * a plugin is handling changing the `Content-Type`.
-	 */
-	$headers = array();
-	if ( isset( $mail['headers'] ) ) {
-		if ( is_array( $mail['headers'] ) ) {
-			$headers = $mail['headers'];
-		} else {
-			$headers = explode( "\n", str_replace( "\r\n", "\n", $mail['headers'] ) );
-		}
-	}
-
-	foreach ( $headers as $header ) {
-		if ( ! str_contains( $header, ':' ) ) {
-			continue;
-		}
-
-		// Explode them out.
-		list( $name, $content ) = explode( ':', trim( $header ), 2 );
-
-		// Cleanup crew.
-		$name    = trim( $name );
-		$content = trim( $content );
-
-		if ( 'content-type' === strtolower( $name ) ) {
-			if ( str_contains( $content, ';' ) ) {
-				list( $type, $charset ) = explode( ';', $content );
-				$content_type           = trim( $type );
-			} else {
-				$content_type = trim( $content );
-			}
-			break;
-		}
-	}
-
-	// Set Content-Type if we don't have a content-type from the input headers.
-	if ( ! isset( $content_type ) ) {
-		$content_type = 'text/plain';
-	}
-
-	/** This filter is documented in wp-includes/pluggable.php */
-	$content_type = apply_filters( 'wp_mail_content_type', $content_type );
-
-	if ( 'text/html' === $content_type ) {
-		$mail['message'] = wp_staticize_emoji( $mail['message'] );
-	}
-
 	return $mail;
 }
 
 /**
  * Returns arrays of emoji data.
  *
- * These arrays are automatically built from the regex in twemoji.js - if they need to be updated,
- * you should update the regex there, then run the `npm run grunt precommit:emoji` job.
+ * LESS: these arrays are used only for local Unicode handling (encoding
+ * detection). They never trigger external image loads.
  *
  * @since 4.9.0
  * @access private

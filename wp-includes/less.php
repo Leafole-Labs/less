@@ -296,6 +296,63 @@ add_filter( 'pre_get_avatar', 'ls_force_local_avatar_markup', 10, 3 );
 
 /**
  * ---------------------------------------------------------------------------
+ * Emojis: native browser rendering, no external image host
+ * ---------------------------------------------------------------------------
+ *
+ * Emojis keep working as native Unicode characters rendered by the browser.
+ * No detection script, replacement image, style, or request to an external
+ * emoji host is loaded. The core functions in formatting.php are already
+ * pass-throughs; the guards below only neutralize hooks re-added by
+ * themes/plugins.
+ */
+
+/**
+ * Removes any externally-hosted emoji loading hooks.
+ *
+ * Covers detection scripts, image-replacement styles, feed/email staticizing
+ * (which previously injected `<img>` tags), and embed/admin variants.
+ *
+ * @since 0.1
+ */
+function ls_disable_external_emoji() {
+	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+	remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+	remove_action( 'embed_head', 'print_emoji_detection_script' );
+	remove_action( 'wp_print_footer_scripts', '_print_emoji_detection_script' );
+	remove_action( 'admin_print_footer_scripts', '_print_emoji_detection_script' );
+	remove_action( 'wp_enqueue_scripts', 'wp_enqueue_emoji_styles' );
+	remove_action( 'admin_enqueue_scripts', 'wp_enqueue_emoji_styles' );
+	remove_action( 'enqueue_embed_scripts', 'wp_enqueue_emoji_styles' );
+	remove_action( 'wp_print_styles', 'print_emoji_styles' );
+	remove_action( 'admin_print_styles', 'print_emoji_styles' );
+	remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+	remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+	remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+}
+add_action( 'init', 'ls_disable_external_emoji', 20 );
+
+/**
+ * Strips the image-replacement TinyMCE plugin, if re-added.
+ *
+ * Native Unicode emoji need no editor replacement; this keeps the editor
+ * from depending on external emoji images.
+ *
+ * @since 0.1
+ *
+ * @param array $plugins Registered TinyMCE plugins.
+ * @return array
+ */
+function ls_remove_wpemoji_tinymce_plugin( $plugins ) {
+	if ( ! is_array( $plugins ) ) {
+		return $plugins;
+	}
+
+	return array_values( array_diff( $plugins, array( 'wpemoji' ) ) );
+}
+add_filter( 'tiny_mce_plugins', 'ls_remove_wpemoji_tinymce_plugin', 20 );
+
+/**
+ * ---------------------------------------------------------------------------
  * Identity: generator meta, version, update independence
  * ---------------------------------------------------------------------------
  */

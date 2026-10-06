@@ -541,7 +541,7 @@ function wp_tinymce_inline_scripts() {
 		'wordpress',
 		'wpautoresize',
 		'wpeditimage',
-		'wpemoji',
+		// LESS: 'wpemoji' omitted; emoji render natively as Unicode.
 		'wpgallery',
 		'wplink',
 		'wpdialogs',

@@ -29,7 +29,7 @@ if ( ! defined( 'LS_NAME' ) ) {
 }
 
 if ( ! defined( 'LS_VERSION' ) ) {
-	define( 'LS_VERSION', '26.1.2.1' );
+	define( 'LS_VERSION', '26.1.3.1' );
 }
 
 if ( ! defined( 'LS_SLUG' ) ) {

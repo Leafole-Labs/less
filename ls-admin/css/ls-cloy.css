@@ -38,6 +38,8 @@ html[data-ls-theme="light"] {
 	--ls-media-tile-bg: #f0f0f1;
 	--ls-media-tile-ring: rgba(0, 0, 0, 0.1);
 	--ls-danger: #b32d2e;
+	--ls-chrome-bg: #1d2327;
+	--ls-chrome-bg-alt: #2c3338;
 	color-scheme: light;
 }
 
@@ -67,6 +69,8 @@ html[data-ls-theme="dark"] {
 	--ls-media-tile-bg: #23282e;
 	--ls-media-tile-ring: rgba(255, 255, 255, 0.14);
 	--ls-danger: #ff8085;
+	--ls-chrome-bg: #16191d;
+	--ls-chrome-bg-alt: #20262d;
 	color-scheme: dark;
 }
 
@@ -97,6 +101,8 @@ html[data-ls-theme="dark"] {
 		--ls-media-tile-bg: #23282e;
 		--ls-media-tile-ring: rgba(255, 255, 255, 0.14);
 		--ls-danger: #ff8085;
+		--ls-chrome-bg: #16191d;
+		--ls-chrome-bg-alt: #20262d;
 		color-scheme: dark;
 	}
 }
@@ -1806,5 +1812,1129 @@ html[data-ls-theme="dark"] .wp-admin .custom-html-widget-fields > .CodeMirror {
 	}
 	html[data-ls-theme="auto"] .wp-admin .custom-html-widget-fields > .CodeMirror {
 		border-color: var(--ls-border);
+	}
+}
+
+/* ---------------------------------------------------------------------------
+ * 7. Dark mode fixes, part 2 — form states, navigation chrome, admin menu
+ *
+ * Every rule reuses the --ls-* tokens above; the light theme is untouched.
+ * Origins are core stylesheets with hardcoded light colors (forms.css,
+ * common.css, list-tables.css, edit.css, widgets.css, dashboard.css,
+ * site-health.css, color-picker.css, themes.css, admin-menu.css and the
+ * per-scheme colors/*.css, which repaint the admin menu even in dark mode).
+ * ------------------------------------------------------------------------- */
+
+/* Checked checkboxes/radios keep the accent fill (core :checked loses to the
+ * base input rule above without this). The glyph stays white on the accent. */
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="checkbox"]:checked,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="radio"]:checked {
+	background: var(--wp-admin-theme-color, #3858e9);
+	border-color: var(--wp-admin-theme-color, #3858e9);
+}
+
+/* Disabled controls stay visibly disabled (core :disabled loses to the base
+ * input rule above without this). */
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input:disabled,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input.disabled,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui select:disabled,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui select.disabled,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui textarea:disabled,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui textarea.disabled {
+	background: var(--ls-bg-alt);
+	border-color: var(--ls-border-soft);
+	box-shadow: none;
+	color: var(--ls-text-muted);
+	text-shadow: none;
+	cursor: default;
+}
+
+/* Visible keyboard/mouse focus ring for editable controls. */
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="text"]:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="search"]:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="number"]:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="email"]:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="url"]:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="password"]:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="date"]:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="datetime-local"]:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="month"]:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="time"]:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="week"]:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="tel"]:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui input[type="color"]:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui select:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui textarea:focus {
+	border-color: var(--ls-focus);
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--ls-focus);
+	outline: 2px solid transparent;
+}
+
+/* The command palette search keeps its borderless look. */
+html[data-ls-theme="dark"] .wp-admin .ls-cloy-palette .ls-cloy-palette-search input[type="search"]:focus {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	outline: none;
+	color: var(--ls-text-strong);
+}
+
+/* Native selects keep a visible arrow on dark inputs (core embeds a dark
+ * arrow via background-image, which survives the background-color override). */
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui select {
+	background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23dcdcde%22%2F%3E%3C%2Fsvg%3E");
+}
+
+/* Text-style buttons keep the theme link color on hover/focus. */
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui .button-link:hover,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui .button.button-link:hover,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui .button-link:focus,
+html[data-ls-theme="dark"] .wp-admin .wp-core-ui .button.button-link:focus {
+	color: var(--ls-link);
+}
+
+html[data-ls-theme="dark"] .wp-admin a.submitdelete:hover,
+html[data-ls-theme="dark"] .wp-admin .button-link-delete:hover,
+html[data-ls-theme="dark"] .wp-admin .button-link-delete:focus {
+	color: var(--ls-danger);
+}
+
+/* Screen tabs (Privacy, tools and plugin screens). */
+html[data-ls-theme="dark"] .wp-admin .nav-tab {
+	background: var(--ls-bg-alt);
+	border-color: var(--ls-border);
+	color: var(--ls-text-muted);
+}
+
+html[data-ls-theme="dark"] .wp-admin .nav-tab:hover,
+html[data-ls-theme="dark"] .wp-admin .nav-tab:focus {
+	background: var(--ls-surface);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] .wp-admin .nav-tab-active,
+html[data-ls-theme="dark"] .wp-admin .nav-tab-active:hover,
+html[data-ls-theme="dark"] .wp-admin .nav-tab-active:focus {
+	background: var(--ls-bg);
+	border-bottom-color: var(--ls-bg);
+	color: var(--ls-text-strong);
+}
+
+/* List-table view filters ("All / Published / Trash …"). */
+html[data-ls-theme="dark"] .wp-admin .subsubsub {
+	color: var(--ls-text-muted);
+}
+
+html[data-ls-theme="dark"] .wp-admin .subsubsub a.current {
+	color: var(--ls-text-strong);
+}
+
+/* Contextual help panel. */
+html[data-ls-theme="dark"] .wp-admin #contextual-help-back {
+	background: var(--ls-selected-bg);
+	border-color: var(--ls-border);
+}
+
+/* Dismiss / remove icons stay legible on dark surfaces. */
+html[data-ls-theme="dark"] .wp-admin .notice-dismiss:before,
+html[data-ls-theme="dark"] .wp-admin .welcome-panel .welcome-panel-close:before,
+html[data-ls-theme="dark"] .wp-admin .tagchecklist .ntdelbutton .remove-tag-icon:before,
+html[data-ls-theme="dark"] .wp-admin #bulk-titles .ntdelbutton:before {
+	color: var(--ls-text-muted);
+}
+
+html[data-ls-theme="dark"] .wp-admin .notice-dismiss:hover:before,
+html[data-ls-theme="dark"] .wp-admin .welcome-panel .welcome-panel-close:hover:before {
+	color: var(--ls-text-strong);
+}
+
+/* Loading spinners use the light glyph variant on dark surfaces. */
+html[data-ls-theme="dark"] .wp-admin .spinner {
+	background-image: url(../images/wpspin_light.gif);
+}
+
+@media (min-resolution: 120dpi) {
+	html[data-ls-theme="dark"] .wp-admin .spinner {
+		background-image: url(../images/wpspin_light-2x.gif);
+	}
+}
+
+/* Publish box footer and classic-editor toolbar bed. */
+html[data-ls-theme="dark"] .wp-admin #post-status-info {
+	background-color: var(--ls-bg-alt);
+	border-color: var(--ls-border);
+}
+
+html[data-ls-theme="dark"] .wp-admin #wp-content-editor-tools {
+	background-color: var(--ls-bg);
+}
+
+/* Comment undo rows (list and activity widget). */
+html[data-ls-theme="dark"] .wp-admin #the-comment-list tr.undo,
+html[data-ls-theme="dark"] .wp-admin #the-comment-list div.undo,
+html[data-ls-theme="dark"] .wp-admin #activity-widget #the-comment-list tr.undo,
+html[data-ls-theme="dark"] .wp-admin #activity-widget #the-comment-list div.undo {
+	background-color: var(--ls-bg-alt);
+	color: var(--ls-text);
+}
+
+/* Dashboard "At a Glance" and activity rows. */
+html[data-ls-theme="dark"] .wp-admin #dashboard_right_now .sub {
+	background: var(--ls-bg-alt);
+	border-top-color: var(--ls-border-soft);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] .wp-admin #dashboard_right_now .sub h3 {
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] .wp-admin #future-posts li,
+html[data-ls-theme="dark"] .wp-admin #published-posts li {
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] .wp-admin .activity-block {
+	border-bottom-color: var(--ls-border-soft);
+}
+
+/* Classic widgets screen extras. */
+html[data-ls-theme="dark"] .wp-admin .widgets-holder-wrap .description,
+html[data-ls-theme="dark"] .wp-admin .widget-holder .description,
+html[data-ls-theme="dark"] .wp-admin .inactive-sidebar .description {
+	color: var(--ls-text-muted);
+}
+
+html[data-ls-theme="dark"] .wp-admin .media-widget-preview .placeholder {
+	background: var(--ls-media-tile-bg);
+	color: var(--ls-text-muted);
+}
+
+html[data-ls-theme="dark"] .wp-admin .media-widget-control .attachment-media-view .button-add-media:hover,
+html[data-ls-theme="dark"] .wp-admin .media-widget-control .attachment-media-view .button-add-media:focus {
+	background-color: var(--ls-hover-bg);
+	border-color: var(--ls-border);
+	color: var(--ls-text-strong);
+}
+
+/* Color picker trigger. */
+html[data-ls-theme="dark"] .wp-admin .wp-color-result-text {
+	background: var(--ls-bg-alt);
+	border-left-color: var(--ls-border);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] .wp-admin .wp-color-result:hover,
+html[data-ls-theme="dark"] .wp-admin .wp-color-result:focus {
+	background: var(--ls-hover-bg);
+	border-color: var(--ls-text-muted);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] .wp-admin .wp-color-result:hover:after,
+html[data-ls-theme="dark"] .wp-admin .wp-color-result:focus:after {
+	color: var(--ls-text-strong);
+	border-left-color: var(--ls-border);
+}
+
+/* Theme details overlay header bar. */
+html[data-ls-theme="dark"] .wp-admin .theme-overlay .theme-header {
+	background: var(--ls-modal-bg);
+}
+
+/* Site Health and Privacy accordions (JS-rendered rows). */
+html[data-ls-theme="dark"] .wp-admin .health-check-accordion,
+html[data-ls-theme="dark"] .wp-admin .privacy-settings-accordion {
+	border-color: var(--ls-border);
+}
+
+html[data-ls-theme="dark"] .wp-admin .health-check-accordion-heading,
+html[data-ls-theme="dark"] .wp-admin .privacy-settings-accordion-heading {
+	border-top-color: var(--ls-border-soft);
+}
+
+html[data-ls-theme="dark"] .wp-admin .health-check-accordion-trigger,
+html[data-ls-theme="dark"] .wp-admin .privacy-settings-accordion-trigger {
+	background: var(--ls-surface);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] .wp-admin .health-check-accordion-trigger:hover,
+html[data-ls-theme="dark"] .wp-admin .health-check-accordion-trigger:active,
+html[data-ls-theme="dark"] .wp-admin .privacy-settings-accordion-trigger:hover,
+html[data-ls-theme="dark"] .wp-admin .privacy-settings-accordion-trigger:active {
+	background: var(--ls-hover-bg);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] .wp-admin .health-check-accordion-trigger:focus,
+html[data-ls-theme="dark"] .wp-admin .privacy-settings-accordion-trigger:focus {
+	background: var(--ls-hover-bg);
+	color: var(--ls-text-strong);
+	outline: 2px solid var(--ls-focus);
+	outline-offset: -1px;
+}
+
+html[data-ls-theme="dark"] .wp-admin .health-check-accordion-panel,
+html[data-ls-theme="dark"] .wp-admin .privacy-settings-accordion-panel {
+	background: var(--ls-bg-alt);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] .wp-admin .health-check-accordion-trigger .badge,
+html[data-ls-theme="dark"] .wp-admin .privacy-settings-accordion-trigger .badge {
+	color: var(--ls-text);
+}
+
+/* Category/tag tab panels, suggestion dropdowns and the custom-fields box. */
+html[data-ls-theme="dark"] .wp-admin .categorydiv div.tabs-panel,
+html[data-ls-theme="dark"] .wp-admin .customlinkdiv div.tabs-panel,
+html[data-ls-theme="dark"] .wp-admin .posttypediv div.tabs-panel,
+html[data-ls-theme="dark"] .wp-admin .taxonomydiv div.tabs-panel,
+html[data-ls-theme="dark"] .wp-admin .wp-tab-panel {
+	background-color: var(--ls-surface);
+	border-color: var(--ls-border);
+}
+
+html[data-ls-theme="dark"] .wp-admin .ac_results {
+	background-color: var(--ls-modal-bg);
+	border-color: var(--ls-border);
+}
+
+html[data-ls-theme="dark"] .wp-admin .ac_results li {
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] .wp-admin .ac_results .ac_over {
+	background-color: var(--ls-selected-bg);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] .wp-admin .ac_match {
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] .wp-admin #postcustomstuff table {
+	background-color: var(--ls-bg-alt);
+	border-color: var(--ls-border);
+}
+
+/* Admin menu: normalize every color scheme to the dark chrome tokens.
+ * Without this, light schemes keep a light sidebar inside dark mode. */
+html[data-ls-theme="dark"] #adminmenuback,
+html[data-ls-theme="dark"] #adminmenuwrap,
+html[data-ls-theme="dark"] #adminmenu {
+	background: var(--ls-chrome-bg);
+}
+
+html[data-ls-theme="dark"] #adminmenu a {
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] #adminmenu div.wp-menu-image:before {
+	color: var(--ls-text-muted);
+}
+
+html[data-ls-theme="dark"] #adminmenu a:hover,
+html[data-ls-theme="dark"] #adminmenu li.menu-top:hover,
+html[data-ls-theme="dark"] #adminmenu li.opensub > a.menu-top,
+html[data-ls-theme="dark"] #adminmenu li > a.menu-top:focus {
+	background: var(--ls-surface-raised);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] #adminmenu li.menu-top:hover div.wp-menu-image:before,
+html[data-ls-theme="dark"] #adminmenu li.opensub > a.menu-top div.wp-menu-image:before,
+html[data-ls-theme="dark"] #adminmenu li a:focus div.wp-menu-image:before {
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] #adminmenu .wp-submenu,
+html[data-ls-theme="dark"] #adminmenu .wp-has-current-submenu .wp-submenu,
+html[data-ls-theme="dark"] #adminmenu .wp-has-current-submenu.opensub .wp-submenu {
+	background: var(--ls-chrome-bg-alt);
+}
+
+html[data-ls-theme="dark"] #adminmenu .wp-submenu .wp-submenu-head,
+html[data-ls-theme="dark"] #adminmenu .wp-submenu a {
+	color: var(--ls-text-muted);
+}
+
+html[data-ls-theme="dark"] #adminmenu .wp-submenu a:hover,
+html[data-ls-theme="dark"] #adminmenu .wp-submenu a:focus {
+	color: var(--ls-link);
+}
+
+html[data-ls-theme="dark"] #adminmenu .wp-submenu li.current a {
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] #adminmenu li.current a.menu-top,
+html[data-ls-theme="dark"] #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
+html[data-ls-theme="dark"] #adminmenu li.wp-has-current-submenu .wp-submenu .wp-submenu-head,
+html[data-ls-theme="dark"] body.folded #adminmenu li.current.menu-top {
+	background: var(--wp-admin-theme-color, #3858e9);
+	color: #fff;
+}
+
+html[data-ls-theme="dark"] ul#adminmenu a.wp-has-current-submenu:after,
+html[data-ls-theme="dark"] ul#adminmenu > li.current > a.current:after {
+	border-right-color: var(--ls-bg);
+}
+
+html[data-ls-theme="dark"] #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after,
+html[data-ls-theme="dark"] #adminmenu li.wp-has-submenu.wp-not-current-submenu:focus-within:after {
+	border-right-color: var(--ls-chrome-bg-alt);
+}
+
+html[data-ls-theme="dark"] #collapse-button {
+	color: var(--ls-text-muted);
+}
+
+html[data-ls-theme="dark"] #collapse-button:hover,
+html[data-ls-theme="dark"] #collapse-button:focus {
+	color: var(--ls-link);
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="checkbox"]:checked,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="radio"]:checked {
+		background: var(--wp-admin-theme-color, #3858e9);
+		border-color: var(--wp-admin-theme-color, #3858e9);
+	}
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input:disabled,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input.disabled,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui select:disabled,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui select.disabled,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui textarea:disabled,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui textarea.disabled {
+		background: var(--ls-bg-alt);
+		border-color: var(--ls-border-soft);
+		box-shadow: none;
+		color: var(--ls-text-muted);
+		text-shadow: none;
+		cursor: default;
+	}
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="text"]:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="search"]:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="number"]:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="email"]:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="url"]:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="password"]:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="date"]:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="datetime-local"]:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="month"]:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="time"]:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="week"]:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="tel"]:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui input[type="color"]:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui select:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui textarea:focus {
+		border-color: var(--ls-focus);
+		box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--ls-focus);
+		outline: 2px solid transparent;
+	}
+	html[data-ls-theme="auto"] .wp-admin .ls-cloy-palette .ls-cloy-palette-search input[type="search"]:focus {
+		background: transparent;
+		border: 0;
+		box-shadow: none;
+		outline: none;
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui select {
+		background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23dcdcde%22%2F%3E%3C%2Fsvg%3E");
+	}
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui .button-link:hover,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui .button.button-link:hover,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui .button-link:focus,
+	html[data-ls-theme="auto"] .wp-admin .wp-core-ui .button.button-link:focus {
+		color: var(--ls-link);
+	}
+	html[data-ls-theme="auto"] .wp-admin a.submitdelete:hover,
+	html[data-ls-theme="auto"] .wp-admin .button-link-delete:hover,
+	html[data-ls-theme="auto"] .wp-admin .button-link-delete:focus {
+		color: var(--ls-danger);
+	}
+	html[data-ls-theme="auto"] .wp-admin .nav-tab {
+		background: var(--ls-bg-alt);
+		border-color: var(--ls-border);
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] .wp-admin .nav-tab:hover,
+	html[data-ls-theme="auto"] .wp-admin .nav-tab:focus {
+		background: var(--ls-surface);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin .nav-tab-active,
+	html[data-ls-theme="auto"] .wp-admin .nav-tab-active:hover,
+	html[data-ls-theme="auto"] .wp-admin .nav-tab-active:focus {
+		background: var(--ls-bg);
+		border-bottom-color: var(--ls-bg);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin .subsubsub {
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] .wp-admin .subsubsub a.current {
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin #contextual-help-back {
+		background: var(--ls-selected-bg);
+		border-color: var(--ls-border);
+	}
+	html[data-ls-theme="auto"] .wp-admin .notice-dismiss:before,
+	html[data-ls-theme="auto"] .wp-admin .welcome-panel .welcome-panel-close:before,
+	html[data-ls-theme="auto"] .wp-admin .tagchecklist .ntdelbutton .remove-tag-icon:before,
+	html[data-ls-theme="auto"] .wp-admin #bulk-titles .ntdelbutton:before {
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] .wp-admin .notice-dismiss:hover:before,
+	html[data-ls-theme="auto"] .wp-admin .welcome-panel .welcome-panel-close:hover:before {
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin .spinner {
+		background-image: url(../images/wpspin_light.gif);
+	}
+	html[data-ls-theme="auto"] .wp-admin #post-status-info {
+		background-color: var(--ls-bg-alt);
+		border-color: var(--ls-border);
+	}
+	html[data-ls-theme="auto"] .wp-admin #wp-content-editor-tools {
+		background-color: var(--ls-bg);
+	}
+	html[data-ls-theme="auto"] .wp-admin #the-comment-list tr.undo,
+	html[data-ls-theme="auto"] .wp-admin #the-comment-list div.undo,
+	html[data-ls-theme="auto"] .wp-admin #activity-widget #the-comment-list tr.undo,
+	html[data-ls-theme="auto"] .wp-admin #activity-widget #the-comment-list div.undo {
+		background-color: var(--ls-bg-alt);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin #dashboard_right_now .sub {
+		background: var(--ls-bg-alt);
+		border-top-color: var(--ls-border-soft);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin #dashboard_right_now .sub h3 {
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin #future-posts li,
+	html[data-ls-theme="auto"] .wp-admin #published-posts li {
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin .activity-block {
+		border-bottom-color: var(--ls-border-soft);
+	}
+	html[data-ls-theme="auto"] .wp-admin .widgets-holder-wrap .description,
+	html[data-ls-theme="auto"] .wp-admin .widget-holder .description,
+	html[data-ls-theme="auto"] .wp-admin .inactive-sidebar .description {
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] .wp-admin .media-widget-preview .placeholder {
+		background: var(--ls-media-tile-bg);
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] .wp-admin .media-widget-control .attachment-media-view .button-add-media:hover,
+	html[data-ls-theme="auto"] .wp-admin .media-widget-control .attachment-media-view .button-add-media:focus {
+		background-color: var(--ls-hover-bg);
+		border-color: var(--ls-border);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin .wp-color-result-text {
+		background: var(--ls-bg-alt);
+		border-left-color: var(--ls-border);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin .wp-color-result:hover,
+	html[data-ls-theme="auto"] .wp-admin .wp-color-result:focus {
+		background: var(--ls-hover-bg);
+		border-color: var(--ls-text-muted);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin .wp-color-result:hover:after,
+	html[data-ls-theme="auto"] .wp-admin .wp-color-result:focus:after {
+		color: var(--ls-text-strong);
+		border-left-color: var(--ls-border);
+	}
+	html[data-ls-theme="auto"] .wp-admin .theme-overlay .theme-header {
+		background: var(--ls-modal-bg);
+	}
+	html[data-ls-theme="auto"] .wp-admin .health-check-accordion,
+	html[data-ls-theme="auto"] .wp-admin .privacy-settings-accordion {
+		border-color: var(--ls-border);
+	}
+	html[data-ls-theme="auto"] .wp-admin .health-check-accordion-heading,
+	html[data-ls-theme="auto"] .wp-admin .privacy-settings-accordion-heading {
+		border-top-color: var(--ls-border-soft);
+	}
+	html[data-ls-theme="auto"] .wp-admin .health-check-accordion-trigger,
+	html[data-ls-theme="auto"] .wp-admin .privacy-settings-accordion-trigger {
+		background: var(--ls-surface);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin .health-check-accordion-trigger:hover,
+	html[data-ls-theme="auto"] .wp-admin .health-check-accordion-trigger:active,
+	html[data-ls-theme="auto"] .wp-admin .privacy-settings-accordion-trigger:hover,
+	html[data-ls-theme="auto"] .wp-admin .privacy-settings-accordion-trigger:active {
+		background: var(--ls-hover-bg);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin .health-check-accordion-trigger:focus,
+	html[data-ls-theme="auto"] .wp-admin .privacy-settings-accordion-trigger:focus {
+		background: var(--ls-hover-bg);
+		color: var(--ls-text-strong);
+		outline: 2px solid var(--ls-focus);
+		outline-offset: -1px;
+	}
+	html[data-ls-theme="auto"] .wp-admin .health-check-accordion-panel,
+	html[data-ls-theme="auto"] .wp-admin .privacy-settings-accordion-panel {
+		background: var(--ls-bg-alt);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin .health-check-accordion-trigger .badge,
+	html[data-ls-theme="auto"] .wp-admin .privacy-settings-accordion-trigger .badge {
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin .categorydiv div.tabs-panel,
+	html[data-ls-theme="auto"] .wp-admin .customlinkdiv div.tabs-panel,
+	html[data-ls-theme="auto"] .wp-admin .posttypediv div.tabs-panel,
+	html[data-ls-theme="auto"] .wp-admin .taxonomydiv div.tabs-panel,
+	html[data-ls-theme="auto"] .wp-admin .wp-tab-panel {
+		background-color: var(--ls-surface);
+		border-color: var(--ls-border);
+	}
+	html[data-ls-theme="auto"] .wp-admin .ac_results {
+		background-color: var(--ls-modal-bg);
+		border-color: var(--ls-border);
+	}
+	html[data-ls-theme="auto"] .wp-admin .ac_results li {
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin .ac_results .ac_over {
+		background-color: var(--ls-selected-bg);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin .ac_match {
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin #postcustomstuff table {
+		background-color: var(--ls-bg-alt);
+		border-color: var(--ls-border);
+	}
+	html[data-ls-theme="auto"] #adminmenuback,
+	html[data-ls-theme="auto"] #adminmenuwrap,
+	html[data-ls-theme="auto"] #adminmenu {
+		background: var(--ls-chrome-bg);
+	}
+	html[data-ls-theme="auto"] #adminmenu a {
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] #adminmenu div.wp-menu-image:before {
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] #adminmenu a:hover,
+	html[data-ls-theme="auto"] #adminmenu li.menu-top:hover,
+	html[data-ls-theme="auto"] #adminmenu li.opensub > a.menu-top,
+	html[data-ls-theme="auto"] #adminmenu li > a.menu-top:focus {
+		background: var(--ls-surface-raised);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] #adminmenu li.menu-top:hover div.wp-menu-image:before,
+	html[data-ls-theme="auto"] #adminmenu li.opensub > a.menu-top div.wp-menu-image:before,
+	html[data-ls-theme="auto"] #adminmenu li a:focus div.wp-menu-image:before {
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] #adminmenu .wp-submenu,
+	html[data-ls-theme="auto"] #adminmenu .wp-has-current-submenu .wp-submenu,
+	html[data-ls-theme="auto"] #adminmenu .wp-has-current-submenu.opensub .wp-submenu {
+		background: var(--ls-chrome-bg-alt);
+	}
+	html[data-ls-theme="auto"] #adminmenu .wp-submenu .wp-submenu-head,
+	html[data-ls-theme="auto"] #adminmenu .wp-submenu a {
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] #adminmenu .wp-submenu a:hover,
+	html[data-ls-theme="auto"] #adminmenu .wp-submenu a:focus {
+		color: var(--ls-link);
+	}
+	html[data-ls-theme="auto"] #adminmenu .wp-submenu li.current a {
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] #adminmenu li.current a.menu-top,
+	html[data-ls-theme="auto"] #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
+	html[data-ls-theme="auto"] #adminmenu li.wp-has-current-submenu .wp-submenu .wp-submenu-head,
+	html[data-ls-theme="auto"] body.folded #adminmenu li.current.menu-top {
+		background: var(--wp-admin-theme-color, #3858e9);
+		color: #fff;
+	}
+	html[data-ls-theme="auto"] ul#adminmenu a.wp-has-current-submenu:after,
+	html[data-ls-theme="auto"] ul#adminmenu > li.current > a.current:after {
+		border-right-color: var(--ls-bg);
+	}
+	html[data-ls-theme="auto"] #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after,
+	html[data-ls-theme="auto"] #adminmenu li.wp-has-submenu.wp-not-current-submenu:focus-within:after {
+		border-right-color: var(--ls-chrome-bg-alt);
+	}
+	html[data-ls-theme="auto"] #collapse-button {
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] #collapse-button:hover,
+	html[data-ls-theme="auto"] #collapse-button:focus {
+		color: var(--ls-link);
+	}
+}
+
+@media (min-resolution: 120dpi) and (prefers-color-scheme: dark) {
+	html[data-ls-theme="auto"] .wp-admin .spinner {
+		background-image: url(../images/wpspin_light-2x.gif);
+	}
+}
+
+/* ---------------------------------------------------------------------------
+ * 8. Dark mode fixes, part 3 — block-editor chrome and Customizer
+ *
+ * The editor canvas (post content) is intentionally left untouched so edited
+ * content keeps its true colors; only the surrounding application chrome is
+ * themed. Component styles that already use the --wp-components-* / --wpds-*
+ * variables are remapped once at the editor root; surfaces with hardcoded
+ * light colors (editor/style.css, components/style.css, edit-site/style.css)
+ * get targeted token overrides below. The Customizer has no .wp-admin body
+ * class, so it is scoped with body.wp-customizer instead.
+ * ------------------------------------------------------------------------- */
+
+/* Component library remap: background/foreground/notices follow the theme. */
+html[data-ls-theme="dark"] body.block-editor-page {
+	--wp-components-color-background: var(--ls-surface);
+	--wp-components-color-foreground: var(--ls-text);
+	--wp-components-color-foreground-inverted: var(--ls-bg);
+	--wp-components-notice-background-color: var(--ls-notice-info-bg);
+	--wp-components-notice-border-color: var(--ls-border);
+	--wp-components-notice-text-color: var(--ls-text);
+	--wp-editor-canvas-background: var(--ls-bg-alt);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .components-notice.is-success {
+	--wp-components-notice-background-color: var(--ls-notice-success-bg);
+	--wp-components-notice-border-color: var(--ls-border);
+	--wp-components-notice-text-color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .components-notice.is-warning {
+	--wp-components-notice-background-color: var(--ls-notice-warning-bg);
+	--wp-components-notice-border-color: var(--ls-border);
+	--wp-components-notice-text-color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .components-notice.is-error {
+	--wp-components-notice-background-color: var(--ls-notice-error-bg);
+	--wp-components-notice-border-color: var(--ls-border);
+	--wp-components-notice-text-color: var(--ls-text);
+}
+
+/* Skeleton regions (header stays transparent over the dark page). */
+html[data-ls-theme="dark"] body.block-editor-page .interface-interface-skeleton__header {
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .interface-interface-skeleton__sidebar,
+html[data-ls-theme="dark"] body.block-editor-page .interface-interface-skeleton__footer,
+html[data-ls-theme="dark"] body.block-editor-page .interface-interface-skeleton__actions,
+html[data-ls-theme="dark"] body.block-editor-page .interface-interface-skeleton__footer .block-editor-block-breadcrumb {
+	background: var(--ls-surface);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .interface-interface-skeleton__sidebar,
+html[data-ls-theme="dark"] body.block-editor-page .interface-interface-skeleton__secondary-sidebar,
+html[data-ls-theme="dark"] body.block-editor-page .interface-interface-skeleton__footer {
+	border-top-color: var(--ls-border-soft);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .interface-complementary-area {
+	background: var(--ls-surface);
+	color: var(--ls-text);
+}
+
+/* Panels, modals, popovers and menus. */
+html[data-ls-theme="dark"] body.block-editor-page .components-panel {
+	background: var(--ls-surface);
+	border-color: var(--ls-border);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .components-panel__body {
+	border-top-color: var(--ls-border-soft);
+	border-bottom-color: var(--ls-border-soft);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .components-panel__header {
+	border-bottom-color: var(--ls-border-soft);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .components-modal__frame {
+	background: var(--ls-modal-bg);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .components-modal__frame h1,
+html[data-ls-theme="dark"] body.block-editor-page .components-modal__frame h2,
+html[data-ls-theme="dark"] body.block-editor-page .components-modal__frame h3 {
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .components-modal__content.has-scrolled-content:not(.hide-header) .components-modal__header {
+	border-bottom-color: var(--ls-border-soft);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .components-popover__content {
+	background: var(--ls-modal-bg);
+	color: var(--ls-text);
+	box-shadow: 0 0 0 1px var(--ls-border), 0 12px 28px rgba(0, 0, 0, 0.5);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .components-menu-group + .components-menu-group {
+	border-top-color: var(--ls-border-soft);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .components-menu-group__label {
+	color: var(--ls-text-muted);
+}
+
+/* Inserter items and component text-input placeholders. */
+html[data-ls-theme="dark"] body.block-editor-page .components-button.block-editor-block-types-list__item {
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .components-text-control__input::placeholder {
+	color: var(--ls-text-muted);
+	opacity: 1;
+}
+
+/* Classic metaboxes area below the canvas. */
+html[data-ls-theme="dark"] body.block-editor-page .edit-post-meta-boxes-main {
+	background: var(--ls-surface);
+}
+
+/* Customizer (body.wp-customizer, without .wp-admin). */
+html[data-ls-theme="dark"] body.wp-customizer {
+	background: var(--ls-bg);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer .wp-full-overlay-sidebar,
+html[data-ls-theme="dark"] body.wp-customizer #customize-sidebar-outer-content {
+	background: var(--ls-bg);
+	border-color: var(--ls-border);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer .wp-full-overlay-sidebar .wp-full-overlay-header {
+	background: var(--ls-bg-alt);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer .customize-controls-close {
+	background: var(--ls-bg-alt);
+	border-top-color: var(--ls-bg-alt);
+	border-right-color: var(--ls-border);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer .customize-controls-close:hover,
+html[data-ls-theme="dark"] body.wp-customizer .customize-controls-close:focus {
+	background: var(--ls-surface);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer .customize-panel-back,
+html[data-ls-theme="dark"] body.wp-customizer .customize-section-back {
+	background: var(--ls-surface);
+	border-right-color: var(--ls-border);
+	border-left-color: var(--ls-surface);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer .customize-panel-back:hover,
+html[data-ls-theme="dark"] body.wp-customizer .customize-panel-back:focus,
+html[data-ls-theme="dark"] body.wp-customizer .customize-section-back:hover,
+html[data-ls-theme="dark"] body.wp-customizer .customize-section-back:focus {
+	background: var(--ls-hover-bg);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer #customize-theme-controls .accordion-section-title,
+html[data-ls-theme="dark"] body.wp-customizer #customize-outer-theme-controls .accordion-section-title,
+html[data-ls-theme="dark"] body.wp-customizer #customize-theme-controls .customize-themes-panel .accordion-section-title {
+	background-color: var(--ls-surface);
+	border-bottom-color: var(--ls-border-soft);
+	border-left-color: var(--ls-surface);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer .js .control-section:hover .accordion-section-title,
+html[data-ls-theme="dark"] body.wp-customizer .js .control-section .accordion-section-title:hover,
+html[data-ls-theme="dark"] body.wp-customizer .js .control-section.open .accordion-section-title,
+html[data-ls-theme="dark"] body.wp-customizer .js .control-section .accordion-section-title:focus {
+	background: var(--ls-hover-bg);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer .customize-section-title {
+	background: var(--ls-surface);
+	border-bottom-color: var(--ls-border-soft);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer .customize-section-title h3,
+html[data-ls-theme="dark"] body.wp-customizer h3.customize-section-title,
+html[data-ls-theme="dark"] body.wp-customizer #customize-controls .customize-info .accordion-section-title {
+	background: var(--ls-surface);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer #customize-theme-controls .accordion-section-content,
+html[data-ls-theme="dark"] body.wp-customizer #customize-outer-theme-controls .accordion-section-content,
+html[data-ls-theme="dark"] body.wp-customizer #customize-controls .description,
+html[data-ls-theme="dark"] body.wp-customizer #customize-controls .customize-control-title,
+html[data-ls-theme="dark"] body.wp-customizer #customize-controls .customize-info .preview-notice,
+html[data-ls-theme="dark"] body.wp-customizer #customize-controls .customize-info .customize-panel-description,
+html[data-ls-theme="dark"] body.wp-customizer #customize-controls .customize-info .customize-section-description {
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui input[type="text"],
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui input[type="search"],
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui input[type="number"],
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui input[type="email"],
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui input[type="url"],
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui input[type="password"],
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui select,
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui textarea {
+	background-color: var(--ls-input-bg);
+	border-color: var(--ls-border);
+	color: var(--ls-input-text);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui input:disabled,
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui select:disabled,
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui textarea:disabled {
+	background: var(--ls-bg-alt);
+	border-color: var(--ls-border-soft);
+	color: var(--ls-text-muted);
+	box-shadow: none;
+	cursor: default;
+}
+
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui .button,
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui .button-secondary {
+	background: var(--ls-surface-raised);
+	border-color: var(--ls-border);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui .button:hover,
+html[data-ls-theme="dark"] body.wp-customizer .wp-core-ui .button-secondary:hover {
+	background: var(--ls-hover-bg);
+	border-color: var(--ls-text-muted);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] body.wp-customizer a {
+	color: var(--ls-link);
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-ls-theme="auto"] body.block-editor-page {
+		--wp-components-color-background: var(--ls-surface);
+		--wp-components-color-foreground: var(--ls-text);
+		--wp-components-color-foreground-inverted: var(--ls-bg);
+		--wp-components-notice-background-color: var(--ls-notice-info-bg);
+		--wp-components-notice-border-color: var(--ls-border);
+		--wp-components-notice-text-color: var(--ls-text);
+		--wp-editor-canvas-background: var(--ls-bg-alt);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-notice.is-success {
+		--wp-components-notice-background-color: var(--ls-notice-success-bg);
+		--wp-components-notice-border-color: var(--ls-border);
+		--wp-components-notice-text-color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-notice.is-warning {
+		--wp-components-notice-background-color: var(--ls-notice-warning-bg);
+		--wp-components-notice-border-color: var(--ls-border);
+		--wp-components-notice-text-color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-notice.is-error {
+		--wp-components-notice-background-color: var(--ls-notice-error-bg);
+		--wp-components-notice-border-color: var(--ls-border);
+		--wp-components-notice-text-color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .interface-interface-skeleton__header {
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .interface-interface-skeleton__sidebar,
+	html[data-ls-theme="auto"] body.block-editor-page .interface-interface-skeleton__footer,
+	html[data-ls-theme="auto"] body.block-editor-page .interface-interface-skeleton__actions,
+	html[data-ls-theme="auto"] body.block-editor-page .interface-interface-skeleton__footer .block-editor-block-breadcrumb {
+		background: var(--ls-surface);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .interface-interface-skeleton__sidebar,
+	html[data-ls-theme="auto"] body.block-editor-page .interface-interface-skeleton__secondary-sidebar,
+	html[data-ls-theme="auto"] body.block-editor-page .interface-interface-skeleton__footer {
+		border-top-color: var(--ls-border-soft);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .interface-complementary-area {
+		background: var(--ls-surface);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-panel {
+		background: var(--ls-surface);
+		border-color: var(--ls-border);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-panel__body {
+		border-top-color: var(--ls-border-soft);
+		border-bottom-color: var(--ls-border-soft);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-panel__header {
+		border-bottom-color: var(--ls-border-soft);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-modal__frame {
+		background: var(--ls-modal-bg);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-modal__frame h1,
+	html[data-ls-theme="auto"] body.block-editor-page .components-modal__frame h2,
+	html[data-ls-theme="auto"] body.block-editor-page .components-modal__frame h3 {
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-modal__content.has-scrolled-content:not(.hide-header) .components-modal__header {
+		border-bottom-color: var(--ls-border-soft);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-popover__content {
+		background: var(--ls-modal-bg);
+		color: var(--ls-text);
+		box-shadow: 0 0 0 1px var(--ls-border), 0 12px 28px rgba(0, 0, 0, 0.5);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-menu-group + .components-menu-group {
+		border-top-color: var(--ls-border-soft);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-menu-group__label {
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-button.block-editor-block-types-list__item {
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-text-control__input::placeholder {
+		color: var(--ls-text-muted);
+		opacity: 1;
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .edit-post-meta-boxes-main {
+		background: var(--ls-surface);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer {
+		background: var(--ls-bg);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer .wp-full-overlay-sidebar,
+	html[data-ls-theme="auto"] body.wp-customizer #customize-sidebar-outer-content {
+		background: var(--ls-bg);
+		border-color: var(--ls-border);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer .wp-full-overlay-sidebar .wp-full-overlay-header {
+		background: var(--ls-bg-alt);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer .customize-controls-close {
+		background: var(--ls-bg-alt);
+		border-top-color: var(--ls-bg-alt);
+		border-right-color: var(--ls-border);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer .customize-controls-close:hover,
+	html[data-ls-theme="auto"] body.wp-customizer .customize-controls-close:focus {
+		background: var(--ls-surface);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer .customize-panel-back,
+	html[data-ls-theme="auto"] body.wp-customizer .customize-section-back {
+		background: var(--ls-surface);
+		border-right-color: var(--ls-border);
+		border-left-color: var(--ls-surface);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer .customize-panel-back:hover,
+	html[data-ls-theme="auto"] body.wp-customizer .customize-panel-back:focus,
+	html[data-ls-theme="auto"] body.wp-customizer .customize-section-back:hover,
+	html[data-ls-theme="auto"] body.wp-customizer .customize-section-back:focus {
+		background: var(--ls-hover-bg);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer #customize-theme-controls .accordion-section-title,
+	html[data-ls-theme="auto"] body.wp-customizer #customize-outer-theme-controls .accordion-section-title,
+	html[data-ls-theme="auto"] body.wp-customizer #customize-theme-controls .customize-themes-panel .accordion-section-title {
+		background-color: var(--ls-surface);
+		border-bottom-color: var(--ls-border-soft);
+		border-left-color: var(--ls-surface);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer .js .control-section:hover .accordion-section-title,
+	html[data-ls-theme="auto"] body.wp-customizer .js .control-section .accordion-section-title:hover,
+	html[data-ls-theme="auto"] body.wp-customizer .js .control-section.open .accordion-section-title,
+	html[data-ls-theme="auto"] body.wp-customizer .js .control-section .accordion-section-title:focus {
+		background: var(--ls-hover-bg);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer .customize-section-title {
+		background: var(--ls-surface);
+		border-bottom-color: var(--ls-border-soft);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer .customize-section-title h3,
+	html[data-ls-theme="auto"] body.wp-customizer h3.customize-section-title,
+	html[data-ls-theme="auto"] body.wp-customizer #customize-controls .customize-info .accordion-section-title {
+		background: var(--ls-surface);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer #customize-theme-controls .accordion-section-content,
+	html[data-ls-theme="auto"] body.wp-customizer #customize-outer-theme-controls .accordion-section-content,
+	html[data-ls-theme="auto"] body.wp-customizer #customize-controls .description,
+	html[data-ls-theme="auto"] body.wp-customizer #customize-controls .customize-control-title,
+	html[data-ls-theme="auto"] body.wp-customizer #customize-controls .customize-info .preview-notice,
+	html[data-ls-theme="auto"] body.wp-customizer #customize-controls .customize-info .customize-panel-description,
+	html[data-ls-theme="auto"] body.wp-customizer #customize-controls .customize-info .customize-section-description {
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui input[type="text"],
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui input[type="search"],
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui input[type="number"],
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui input[type="email"],
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui input[type="url"],
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui input[type="password"],
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui select,
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui textarea {
+		background-color: var(--ls-input-bg);
+		border-color: var(--ls-border);
+		color: var(--ls-input-text);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui input:disabled,
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui select:disabled,
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui textarea:disabled {
+		background: var(--ls-bg-alt);
+		border-color: var(--ls-border-soft);
+		color: var(--ls-text-muted);
+		box-shadow: none;
+		cursor: default;
+	}
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui .button,
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui .button-secondary {
+		background: var(--ls-surface-raised);
+		border-color: var(--ls-border);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui .button:hover,
+	html[data-ls-theme="auto"] body.wp-customizer .wp-core-ui .button-secondary:hover {
+		background: var(--ls-hover-bg);
+		border-color: var(--ls-text-muted);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer a {
+		color: var(--ls-link);
 	}
 }

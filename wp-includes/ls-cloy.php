@@ -616,6 +616,71 @@ function ls_cloy_enqueue_admin_assets( $hook_suffix ) {
 add_action( 'admin_enqueue_scripts', 'ls_cloy_enqueue_admin_assets', 20 );
 
 /**
+ * Whether the native WordPress command palette owns Ctrl/Cmd+K on the
+ * current admin screen.
+ *
+ * The block editor registers its own primary+k shortcut through the
+ * core/commands store and the Cloy palette deliberately integrates with it
+ * there (its commands are registered into the native palette and the Cloy
+ * modal stays closed). On every other admin screen the Cloy palette is the
+ * exclusive owner of the shortcut.
+ *
+ * Relies on WP_Screen::is_block_editor(), which the block-editor templates
+ * (edit-form-blocks.php, site-editor.php, widgets-form-blocks.php) set
+ * before admin-header.php fires admin_enqueue_scripts.
+ *
+ * @since 26.2
+ *
+ * @return bool True on block-editor screens, false everywhere else.
+ */
+function ls_cloy_native_palette_owns_shortcut() {
+	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
+	if ( $screen instanceof WP_Screen && $screen->is_block_editor() ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Neutralizes the native command palette on screens owned by Cloy.
+ *
+ * Origin of the conflict: core enqueues the native palette on every admin
+ * screen (wp_enqueue_command_palette_assets on admin_enqueue_scripts) and
+ * its CommandMenu component registers a *global* primary+k shortcut
+ * (bindGlobal) that toggles the native palette — even inside plain inputs —
+ * while adding a duplicate admin-bar entry labeled Ctrl+K/⌘K
+ * (wp_admin_bar_command_palette_menu). Pressing the shortcut therefore
+ * opened the native palette in parallel with (or instead of) the Cloy
+ * palette.
+ *
+ * This removes the native registration paths — the enqueue (scripts, styles
+ * and the initializeCommandPalette inline bootstrap) and the duplicate
+ * admin-bar node — on non-block-editor screens only. Block-editor screens
+ * are left untouched so the editor keeps its own palette (which already
+ * carries the Cloy commands) and unrelated editor shortcuts such as the
+ * RichText link shortcut (primary+k inside the canvas) keep working.
+ *
+ * Runs at priority 1, before the native enqueue (priority 10) and the Cloy
+ * enqueue (priority 20).
+ *
+ * @since 26.2
+ */
+function ls_cloy_neutralize_native_palette_shortcut() {
+	if ( ls_cloy_native_palette_owns_shortcut() ) {
+		return;
+	}
+
+	remove_action( 'admin_enqueue_scripts', 'wp_enqueue_command_palette_assets' );
+	wp_dequeue_script( 'wp-commands' );
+	wp_dequeue_script( 'wp-core-commands' );
+	wp_dequeue_style( 'wp-commands' );
+	remove_action( 'admin_bar_menu', 'wp_admin_bar_command_palette_menu', 55 );
+}
+add_action( 'admin_enqueue_scripts', 'ls_cloy_neutralize_native_palette_shortcut', 1 );
+
+/**
  * Registers and localizes the command palette script.
  *
  * Factored out so both the standard admin and the Customizer (which never

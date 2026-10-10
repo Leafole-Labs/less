@@ -420,6 +420,14 @@ function ls_mark_core_updates_disabled( $value ) {
 require_once ABSPATH . WPINC . '/ls-update.php';
 
 /**
+ * Loads the LESS 26.2 — Cloy feature module (admin theme, media
+ * enhancements and command palette).
+ *
+ * @since 26.2
+ */
+require_once ABSPATH . WPINC . '/ls-cloy.php';
+
+/**
  * Disables automatic core updates.
  *
  * @since 0.1

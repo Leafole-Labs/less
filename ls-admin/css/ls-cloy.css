@@ -2177,13 +2177,13 @@ html[data-ls-theme="dark"] body.folded #adminmenu li.current.menu-top {
 	color: #fff;
 }
 
-html[data-ls-theme="dark"] ul#adminmenu a.wp-has-current-submenu:after,
-html[data-ls-theme="dark"] ul#adminmenu > li.current > a.current:after {
+html[data-ls-theme="dark"] body.wp-admin ul#adminmenu a.wp-has-current-submenu:after,
+html[data-ls-theme="dark"] body.wp-admin ul#adminmenu > li.current > a.current:after {
 	border-right-color: var(--ls-bg);
 }
 
-html[data-ls-theme="dark"] #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after,
-html[data-ls-theme="dark"] #adminmenu li.wp-has-submenu.wp-not-current-submenu:focus-within:after {
+html[data-ls-theme="dark"] body.wp-admin #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after,
+html[data-ls-theme="dark"] body.wp-admin #adminmenu li.wp-has-submenu.wp-not-current-submenu:focus-within:after {
 	border-right-color: var(--ls-chrome-bg-alt);
 }
 
@@ -2466,12 +2466,12 @@ html[data-ls-theme="dark"] #collapse-button:focus {
 		background: var(--wp-admin-theme-color, #3858e9);
 		color: #fff;
 	}
-	html[data-ls-theme="auto"] ul#adminmenu a.wp-has-current-submenu:after,
-	html[data-ls-theme="auto"] ul#adminmenu > li.current > a.current:after {
+	html[data-ls-theme="auto"] body.wp-admin ul#adminmenu a.wp-has-current-submenu:after,
+	html[data-ls-theme="auto"] body.wp-admin ul#adminmenu > li.current > a.current:after {
 		border-right-color: var(--ls-bg);
 	}
-	html[data-ls-theme="auto"] #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after,
-	html[data-ls-theme="auto"] #adminmenu li.wp-has-submenu.wp-not-current-submenu:focus-within:after {
+	html[data-ls-theme="auto"] body.wp-admin #adminmenu li.wp-has-submenu.wp-not-current-submenu.opensub:hover:after,
+	html[data-ls-theme="auto"] body.wp-admin #adminmenu li.wp-has-submenu.wp-not-current-submenu:focus-within:after {
 		border-right-color: var(--ls-chrome-bg-alt);
 	}
 	html[data-ls-theme="auto"] #collapse-button {
@@ -2612,6 +2612,69 @@ html[data-ls-theme="dark"] body.block-editor-page .components-text-control__inpu
 /* Classic metaboxes area below the canvas. */
 html[data-ls-theme="dark"] body.block-editor-page .edit-post-meta-boxes-main {
 	background: var(--ls-surface);
+}
+
+/* Design-system variables used across the site editor, widgets editor and
+ * newer components (navigation sidebar, sticky headers, item states). */
+html[data-ls-theme="dark"] body.block-editor-page,
+html[data-ls-theme="dark"] body.wp-customizer {
+	--wpds-color-foreground-content-neutral: var(--ls-text);
+	--wpds-color-foreground-content-neutral-weak: var(--ls-text-muted);
+	--wpds-color-foreground-interactive-neutral: var(--ls-text);
+	--wpds-color-foreground-interactive-neutral-active: var(--ls-text-strong);
+	--wpds-color-foreground-interactive-neutral-weak: var(--ls-text-muted);
+	--wpds-color-foreground-interactive-neutral-weak-active: var(--ls-text-strong);
+	--wpds-color-background-surface-neutral-strong: var(--ls-surface);
+	--wpds-color-background-surface-neutral-weak: var(--ls-bg-alt);
+	--wpds-color-background-interactive-neutral-weak-active: var(--ls-selected-bg);
+	--wpds-color-stroke-interactive-neutral: var(--ls-border);
+	--wpds-color-stroke-surface-neutral: var(--ls-border-soft);
+	--wp-dataviews-color-background: var(--ls-surface);
+}
+
+/* Widgets editor chrome (block widgets screen). */
+html[data-ls-theme="dark"] body.block-editor-page .interface-complementary-area-header {
+	background: var(--ls-surface);
+	color: var(--ls-text);
+	border-bottom: 1px solid var(--ls-border-soft);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .edit-widgets-header {
+	background: var(--ls-surface);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .wp-block[data-type="core/widget-area"] .components-panel__body > .components-panel__body-title {
+	background: var(--ls-surface);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] body.block-editor-page .wp-block-legacy-widget__edit-form {
+	background: var(--ls-surface);
+	border-color: var(--ls-border);
+	color: var(--ls-text);
+}
+
+/* Template-part / pattern selection search bars inside modals. */
+html[data-ls-theme="dark"] body.block-editor-page .block-library-template-part__selection-search,
+html[data-ls-theme="dark"] body.block-editor-page .block-library-query-pattern__selection-modal .block-library-query-pattern__selection-search {
+	background: var(--ls-modal-bg);
+}
+
+/* Token-field suggestion dropdowns (pattern/category pickers). */
+html[data-ls-theme="dark"] body.block-editor-page .components-form-token-field__suggestions-list:not(:empty) {
+	background-color: var(--ls-modal-bg);
+	border-color: var(--ls-border);
+	color: var(--ls-text);
+}
+
+/* Widgets editor hosted inside the Customizer. */
+html[data-ls-theme="dark"] body.wp-customizer #customize-theme-controls .customize-pane-child.accordion-section-content.customize-widgets-layout__inspector,
+html[data-ls-theme="dark"] body.wp-customizer #customize-theme-controls .customize-pane-child.customize-widgets__sidebar-section,
+html[data-ls-theme="dark"] body.wp-customizer .customize-widgets-layout__inserter-panel,
+html[data-ls-theme="dark"] body.wp-customizer .block-editor-inserter__quick-inserter .block-editor-inserter__panel-content {
+	background-color: var(--ls-surface);
+	color: var(--ls-text);
 }
 
 /* Customizer (body.wp-customizer, without .wp-admin). */
@@ -2829,6 +2892,55 @@ html[data-ls-theme="dark"] body.wp-customizer a {
 	html[data-ls-theme="auto"] body.block-editor-page .edit-post-meta-boxes-main {
 		background: var(--ls-surface);
 	}
+	html[data-ls-theme="auto"] body.block-editor-page,
+	html[data-ls-theme="auto"] body.wp-customizer {
+		--wpds-color-foreground-content-neutral: var(--ls-text);
+		--wpds-color-foreground-content-neutral-weak: var(--ls-text-muted);
+		--wpds-color-foreground-interactive-neutral: var(--ls-text);
+		--wpds-color-foreground-interactive-neutral-active: var(--ls-text-strong);
+		--wpds-color-foreground-interactive-neutral-weak: var(--ls-text-muted);
+		--wpds-color-foreground-interactive-neutral-weak-active: var(--ls-text-strong);
+		--wpds-color-background-surface-neutral-strong: var(--ls-surface);
+		--wpds-color-background-surface-neutral-weak: var(--ls-bg-alt);
+		--wpds-color-background-interactive-neutral-weak-active: var(--ls-selected-bg);
+		--wpds-color-stroke-interactive-neutral: var(--ls-border);
+		--wpds-color-stroke-surface-neutral: var(--ls-border-soft);
+		--wp-dataviews-color-background: var(--ls-surface);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .interface-complementary-area-header {
+		background: var(--ls-surface);
+		color: var(--ls-text);
+		border-bottom: 1px solid var(--ls-border-soft);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .edit-widgets-header {
+		background: var(--ls-surface);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .wp-block[data-type="core/widget-area"] .components-panel__body > .components-panel__body-title {
+		background: var(--ls-surface);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .wp-block-legacy-widget__edit-form {
+		background: var(--ls-surface);
+		border-color: var(--ls-border);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .block-library-template-part__selection-search,
+	html[data-ls-theme="auto"] body.block-editor-page .block-library-query-pattern__selection-modal .block-library-query-pattern__selection-search {
+		background: var(--ls-modal-bg);
+	}
+	html[data-ls-theme="auto"] body.block-editor-page .components-form-token-field__suggestions-list:not(:empty) {
+		background-color: var(--ls-modal-bg);
+		border-color: var(--ls-border);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] body.wp-customizer #customize-theme-controls .customize-pane-child.accordion-section-content.customize-widgets-layout__inspector,
+	html[data-ls-theme="auto"] body.wp-customizer #customize-theme-controls .customize-pane-child.customize-widgets__sidebar-section,
+	html[data-ls-theme="auto"] body.wp-customizer .customize-widgets-layout__inserter-panel,
+	html[data-ls-theme="auto"] body.wp-customizer .block-editor-inserter__quick-inserter .block-editor-inserter__panel-content {
+		background-color: var(--ls-surface);
+		color: var(--ls-text);
+	}
 	html[data-ls-theme="auto"] body.wp-customizer {
 		background: var(--ls-bg);
 		color: var(--ls-text);
@@ -2936,5 +3048,349 @@ html[data-ls-theme="dark"] body.wp-customizer a {
 	}
 	html[data-ls-theme="auto"] body.wp-customizer a {
 		color: var(--ls-link);
+	}
+}
+
+/* ---------------------------------------------------------------------------
+ * 9. Dark mode fixes, part 4 — residual admin surfaces
+ *
+ * Origins: hardcoded light colors in edit.css (category tabs, post-lock
+ * dialog, custom-fields head), nav-menus.css (editor canvas, header/footer),
+ * media.css (find-posts modal, legacy uploader rows), forms.css (password
+ * meter empty state), site-health.css (header band, tab focus),
+ * jquery-ui-dialog.css (dialog buttons, button pane, titlebar close) and
+ * wp-auth-check.css (session-expired modal). Light theme untouched.
+ * ------------------------------------------------------------------------- */
+
+/* Site Health / Privacy header band and tab focus. */
+html[data-ls-theme="dark"] .wp-admin .health-check-header,
+html[data-ls-theme="dark"] .wp-admin .privacy-settings-header {
+	background: var(--ls-surface);
+	border-bottom-color: var(--ls-border-soft);
+}
+
+html[data-ls-theme="dark"] .wp-admin .health-check-tab:focus,
+html[data-ls-theme="dark"] .wp-admin .privacy-settings-tab:focus {
+	color: var(--ls-text-strong);
+}
+
+/* Post-lock ("taken over") dialog. */
+html[data-ls-theme="dark"] .wp-admin .notification-dialog {
+	background: var(--ls-modal-bg);
+	color: var(--ls-text);
+}
+
+/* Find-posts modal (link insertion) and legacy uploader rows. */
+html[data-ls-theme="dark"] .wp-admin .find-box {
+	background-color: var(--ls-modal-bg);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] .wp-admin .find-box-head {
+	background: var(--ls-bg-alt);
+	border-bottom-color: var(--ls-border-soft);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] .wp-admin .find-box-inside {
+	background-color: var(--ls-surface);
+}
+
+html[data-ls-theme="dark"] .wp-admin .find-box-buttons {
+	background: var(--ls-bg-alt);
+	border-top-color: var(--ls-border-soft);
+}
+
+html[data-ls-theme="dark"] .wp-admin #find-posts-close {
+	color: var(--ls-text-muted);
+}
+
+html[data-ls-theme="dark"] .wp-admin #find-posts-close:hover,
+html[data-ls-theme="dark"] .wp-admin #find-posts-close:focus {
+	color: var(--ls-link);
+}
+
+html[data-ls-theme="dark"] .wp-admin .media-upload-form .media-item {
+	background: var(--ls-surface);
+	color: var(--ls-text);
+}
+
+/* Category/tag tab strips on the classic post screen. */
+html[data-ls-theme="dark"] .wp-admin ul.category-tabs li.tabs,
+html[data-ls-theme="dark"] .wp-admin ul.add-menu-item-tabs li.tabs,
+html[data-ls-theme="dark"] .wp-admin .wp-tab-active {
+	background-color: var(--ls-surface);
+	border-color: var(--ls-border);
+	border-bottom-color: var(--ls-surface);
+}
+
+html[data-ls-theme="dark"] .wp-admin #post-body ul.category-tabs li.tabs a,
+html[data-ls-theme="dark"] .wp-admin #post-body ul.add-menu-item-tabs li.tabs a,
+html[data-ls-theme="dark"] .wp-admin #side-sortables .category-tabs .tabs a,
+html[data-ls-theme="dark"] .wp-admin #side-sortables .add-menu-item-tabs .tabs a,
+html[data-ls-theme="dark"] .wp-admin .wp-tab-bar .wp-tab-active a {
+	color: var(--ls-text-strong);
+}
+
+/* Post-format icon hover. */
+html[data-ls-theme="dark"] .wp-admin a.post-format-icon:hover:before {
+	color: var(--ls-link);
+}
+
+/* Custom-fields table head and stuffbox headings. */
+html[data-ls-theme="dark"] .wp-admin #postcustomstuff thead th {
+	background-color: var(--ls-bg-alt);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] .wp-admin #poststuff .stuffbox > h2 {
+	border-bottom-color: var(--ls-border-soft);
+}
+
+/* "Show URL" annotation on the comment-moderation screen. */
+html[data-ls-theme="dark"] .wp-admin .comment-ays .comment-content a[href]:after {
+	color: var(--ls-text-muted);
+}
+
+/* Password-strength meter: empty state follows the theme; graded states
+ * keep their pastel fills (dark text stays legible on them). */
+html[data-ls-theme="dark"] .wp-admin #pass-strength-result {
+	background-color: var(--ls-surface);
+	border-color: var(--ls-border);
+	color: var(--ls-text);
+}
+
+/* Menus screen: editor canvas, header/footer bars and helper text. */
+html[data-ls-theme="dark"] .wp-admin .nav-menus-php #post-body {
+	background: var(--ls-surface);
+	border-top-color: var(--ls-surface);
+	border-bottom-color: var(--ls-border);
+}
+
+html[data-ls-theme="dark"] .wp-admin #nav-menu-header,
+html[data-ls-theme="dark"] .wp-admin #nav-menu-footer {
+	background: var(--ls-bg-alt);
+	color: var(--ls-text);
+}
+
+html[data-ls-theme="dark"] .wp-admin .bulk-actions input.menu-items-delete,
+html[data-ls-theme="dark"] .wp-admin .bulk-actions input.menu-items-delete:hover {
+	color: var(--ls-danger);
+}
+
+html[data-ls-theme="dark"] .wp-admin .is-submenu,
+html[data-ls-theme="dark"] .wp-admin .theme-location-set {
+	color: var(--ls-text-muted);
+}
+
+/* jQuery UI dialog buttons, button pane and titlebar close. */
+html[data-ls-theme="dark"] .wp-admin .ui-button {
+	background: var(--ls-surface-raised);
+	border-color: var(--ls-border);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] .wp-admin .ui-button:hover,
+html[data-ls-theme="dark"] .wp-admin .ui-button:focus {
+	background: var(--ls-hover-bg);
+	border-color: var(--ls-text-muted);
+	color: var(--ls-text-strong);
+}
+
+html[data-ls-theme="dark"] .wp-admin .ui-button:active {
+	background: var(--ls-bg-alt);
+	border-color: var(--ls-border);
+}
+
+html[data-ls-theme="dark"] .wp-admin .ui-button[disabled],
+html[data-ls-theme="dark"] .wp-admin .ui-button:disabled {
+	background: var(--ls-bg-alt) !important;
+	border-color: var(--ls-border-soft) !important;
+	color: var(--ls-text-muted) !important;
+	box-shadow: none !important;
+	text-shadow: none !important;
+}
+
+html[data-ls-theme="dark"] .wp-admin .ui-dialog-buttonpane {
+	background: var(--ls-bg-alt);
+	border-top-color: var(--ls-border-soft);
+}
+
+html[data-ls-theme="dark"] .wp-admin .ui-button.ui-dialog-titlebar-close {
+	color: var(--ls-text-muted);
+}
+
+html[data-ls-theme="dark"] .wp-admin .ui-button.ui-dialog-titlebar-close:hover,
+html[data-ls-theme="dark"] .wp-admin .ui-button.ui-dialog-titlebar-close:focus {
+	color: var(--ls-link);
+}
+
+/* Session-expired modal frame and controls. */
+html[data-ls-theme="dark"] .wp-admin #wp-auth-check-wrap #wp-auth-check {
+	background-color: var(--ls-surface);
+}
+
+html[data-ls-theme="dark"] .wp-admin #wp-auth-check-wrap .wp-auth-check-close {
+	color: var(--ls-text-muted);
+}
+
+html[data-ls-theme="dark"] .wp-admin #wp-auth-check-wrap .wp-auth-check-close:hover,
+html[data-ls-theme="dark"] .wp-admin #wp-auth-check-wrap .wp-auth-check-close:focus {
+	color: var(--ls-link);
+}
+
+html[data-ls-theme="dark"] .wp-admin #wp-auth-check-form.loading:before {
+	background-image: url(../images/wpspin_light.gif);
+}
+
+@media (min-resolution: 120dpi) {
+	html[data-ls-theme="dark"] .wp-admin #wp-auth-check-form.loading:before {
+		background-image: url(../images/wpspin_light-2x.gif);
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	html[data-ls-theme="auto"] .wp-admin .health-check-header,
+	html[data-ls-theme="auto"] .wp-admin .privacy-settings-header {
+		background: var(--ls-surface);
+		border-bottom-color: var(--ls-border-soft);
+	}
+	html[data-ls-theme="auto"] .wp-admin .health-check-tab:focus,
+	html[data-ls-theme="auto"] .wp-admin .privacy-settings-tab:focus {
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin .notification-dialog {
+		background: var(--ls-modal-bg);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin .find-box {
+		background-color: var(--ls-modal-bg);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin .find-box-head {
+		background: var(--ls-bg-alt);
+		border-bottom-color: var(--ls-border-soft);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin .find-box-inside {
+		background-color: var(--ls-surface);
+	}
+	html[data-ls-theme="auto"] .wp-admin .find-box-buttons {
+		background: var(--ls-bg-alt);
+		border-top-color: var(--ls-border-soft);
+	}
+	html[data-ls-theme="auto"] .wp-admin #find-posts-close {
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] .wp-admin #find-posts-close:hover,
+	html[data-ls-theme="auto"] .wp-admin #find-posts-close:focus {
+		color: var(--ls-link);
+	}
+	html[data-ls-theme="auto"] .wp-admin .media-upload-form .media-item {
+		background: var(--ls-surface);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin ul.category-tabs li.tabs,
+	html[data-ls-theme="auto"] .wp-admin ul.add-menu-item-tabs li.tabs,
+	html[data-ls-theme="auto"] .wp-admin .wp-tab-active {
+		background-color: var(--ls-surface);
+		border-color: var(--ls-border);
+		border-bottom-color: var(--ls-surface);
+	}
+	html[data-ls-theme="auto"] .wp-admin #post-body ul.category-tabs li.tabs a,
+	html[data-ls-theme="auto"] .wp-admin #post-body ul.add-menu-item-tabs li.tabs a,
+	html[data-ls-theme="auto"] .wp-admin #side-sortables .category-tabs .tabs a,
+	html[data-ls-theme="auto"] .wp-admin #side-sortables .add-menu-item-tabs .tabs a,
+	html[data-ls-theme="auto"] .wp-admin .wp-tab-bar .wp-tab-active a {
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin a.post-format-icon:hover:before {
+		color: var(--ls-link);
+	}
+	html[data-ls-theme="auto"] .wp-admin #postcustomstuff thead th {
+		background-color: var(--ls-bg-alt);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin #poststuff .stuffbox > h2 {
+		border-bottom-color: var(--ls-border-soft);
+	}
+	html[data-ls-theme="auto"] .wp-admin .comment-ays .comment-content a[href]:after {
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] .wp-admin #pass-strength-result {
+		background-color: var(--ls-surface);
+		border-color: var(--ls-border);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin .nav-menus-php #post-body {
+		background: var(--ls-surface);
+		border-top-color: var(--ls-surface);
+		border-bottom-color: var(--ls-border);
+	}
+	html[data-ls-theme="auto"] .wp-admin #nav-menu-header,
+	html[data-ls-theme="auto"] .wp-admin #nav-menu-footer {
+		background: var(--ls-bg-alt);
+		color: var(--ls-text);
+	}
+	html[data-ls-theme="auto"] .wp-admin .bulk-actions input.menu-items-delete,
+	html[data-ls-theme="auto"] .wp-admin .bulk-actions input.menu-items-delete:hover {
+		color: var(--ls-danger);
+	}
+	html[data-ls-theme="auto"] .wp-admin .is-submenu,
+	html[data-ls-theme="auto"] .wp-admin .theme-location-set {
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] .wp-admin .ui-button {
+		background: var(--ls-surface-raised);
+		border-color: var(--ls-border);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin .ui-button:hover,
+	html[data-ls-theme="auto"] .wp-admin .ui-button:focus {
+		background: var(--ls-hover-bg);
+		border-color: var(--ls-text-muted);
+		color: var(--ls-text-strong);
+	}
+	html[data-ls-theme="auto"] .wp-admin .ui-button:active {
+		background: var(--ls-bg-alt);
+		border-color: var(--ls-border);
+	}
+	html[data-ls-theme="auto"] .wp-admin .ui-button[disabled],
+	html[data-ls-theme="auto"] .wp-admin .ui-button:disabled {
+		background: var(--ls-bg-alt) !important;
+		border-color: var(--ls-border-soft) !important;
+		color: var(--ls-text-muted) !important;
+		box-shadow: none !important;
+		text-shadow: none !important;
+	}
+	html[data-ls-theme="auto"] .wp-admin .ui-dialog-buttonpane {
+		background: var(--ls-bg-alt);
+		border-top-color: var(--ls-border-soft);
+	}
+	html[data-ls-theme="auto"] .wp-admin .ui-button.ui-dialog-titlebar-close {
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] .wp-admin .ui-button.ui-dialog-titlebar-close:hover,
+	html[data-ls-theme="auto"] .wp-admin .ui-button.ui-dialog-titlebar-close:focus {
+		color: var(--ls-link);
+	}
+	html[data-ls-theme="auto"] .wp-admin #wp-auth-check-wrap #wp-auth-check {
+		background-color: var(--ls-surface);
+	}
+	html[data-ls-theme="auto"] .wp-admin #wp-auth-check-wrap .wp-auth-check-close {
+		color: var(--ls-text-muted);
+	}
+	html[data-ls-theme="auto"] .wp-admin #wp-auth-check-wrap .wp-auth-check-close:hover,
+	html[data-ls-theme="auto"] .wp-admin #wp-auth-check-wrap .wp-auth-check-close:focus {
+		color: var(--ls-link);
+	}
+	html[data-ls-theme="auto"] .wp-admin #wp-auth-check-form.loading:before {
+		background-image: url(../images/wpspin_light.gif);
+	}
+}
+
+@media (min-resolution: 120dpi) and (prefers-color-scheme: dark) {
+	html[data-ls-theme="auto"] .wp-admin #wp-auth-check-form.loading:before {
+		background-image: url(../images/wpspin_light-2x.gif);
 	}
 }

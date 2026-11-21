@@ -860,23 +860,23 @@ function ls_render_less_options_page() {
 		<hr />
 
 		<h2 class="title"><?php esc_html_e( 'Danger zone' ); ?></h2>
-		<div class="ls-danger-zone" style="border:1px solid #d63638;border-left:4px solid #d63638;background:#fff;padding:12px 16px;max-width:720px;">
-			<h3 style="color:#d63638;margin-top:0;"><?php esc_html_e( 'Excluir todo o banco de dados' ); ?></h3>
+		<div class="ls-danger-zone" style="border:1px solid #d63638;border-left:4px solid #d63638;background:var(--ls-surface,#fff);padding:12px 16px;max-width:720px;">
+			<h3 style="color:var(--ls-danger,#d63638);margin-top:0;"><?php esc_html_e( 'Excluir todo o banco de dados' ); ?></h3>
 			<p>
-				<strong style="color:#d63638;"><?php esc_html_e( 'Atenção: esta operação é irreversível.' ); ?></strong>
+				<strong style="color:var(--ls-danger,#d63638);"><?php esc_html_e( 'Atenção: esta operação é irreversível.' ); ?></strong>
 				<?php esc_html_e( 'Todos os dados armazenados no banco de dados da instalação atual do LESS serão perdidos permanentemente (conteúdo, usuários, ajustes e tabelas próprias do LESS). Nenhum arquivo PHP, tema, plugin, upload ou código-fonte será excluído — apenas os dados do banco.' ); ?>
 			</p>
 			<p class="description"><?php esc_html_e( 'Utilize apenas se deseja apagar tudo e reinstalar o LESS do zero.' ); ?></p>
 			<p>
-				<button type="button" id="ls-wipe-open" class="button button-link-delete" style="border-color:#d63638;color:#d63638;">
+				<button type="button" id="ls-wipe-open" class="button button-link-delete" style="border-color:var(--ls-danger,#d63638);color:var(--ls-danger,#d63638);">
 					<?php esc_html_e( 'Excluir todo o banco de dados' ); ?>
 				</button>
 			</p>
 		</div>
 
 		<div id="ls-wipe-modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100000;" aria-hidden="true"></div>
-		<div id="ls-wipe-modal" role="dialog" aria-modal="true" aria-labelledby="ls-wipe-modal-title" style="display:none;position:fixed;z-index:100001;left:50%;top:12%;transform:translateX(-50%);background:#fff;border-top:4px solid #d63638;max-width:520px;width:calc(100% - 40px);padding:20px 24px;box-shadow:0 5px 30px rgba(0,0,0,.35);">
-			<h2 id="ls-wipe-modal-title" style="color:#d63638;margin-top:0;"><?php esc_html_e( 'Excluir todo o banco de dados?' ); ?></h2>
+		<div id="ls-wipe-modal" role="dialog" aria-modal="true" aria-labelledby="ls-wipe-modal-title" style="display:none;position:fixed;z-index:100001;left:50%;top:12%;transform:translateX(-50%);background:var(--ls-modal-bg,#fff);border-top:4px solid #d63638;max-width:520px;width:calc(100% - 40px);padding:20px 24px;box-shadow:0 5px 30px rgba(0,0,0,.35);color:var(--ls-text,#3c434a);">
+			<h2 id="ls-wipe-modal-title" style="color:var(--ls-danger,#d63638);margin-top:0;"><?php esc_html_e( 'Excluir todo o banco de dados?' ); ?></h2>
 			<p>
 				<strong><?php esc_html_e( 'Todos os dados armazenados no banco de dados da instalação atual serão perdidos de forma irreversível.' ); ?></strong>
 			</p>

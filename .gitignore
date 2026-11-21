@@ -1,6 +1,6 @@
-# LESS — arquivos locais e gerados (não versionar)
+# LESS - arquivos locais e gerados (nǜo versionar)
 
-# Config local (contém senhas e salts)
+# Config local (contǸm senhas e salts)
 wp-config.php
 wp-config-local.php
 .env
@@ -21,8 +21,9 @@ wp-content/upgrade/
 wp-content/blogs.dir/
 wp-content/cache/
 wp-content/backup*/
+wp-content/db.php
 
-# Dependências e build
+# Dependencies e build
 node_modules/
 npm-debug.log*
 yarn-error.log*
@@ -39,13 +40,11 @@ desktop.ini
 *.swo
 *~
 
-# LESS — funcionalidade "Excluir todo o banco de dados"
-# O código da funcionalidade e seus testes DEVEM ser versionados.
-# As negações abaixo garantem que nenhuma regra ampla impeça o
-# `git add` desses caminhos (incluindo a implementação SQLite da qual
-# a funcionalidade depende). Segredos (wp-config.php, .env) e o banco
-# local (wp-content/database/) continuam ignorados acima.
-!wp-includes/less.php
-!ls-tests/
-!wp-content/db.php
-!wp-content/plugins/sqlite-database-integration/
+# Patch artifacts
+*.rej
+*.orig
+
+# Temporários da execução
+__pycache__/
+*.pyc
+*.pyo
